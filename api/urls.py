@@ -1,0 +1,17 @@
+from xml.etree.ElementInclude import include
+from django.urls import include, path
+from rest_framework import routers
+from api import views
+from rest_framework_simplejwt import views as jwt_views
+
+router = routers.DefaultRouter()
+
+urlpatterns = [
+    path("", include(router.urls)),
+    path(
+        "auth/login", jwt_views.TokenObtainPairView.as_view(), name="token_obtain_pair"
+    ),
+    path(
+        "auth/login/refresh", jwt_views.TokenRefreshView.as_view(), name="token_refresh"
+    ),
+]
