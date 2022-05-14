@@ -1,0 +1,43 @@
+name: Django CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.7, 3.8, 3.9]
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: Run Tests
+      env:
+          SECRET_KEY: sdv78)*u-nm*q5!*i*xx-hnzddut8hmxbd=eh56vc2+jxq6*i
+          DB_NAME: ''
+          DB_USER: ''
+          DB_PASSWORD: ''
+          DB_PORT: 0
+          DB_HOST: ''
+          PAYSTACK_SECRET_KEY: ''
+          PAYSTACK_PUBLIC_KEY: ''
+          SENDGRID_API_KEY: ''
+          MAILGUN_API_KEY: ''
+          ENVIRONMENT: 'staging'
+          DEBUG: True
+      run: |
+        python manage.py test
