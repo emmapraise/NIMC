@@ -8,10 +8,6 @@ router = routers.DefaultRouter()
 
 urlpatterns = [
     path("", include(router.urls)),
-    path(
-        "auth/login", jwt_views.TokenObtainPairView.as_view(), name="token_obtain_pair"
-    ),
-    path(
-        "auth/login/refresh", jwt_views.TokenRefreshView.as_view(), name="token_refresh"
-    ),
+    path("login/", jwt_views.TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("login/refresh", jwt_views.TokenRefreshView.as_view(), name="token_refresh"),
 ]
