@@ -13,6 +13,8 @@ APPROVED = 3
 
 
 def admin_types():
+    """Enum field of admin types"""
+
     types = [
         (LOCAL, "Local Goverment"),
         (STATE, "State Goverment"),
@@ -22,6 +24,8 @@ def admin_types():
 
 
 def approval_status():
+    """Enum field for approval status"""
+
     status = [
         (PENDING, "Pending"),
         (DISAPPROVED, "Disapproved"),
