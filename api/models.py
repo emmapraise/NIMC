@@ -1,8 +1,10 @@
+from tkinter.tix import Tree
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 from NIMC.enums.nin import document_types
-from NIMC.enums.admin import admin_types
+from NIMC.enums.admin import admin_types, approval_status
+from NIMC.enums import admin, nin
 
 
 class User(AbstractUser):
@@ -66,3 +68,22 @@ class Document(common):
 
     def __str__(self):
         return self.document_type
+
+
+class Request(common):
+    """This is the model that hold all the request made"""
+
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+    field = models.CharField(max_length=100)
+    old_value = models.CharField(max_length=250)
+    new_value = models.CharField(max_length=250)
+    nin_info = models.ForeignKey(NinInfo, on_delete=models.CASCADE)
+    approved_by = models.ForeignKey(
+        Admin, on_delete=models.DO_NOTHING, null=True, blank=True
+    )
+    document_path = models.FileField(upload_to="documents/")
+    status = models.IntegerField(choices=approval_status(), default=admin.PENDING)
+
+    def __str__(self):
+        return f"The Request {self.title} is currently ({self.status})"
