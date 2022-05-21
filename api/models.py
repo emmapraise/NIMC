@@ -1,6 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+from NIMC.enums.nin import document_types
+from NIMC.enums.admin import admin_types
+
 
 class User(AbstractUser):
     """This represent the user object on the system"""
@@ -29,15 +32,37 @@ class common(models.Model):
 
 
 class Admin(common):
-    ADMIN_TYPE = (
-        ("Local", "Local Goverment"),
-        ("State", "State Goverment"),
-        ("Federal", "Federal Goverment"),
-    )
+    """This is the User Admin Object"""
+
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    admin_type = models.CharField(
-        max_length=10, choices=ADMIN_TYPE, null=True, blank=True
-    )
+    type = models.CharField(max_length=30, choices=admin_types(), null=True, blank=True)
 
     def __str__(self):
         return self.user
+
+
+class NinInfo(common):
+    """This is model to add NIN Information of the user"""
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    date_of_brith = models.DateField()
+    state_of_origin = models.CharField(max_length=30)
+    state = models.CharField(max_length=30)
+    address = models.TextField()
+    next_of_kin = models.CharField(max_length=100)
+    next_of_kin_address = models.TextField()
+    occupation = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f"({self.user}) NIN information"
+
+
+class Document(common):
+    """This is the object for all uploaded document"""
+
+    nin_info = models.ForeignKey(NinInfo, on_delete=models.CASCADE)
+    type = models.CharField(max_length=100, choices=document_types())
+    path = models.FileField(upload_to="documents/")
+
+    def __str__(self):
+        return self.document_type
