@@ -19,7 +19,7 @@ class User(AbstractUser):
     avatar = models.ImageField(null=True, blank=True)
     gender = models.CharField(choices=GENDER_CHOICES, max_length=1)
 
-    USERNAME_FIELD = "nin"
+    # USERNAME_FIELD = "nin"
 
     def __str__(self):
         return self.get_full_name()
@@ -67,7 +67,7 @@ class Document(common):
     path = models.FileField(upload_to="documents/")
 
     def __str__(self):
-        return self.document_type
+        return self.type
 
 
 class Request(common):
