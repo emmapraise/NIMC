@@ -27,12 +27,13 @@ class UserSerializers(serializers.ModelSerializer):
         phone = validated_data["phone"]
         email = validated_data["email"]
         nin = generateNin(10)
-        user = User.objects.create(
+        user = User.objects.create_user(
             first_name=first_name,
             last_name=last_name,
             phone=phone,
             nin=nin,
             email=email,
+            username=email,
             avatar=validated_data["avatar"],
             gender=validated_data["gender"],
             password=validated_data["password"],
