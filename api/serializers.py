@@ -6,6 +6,8 @@ from api.models import *
 class UserSerializers(serializers.ModelSerializer):
     username = serializers.CharField(read_only=True)
     nin = serializers.CharField(read_only=True)
+    is_admin = serializers.BooleanField(read_only=True)
+    is_citizen = serializers.BooleanField(read_only=True)
     password = serializers.CharField(style={"input_type": "password"}, write_only=True)
 
     class Meta:
@@ -40,3 +42,48 @@ class UserSerializers(serializers.ModelSerializer):
         )
         user.save()
         return user
+
+
+class CitizenSerializers(serializers.ModelSerializer):
+
+    user = UserSerializers()
+
+    class Meta:
+        model = Citizen
+        fields = "__all__"
+
+    def create(self, validated_data):
+        new_user = validated_data["user"]
+        new_user["nin"] = generateNin(10)
+        new_user["username"] = new_user["email"]
+        user = User.objects.create_user(**new_user)
+        user.is_citizen = True
+        user.save()
+
+        citizenData = {}
+        citizenData["user"] = user
+        citizen = Citizen.objects.create(**citizenData)
+        return citizen
+
+
+class AdminSerializers(serializers.ModelSerializer):
+    user = UserSerializers()
+
+    class Meta:
+        model = Admin
+        exclude = ["create_at", "update_at"]
+
+    def create(self, validated_data):
+        new_user = validated_data["user"]
+        new_user["nin"] = generateNin(10)
+        new_user["username"] = new_user["email"]
+        user = User.objects.create_user(**new_user)
+        user.is_admin = True
+        user.save()
+
+        if "user" in validated_data:
+            del validated_data["user"]
+        new_admin = validated_data
+        new_admin["user"] = user
+        admin = Admin.objects.create(**new_admin)
+        return admin
