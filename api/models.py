@@ -53,6 +53,8 @@ class User(AbstractUser):
     nin = models.CharField(max_length=20, unique=True)
     avatar = models.ImageField(null=True, blank=True)
     gender = models.CharField(choices=GENDER_CHOICES, max_length=1)
+    is_citizen = models.BooleanField(default=False, null=True, blank=True)
+    is_admin = models.BooleanField(default=False, null=True, blank=True)
 
     # USERNAME_FIELD = "nin"
     REQUIRED_FIELDS = []
@@ -71,20 +73,29 @@ class common(models.Model):
         abstract = True
 
 
+class Citizen(common):
+    """This is the Model for Citizen"""
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.user.get_full_name()
+
+
 class Admin(common):
     """This is the User Admin Object"""
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     type = models.CharField(max_length=30, choices=admin_types(), null=True, blank=True)
 
     def __str__(self):
-        return self.user
+        return self.user.get_full_name()
 
 
 class NinInfo(common):
     """This is model to add NIN Information of the user"""
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(Citizen, on_delete=models.CASCADE)
     date_of_brith = models.DateField()
     state_of_origin = models.CharField(max_length=30)
     state = models.CharField(max_length=30)
