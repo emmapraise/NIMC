@@ -1,7 +1,7 @@
 <template>
 	<div class="container">
 		<div class="row justify-content-center align-items-center main mx-auto">
-			<div class="col-md-4" role="button" @click="handleClick('quotes')">
+			<div class="col-md-4" role="button" @click="handleClick('about')">
 				<div class="card">
 					<div class="d-flex flex-column align-items-center w-100 p-5">
 						<b-icon icon="person-fill"></b-icon>
@@ -44,6 +44,11 @@ export default {
 		return {
 			text: 'this is it',
 		};
+	},
+	methods: {
+		handleClick(route) {
+			this.$router.push(route);
+		},
 	},
 };
 </script>
