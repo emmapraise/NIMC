@@ -3,7 +3,7 @@
 		<div
 			class="row justify-content-center align-items-center main mx-auto mt-5"
 		>
-			<div class="col-md-4" role="button" @click="handleClick('about')">
+			<div class="col-md-4" role="button" @click="handleClick('login')">
 				<div class="card">
 					<div class="d-flex flex-column align-items-center w-100 p-5">
 						<b-icon icon="person-fill"></b-icon>
@@ -15,7 +15,11 @@
 				</div>
 			</div>
 
-			<div class="col-md-4" role="button" @click="handleClick('admin')">
+			<div
+				class="col-md-4"
+				role="button"
+				@click="handleClick('admin/register')"
+			>
 				<div class="card">
 					<div class="d-flex flex-column align-items-center w-100 p-5">
 						<b-icon icon="person-plus-fill" aria-hidden="true"></b-icon>
@@ -25,7 +29,11 @@
 				</div>
 			</div>
 
-			<div class="col-md-4" role="button" @click="handleClick('admin')">
+			<div
+				class="col-md-4"
+				role="button"
+				@click="handleClick('patners/checkin')"
+			>
 				<div class="card">
 					<div class="d-flex flex-column align-items-center w-100 p-5">
 						<b-icon icon="search" aria-hidden="true"></b-icon>
