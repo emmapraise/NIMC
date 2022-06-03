@@ -1,6 +1,8 @@
 <template>
 	<div class="container">
-		<div class="row justify-content-center align-items-center main mx-auto">
+		<div
+			class="row justify-content-center align-items-center main mx-auto mt-5"
+		>
 			<div class="col-md-4" role="button" @click="handleClick('about')">
 				<div class="card">
 					<div class="d-flex flex-column align-items-center w-100 p-5">
