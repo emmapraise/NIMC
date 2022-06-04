@@ -1,18 +1,18 @@
 <template>
-	<div class="">
+	<div>
 		<header-vue />
 		<b-row class="mt-2">
 			<b-col md="2">
 				<sidebar-vue />
 			</b-col>
 			<b-col md="10">
-				<b-card title="Enrol A User" class="">
+				<b-card title="Upload Document" class="">
 					<b-form
 						@submit.prevent="onSubmit"
 						validated="true"
 						class="was-validated"
 					>
-						<user-profile />
+						<education-vue />
 						<!-- <div class="mt-5 float-right" align-h="end">
 					<b-button size="lg" variant="success">Submit</b-button>
 				</div> -->
@@ -23,26 +23,18 @@
 	</div>
 </template>
 <script>
+import EducationVue from '../../components/documents/Education.vue';
 import HeaderVue from '../../components/header/Header.vue';
 import SidebarVue from '../../components/sidebar/Sidebar.vue';
-import UserProfile from '../../components/profile/UserProfile.vue';
 export default {
-	name: 'RegisterView',
+	name: 'UploadDocument',
 	components: {
-		UserProfile,
+		EducationVue,
 		HeaderVue,
 		SidebarVue,
 	},
 	data() {
 		return {};
-	},
-	mounted() {
-		console.log('object');
-	},
-	methods: {
-		onsubmit() {
-			console.log('object');
-		},
 	},
 };
 </script>

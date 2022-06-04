@@ -29,18 +29,23 @@ const routes = [
   },
   {
     path: '/admin/register',
-    name: 'admin-register',
+    name: 'admin_register',
     component: () => import('../views/Admin/SignUp.vue')
   },
   {
     path: '/patners/checkin',
-    name: 'patner-checkin',
+    name: 'patner_checkin',
     component: () => import('../views/Patners/CheckIn.vue')
   },
   {
     path: '/user/register',
     name: 'enrolment',
     component: () => import('../views/User/RegisterView.vue')
+  },
+  {
+    path: '/admin/upload-document',
+    name: 'upload_document',
+    component: () => import('../views/Admin/DocumentView.vue')
   }
 ]
 
