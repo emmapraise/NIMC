@@ -10,15 +10,15 @@
 
 			<b-input-group class="mb-2 mt-2">
 				<b-input-group-prepend is-text>
-					<b-icon icon="lock-fill"></b-icon>
+					<b-icon icon="upc-scan"></b-icon>
 				</b-input-group-prepend>
 				<b-form-input
 					type="password"
-					placeholder="Enter Password"
+					placeholder="Enter Passcode"
 				></b-form-input>
 			</b-input-group>
 
-			<b-button variant="success" block class="mt-3">Login</b-button>
+			<b-button variant="success" block class="mt-3">Check In</b-button>
 		</div>
 	</div>
 </template>
