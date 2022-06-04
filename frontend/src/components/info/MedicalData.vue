@@ -9,6 +9,7 @@
 					<b-form-select
 						:id="item.label"
 						v-model="item.value"
+						required
 						:options="item.options"
 					></b-form-select>
 				</div>

@@ -10,6 +10,7 @@
 						:id="item.label"
 						max-rows="6"
 						rows="3"
+						required
 						v-model="item.value"
 					>
 					</b-form-textarea>
@@ -18,6 +19,7 @@
 					<b-form-input
 						:id="item.label"
 						:type="item.type"
+						required
 						v-model="item.value"
 					></b-form-input>
 				</div>

@@ -5,7 +5,11 @@
 				<label :for="item.label">{{ item.name }}</label></b-col
 			>
 			<b-col sm="9">
-				<b-form-input :id="item.label" :type="item.type"></b-form-input></b-col
+				<b-form-input
+					:id="item.label"
+					:type="item.type"
+					required
+				></b-form-input></b-col
 		></b-row>
 	</div>
 </template>

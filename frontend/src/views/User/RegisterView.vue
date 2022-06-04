@@ -1,6 +1,13 @@
 <template>
-	<div class="container">
-		<user-profile />
+	<div class="container mt-3">
+		<b-card title="Enrol A User">
+			<b-form @submit.prevent="onSubmit" validated="true" class="was-validated">
+				<user-profile />
+				<div class="mt-5 float-right" align-h="end">
+					<b-button size="lg" variant="success">Submit</b-button>
+				</div>
+			</b-form>
+		</b-card>
 	</div>
 </template>
 <script>
@@ -17,9 +24,9 @@ export default {
 		console.log('object');
 	},
 	methods: {
-		// done() {
-		// 	console.log(this.personal_data_tab);
-		// },
+		onsubmit() {
+			console.log('object');
+		},
 	},
 };
 </script>

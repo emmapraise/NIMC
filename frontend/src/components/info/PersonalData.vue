@@ -9,6 +9,7 @@
 					<b-form-select
 						:id="item.label"
 						v-model="marital_status_selected"
+						required
 						:options="marital_status_options"
 					></b-form-select>
 				</div>
@@ -16,6 +17,7 @@
 					<b-form-radio-group
 						:id="item.label"
 						v-model="gender_selected"
+						required
 						:options="gender_options"
 					></b-form-radio-group>
 				</div>
@@ -23,6 +25,7 @@
 					<b-form-textarea
 						:id="item.label"
 						max-rows="6"
+						required
 						rows="3"
 						v-model="item.value"
 					>
@@ -31,6 +34,7 @@
 				<div v-else>
 					<b-form-input
 						:id="item.label"
+						required
 						:type="item.type"
 						v-model="item.value"
 					></b-form-input>
