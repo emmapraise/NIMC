@@ -36,6 +36,11 @@ const routes = [
     path: '/patners/checkin',
     name: 'patner-checkin',
     component: () => import('../views/Patners/CheckIn.vue')
+  },
+  {
+    path: '/user/register',
+    name: 'entrolment',
+    component: () => import('../views/User/Register.vue')
   }
 ]
 
