@@ -1,15 +1,45 @@
 <template>
 	<div class="container">
-		<b-tabs content-class="mt-3 w-50 mx-auto" justified>
-			<b-tab title="Name" active>
+		<b-tabs content-class="mt-3 w-50 mx-auto" justified v-model="tabIndex">
+			<b-tab title="Name Data" active>
 				<name />
+				<div align-h="end" class="float-right mt-3">
+					<b-button @click="tabIndex++" variant="outline-success">
+						Next <b-icon icon="chevron-double-right"></b-icon>
+					</b-button>
+				</div>
 			</b-tab>
 			<b-tab title="Personal Data">
 				<personal-data />
-				<b-button @click="done">Submit</b-button>
+				<div align-h="end" class="float-right mt-3">
+					<b-button-group>
+						<b-button @click="tabIndex--" variant="outline-warning">
+							<b-icon icon="chevron-double-left"></b-icon> Previous
+						</b-button>
+						<b-button @click="tabIndex++" variant="outline-success">
+							Next <b-icon icon="chevron-double-right"></b-icon> </b-button
+					></b-button-group>
+				</div>
 			</b-tab>
-			<b-tab title="Medical Details"> <medical-data /></b-tab>
-			<b-tab title="Kinship Details"> <kinship-data /> </b-tab>
+			<b-tab title="Medical Details">
+				<medical-data />
+				<div align-h="end" class="float-right mt-3">
+					<b-button-group>
+						<b-button @click="tabIndex--" variant="outline-warning">
+							<b-icon icon="chevron-double-left"></b-icon> Previous
+						</b-button>
+						<b-button @click="tabIndex++" variant="outline-success">
+							Next <b-icon icon="chevron-double-right"></b-icon> </b-button
+					></b-button-group></div
+			></b-tab>
+			<b-tab title="Kinship Details">
+				<kinship-data />
+				<div align-h="end" class="float-right mt-3">
+					<b-button @click="tabIndex--" variant="outline-warning">
+						<b-icon icon="chevron-double-left"></b-icon> Previous
+					</b-button>
+				</div></b-tab
+			>
 		</b-tabs>
 	</div>
 </template>
@@ -27,7 +57,9 @@ export default {
 		KinshipData,
 	},
 	data() {
-		return {};
+		return {
+			tabIndex: 0,
+		};
 	},
 	mounted() {
 		console.log('object');
