@@ -1,5 +1,5 @@
 <template>
-	<div class="container">
+	<div class="">
 		<div class="mx-auto w-25">
 			<b-input-group class="mb-2 mt-2">
 				<b-input-group-prepend is-text>

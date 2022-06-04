@@ -1,5 +1,5 @@
 <template>
-	<div class="container">
+	<div class="">
 		<b-row class="my-2" v-for="(item, index) in medical_tab" :key="index">
 			<b-col sm="3">
 				<label :for="item.label">{{ item.name }} </label>
