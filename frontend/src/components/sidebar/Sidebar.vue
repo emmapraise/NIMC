@@ -33,7 +33,7 @@ export default {
 			sidebar_link: [
 				{
 					name: 'Profile',
-					label: 'profile',
+					label: 'enrolment',
 					path: '/admin',
 				},
 				{

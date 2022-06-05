@@ -12,7 +12,7 @@
 						validated="true"
 						class="was-validated"
 					>
-						<education-vue />
+						<upload-document-vue />
 						<!-- <div class="mt-5 float-right" align-h="end">
 					<b-button size="lg" variant="success">Submit</b-button>
 				</div> -->
@@ -23,15 +23,15 @@
 	</div>
 </template>
 <script>
-import EducationVue from '../../components/documents/Education.vue';
 import HeaderVue from '../../components/header/Header.vue';
 import SidebarVue from '../../components/sidebar/Sidebar.vue';
+import UploadDocumentVue from '../../components/upload/UploadDocument.vue';
 export default {
 	name: 'UploadDocument',
 	components: {
-		EducationVue,
 		HeaderVue,
 		SidebarVue,
+		UploadDocumentVue,
 	},
 	data() {
 		return {};

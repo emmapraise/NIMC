@@ -28,6 +28,9 @@
 						required
 					></b-form-input></div></b-col
 		></b-row>
+		<div class="float-right mt-2">
+			<b-button variant="success">Submit</b-button>
+		</div>
 	</div>
 </template>
 <script>
