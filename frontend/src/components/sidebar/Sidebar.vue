@@ -1,12 +1,7 @@
 <template>
 	<div class="justify-content-center align-items-center">
-		<div class="mt-2">
-			<b-img
-				center
-				src="https://picsum.photos/125/125/?image=58"
-				alt="Center image"
-				rounded="circle"
-			></b-img>
+		<div class="mt-2 justify-content-center align-items-center text-center">
+			<b-avatar :src="Avatar" size="7rem" class=""></b-avatar>
 			<div>
 				<p class="text-center font-weight-bold m-0 p-0 mt-2">
 					Oludare Emmanuel
@@ -29,14 +24,16 @@
 	</div>
 </template>
 <script>
+import Avatar from '../../assets/images/download.jpeg';
 export default {
 	name: 'SidebarComponent',
 	data() {
 		return {
+			Avatar,
 			sidebar_link: [
 				{
 					name: 'Profile',
-					label: 'profile',
+					label: 'enrolment',
 					path: '/admin',
 				},
 				{

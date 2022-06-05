@@ -1,6 +1,6 @@
 <template>
 	<div class="">
-		<b-tabs content-class="mt-3 w-50 mx-auto" justified v-model="tabIndex">
+		<b-tabs content-class="mt-3 w-75 mx-auto" justified v-model="tabIndex">
 			<b-tab title="Name Data" active>
 				<name />
 				<div align-h="end" class="float-right mt-3">
