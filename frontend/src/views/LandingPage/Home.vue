@@ -1,5 +1,6 @@
 <template>
-	<div class="container">
+	<div class="">
+		<header-vue />
 		<div
 			class="row justify-content-center align-items-center main mx-auto mt-5"
 		>
@@ -47,9 +48,12 @@
 </template>
 
 <script>
+import HeaderVue from '../../components/header/Header.vue';
 export default {
 	name: 'HomeView',
-	components: {},
+	components: {
+		HeaderVue,
+	},
 	data() {
 		return {
 			text: 'this is it',
