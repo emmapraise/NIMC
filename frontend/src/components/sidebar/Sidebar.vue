@@ -32,7 +32,7 @@ export default {
 			Avatar,
 			sidebar_link: [
 				{
-					name: 'Profile',
+					name: 'Enroll A User',
 					label: 'enrolment',
 					path: '/admin',
 				},
