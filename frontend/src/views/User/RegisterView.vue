@@ -7,15 +7,14 @@
 			</b-col>
 			<b-col md="10">
 				<b-card title="Enrol A User" class="">
-					<b-form
-						@submit.prevent="onSubmit"
-						validated="true"
-						class="was-validated"
-					>
-						<user-profile />
-						<!-- <div class="mt-5 float-right" align-h="end">
-					<b-button size="lg" variant="success">Submit</b-button>
-				</div> -->
+					<b-form validated="true" class="was-validated">
+						<user-profile /> <br />
+
+						<div class="mt-5 float-right" align-h="end">
+							<b-button size="lg" variant="success" type="submit"
+								>Submit</b-button
+							>
+						</div>
 					</b-form>
 				</b-card>
 			</b-col>
@@ -37,7 +36,7 @@ export default {
 		return {};
 	},
 	mounted() {
-		console.log('object');
+		// console.log('object');
 	},
 	methods: {
 		onsubmit() {
