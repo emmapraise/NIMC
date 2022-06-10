@@ -2,20 +2,24 @@
 	<div class="">
 		<header-vue />
 		<b-card class="mx-auto w-25 mt-3" title="User Login">
-			<div v-for="(item, index) in login_data" :key="index">
-				<b-input-group class="mb-2 mt-2">
-					<b-input-group-prepend is-text>
-						<b-icon :icon="item.icon"></b-icon>
-					</b-input-group-prepend>
-					<b-form-input
-						:type="item.type"
-						:placeholder="item.placeholder"
-						v-model="item.value"
-					></b-form-input>
-				</b-input-group>
-			</div>
+			<b-form @submit.prevent="onSubmit">
+				<div v-for="(item, index) in login_data" :key="index">
+					<b-input-group class="mb-2 mt-2">
+						<b-input-group-prepend is-text>
+							<b-icon :icon="item.icon"></b-icon>
+						</b-input-group-prepend>
+						<b-form-input
+							:type="item.type"
+							:placeholder="item.placeholder"
+							v-model="item.value"
+						></b-form-input>
+					</b-input-group>
+				</div>
 
-			<b-button variant="success" block class="mt-3">Login</b-button>
+				<b-button variant="success" block class="mt-3" type="onSubmit"
+					>Login</b-button
+				>
+			</b-form>
 		</b-card>
 	</div>
 </template>
@@ -31,7 +35,7 @@ export default {
 			login_data: [
 				{
 					name: 'NIN',
-					label: 'nin',
+					label: 'username',
 					type: 'text',
 					icon: 'person-fill',
 					value: '',
@@ -47,6 +51,28 @@ export default {
 				},
 			],
 		};
+	},
+	methods: {
+		onSubmit() {
+			this.data = this.login_data.reduce(
+				(acc, cur) => ({ ...acc, [cur.label]: cur.value }),
+				{}
+			);
+			this.axios
+				.post('api/login', this.data)
+				.then((result) => {
+					const token = result.data.refresh;
+					this.$store.commit('setToken', token);
+					this.axios.defaults.headers.common['Authorization'] =
+						'Token ' + token;
+					localStorage.setItem('token', token);
+					console.log(token);
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+			console.log(this.data);
+		},
 	},
 };
 </script>
