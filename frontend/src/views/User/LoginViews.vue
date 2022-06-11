@@ -59,14 +59,14 @@ export default {
 				{}
 			);
 			this.axios
-				.post('api/login', this.data)
+				.post('api/login/', this.data)
 				.then((result) => {
 					const token = result.data.refresh;
 					this.$store.commit('setToken', token);
 					this.axios.defaults.headers.common['Authorization'] =
 						'Token ' + token;
 					localStorage.setItem('token', token);
-					console.log(token);
+					this.$router.push({ name: 'enrolment' });
 				})
 				.catch((err) => {
 					console.log(err);

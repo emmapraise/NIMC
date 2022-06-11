@@ -1,9 +1,9 @@
 from django.utils.translation import gettext_lazy as _
 
 # Admin Type
-LOCAL = "Local Goverment"
-STATE = "State Goverment"
-FEDERAL = "Federal Goverment"
+LOCAL = "Local Government"
+STATE = "State Government"
+FEDERAL = "Federal Government"
 
 # Approval Status
 PENDING = 0
@@ -16,9 +16,9 @@ def admin_types():
     """Enum field of admin types"""
 
     types = [
-        (LOCAL, "Local Goverment"),
-        (STATE, "State Goverment"),
-        (FEDERAL, "Federal Goverment"),
+        (LOCAL, "Local Government"),
+        (STATE, "State Government"),
+        (FEDERAL, "Federal Government"),
     ]
     return types
 
