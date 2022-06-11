@@ -1,25 +1,53 @@
 <template>
 	<div class="">
 		<header-vue />
-		<b-card class="mx-auto w-25 mt-3" title="Admin Sign Up">
-			<b-form @submit.prevent="onSubmit">
-				<div v-for="(item, index) in admin_signup" :key="index">
-					<b-input-group class="mb-2 mt-2">
-						<b-input-group-prepend is-text>
-							<b-icon :icon="item.icon"></b-icon>
-						</b-input-group-prepend>
-						<b-form-input
-							:type="item.type"
-							:placeholder="item.placeholder"
-							v-model="item.value"
-						></b-form-input>
-					</b-input-group>
-				</div>
-				<b-button variant="success" block class="mt-3" type="submit"
-					>Sign Up</b-button
-				>
-			</b-form>
-		</b-card>
+		<b-row>
+			<b-col></b-col>
+			<b-col md="9">
+				<b-card class="mx-auto mt-3" title="Admin Sign Up">
+					<b-form @submit.prevent="onSubmit">
+						<b-row
+							v-for="(item, index) in admin_signup"
+							:key="index"
+							class="my-2"
+						>
+							<b-col sm="3">
+								<label :for="item.label">{{ item.name }}</label>
+							</b-col>
+							<b-col sm="9">
+								<div v-if="item.type === 'radio'">
+									<b-form-radio-group
+										:id="item.label"
+										v-model="item.value"
+										required
+										:options="item.options"
+									></b-form-radio-group>
+								</div>
+								<div v-else-if="item.type === 'select'">
+									<b-form-select
+										:id="item.label"
+										v-model="item.value"
+										required
+										:options="item.options"
+									></b-form-select>
+								</div>
+								<div v-else>
+									<b-form-input
+										:type="item.type"
+										:placeholder="item.placeholder"
+										v-model="item.value"
+									></b-form-input>
+								</div>
+							</b-col>
+						</b-row>
+						<b-button variant="success" class="mt-3" type="submit"
+							>Sign Up</b-button
+						>
+					</b-form>
+				</b-card>
+			</b-col>
+			<b-col></b-col>
+		</b-row>
 	</div>
 </template>
 <script>
@@ -33,11 +61,31 @@ export default {
 		return {
 			admin_signup: [
 				{
-					name: 'Username',
-					label: 'username',
+					name: 'First Name',
+					label: 'first_name',
 					type: 'text',
 					value: '',
-					placeholder: 'Enter Username',
+					placeholder: 'Enter First Name',
+					icon: 'person-fill',
+				},
+				{
+					name: 'Last Name',
+					label: 'last_name',
+					type: 'text',
+					value: '',
+					placeholder: 'Enter Last Name',
+					icon: 'person-fill',
+				},
+				{
+					name: 'Gender',
+					label: 'gender',
+					type: 'radio',
+					value: null,
+					placeholder: 'Enter Gender',
+					options: [
+						{ value: 'M', text: 'Male' },
+						{ value: 'F', text: 'Female' },
+					],
 					icon: 'person-fill',
 				},
 				{
@@ -63,19 +111,50 @@ export default {
 					placeholder: 'Enter Password',
 					icon: 'lock-fill',
 				},
+				{
+					name: 'Government',
+					label: 'type',
+					type: 'select',
+					value: null,
+					placeholder: 'Choose a Government',
+					options: [
+						{
+							value: null,
+							text: 'Choose a Government Type',
+						},
+						{
+							value: 'Local Government',
+							text: 'Local Government',
+						},
+						{
+							value: 'State Government',
+							text: 'State Government',
+						},
+						{
+							value: 'Federal Government',
+							text: 'Federal Government',
+						},
+					],
+					icon: 'person-fill',
+				},
 			],
 		};
 	},
 	methods: {
 		onSubmit() {
-			this.data = this.admin_signup.reduce(
+			const data = this.admin_signup.reduce(
 				(acc, cur) => ({ ...acc, [cur.label]: cur.value }),
 				{}
 			);
+			this.data = {};
+			this.data['type'] = data.type;
+			delete data.type;
+			this.data['user'] = data;
 			this.axios
 				.post('api/admin/', this.data)
 				.then((result) => {
 					console.log('success', result);
+					this.$router.push({ name: 'login' });
 				})
 				.catch((err) => {
 					console.log('error', err);
