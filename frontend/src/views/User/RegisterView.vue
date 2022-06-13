@@ -36,9 +36,7 @@ export default {
 	data() {
 		return {};
 	},
-	mounted() {
-		console.log('object');
-	},
+	mounted() {},
 	methods: {
 		onsubmit() {
 			console.log('object');
