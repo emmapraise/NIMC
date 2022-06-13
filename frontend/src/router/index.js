@@ -46,6 +46,16 @@ const routes = [
     path: '/admin/upload-document',
     name: 'upload_document',
     component: () => import('../views/Admin/DocumentView.vue')
+  },
+  {
+    path: '/admin/requests',
+    name: 'requests',
+    component: () => import('../views/Admin/DocumentView.vue')
+  },
+  {
+    path: '/make-request',
+    name: 'make-request',
+    component: () => import('../views/User/RegisterView.vue')
   }
 ]
 

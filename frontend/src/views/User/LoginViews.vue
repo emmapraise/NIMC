@@ -20,6 +20,9 @@
 					>Login</b-button
 				>
 			</b-form>
+			<div v-show="isError" class="mt-2">
+				<b-alert show variant="danger" dismissible>{{ errorMessage }} </b-alert>
+			</div>
 		</b-card>
 	</div>
 </template>
@@ -50,6 +53,8 @@ export default {
 					placeholder: 'Enter Password',
 				},
 			],
+			isError: false,
+			errorMessage: '',
 		};
 	},
 	methods: {
@@ -61,17 +66,21 @@ export default {
 			this.axios
 				.post('api/login/', this.data)
 				.then((result) => {
-					const token = result.data.refresh;
-					this.$store.commit('setToken', token);
+					const token = result.data.data.tokens.refresh;
+					const user = result.data.data.user;
+					this.$store.commit('setToken', token, user);
 					this.axios.defaults.headers.common['Authorization'] =
 						'Token ' + token;
 					localStorage.setItem('token', token);
-					this.$router.push({ name: 'enrolment' });
+					localStorage.setItem('user', JSON.stringify(user));
+					user.is_admin
+						? this.$router.push({ name: 'enrolment' })
+						: this.$router.push({ name: 'make-request' });
 				})
 				.catch((err) => {
-					console.log(err);
+					this.isError = true;
+					this.errorMessage = err.response.data.detail;
 				});
-			console.log(this.data);
 		},
 	},
 };
