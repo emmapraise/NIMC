@@ -1,8 +1,51 @@
-from django.shortcuts import render
-from rest_framework import viewsets
+# from django.shortcuts import render
+from django.contrib.auth import get_user_model
+
+from rest_framework import viewsets, permissions, status
+from rest_framework.response import Response
+from rest_framework.generics import get_object_or_404
+
+from rest_framework_simplejwt.exceptions import TokenError
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 from api.models import Admin, Citizen, User
 from api.serializers import AdminSerializers, CitizenSerializers, UserSerializers
+
+# User = get_user_model()
+
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        try:
+            user = get_object_or_404(User, username=request.data["username"])
+            serializer.is_valid(raise_exception=True)
+            status_code = status.HTTP_200_OK
+            response = {
+                "data": {
+                    "tokens": serializer.validated_data,
+                    "user": UserSerializers(user).data,
+                },
+                "status": "success",
+                "message": "User successfully authenticated",
+            }
+        except User.DoesNotExist:
+            status_code = status.HTTP_404_NOT_FOUND
+            response = {
+                "data": {},
+                "status": "failure",
+                "message": "User account not found",
+            }
+        except TokenError:
+            status_code = status.HTTP_400_BAD_REQUEST
+            response = {
+                "data": {},
+                "status": "failure",
+                "message": "Token is invalid or expired",
+            }
+
+        return Response(data=response, status=status_code)
+
 
 # Create your views here.
 class UserViewSet(viewsets.ModelViewSet):
