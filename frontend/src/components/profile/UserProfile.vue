@@ -62,13 +62,8 @@ export default {
 		};
 	},
 	mounted() {
-		console.log('object');
 		this.done();
 	},
-	methods: {
-		done() {
-			console.log(this.personal_data_tab);
-		},
-	},
+	methods: {},
 };
 </script>

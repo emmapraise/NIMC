@@ -12,7 +12,7 @@
 		<b-nav
 			vertical
 			class="mt-2 justify-content-center align-items-center"
-			v-for="(item, index) in sidebar_link"
+			v-for="(item, index) in sidebar_menu"
 			:key="index"
 		>
 			<router-link
@@ -34,7 +34,7 @@ export default {
 		return {
 			Avatar,
 			user: {},
-			sidebar_link: [
+			admin_sidebar: [
 				{
 					name: 'Enroll A User',
 					label: 'enrolment',
@@ -51,12 +51,32 @@ export default {
 					path: '/admin/request',
 				},
 			],
+			user_sidebar: [
+				{
+					name: 'Enroll A User',
+					label: 'user_profile',
+					path: '/user/profile',
+				},
+				{
+					name: 'Upload Document',
+					label: 'upload_document',
+					path: '/admin/upload',
+				},
+				{
+					name: 'Make Update Request',
+					label: 'make-request',
+					path: '/user/make-request',
+				},
+			],
 		};
 	},
 	methods: {
 		getUsers() {
 			const userData = localStorage.getItem('user');
 			this.user = JSON.parse(userData);
+			this.sidebar_menu = this.user.is_admin
+				? this.admin_sidebar
+				: this.user_sidebar;
 		},
 	},
 };

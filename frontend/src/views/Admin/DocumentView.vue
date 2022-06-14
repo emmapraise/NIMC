@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<header-vue />
+		<header-vue :logout="true" />
 		<b-row class="mt-2">
 			<b-col md="2">
 				<sidebar-vue />
@@ -13,9 +13,6 @@
 						class="was-validated"
 					>
 						<upload-document-vue />
-						<!-- <div class="mt-5 float-right" align-h="end">
-					<b-button size="lg" variant="success">Submit</b-button>
-				</div> -->
 					</b-form>
 				</b-card>
 			</b-col>

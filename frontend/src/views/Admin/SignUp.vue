@@ -152,14 +152,12 @@ export default {
 			this.data['user'] = data;
 			this.axios
 				.post('api/admin/', this.data)
-				.then((result) => {
-					console.log('success', result);
+				.then(() => {
 					this.$router.push({ name: 'login' });
 				})
 				.catch((err) => {
 					console.log('error', err);
 				});
-			console.log(this.data);
 		},
 	},
 };

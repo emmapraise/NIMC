@@ -23,7 +23,9 @@
 							>Search</b-button
 						>
 					</b-nav-form> -->
-					<b-button variant="danger">Logout</b-button>
+					<div v-show="logout">
+						<b-button variant="danger">Logout</b-button>
+					</div>
 				</b-navbar-nav>
 			</b-collapse>
 		</b-navbar>
@@ -32,8 +34,11 @@
 <script>
 export default {
 	name: 'HeaderComponent',
+	props: ['logout'],
 	data() {
-		return {};
+		return {
+			// login: false,
+		};
 	},
 };
 </script>
