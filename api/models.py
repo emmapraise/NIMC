@@ -98,7 +98,6 @@ class NinInfo(common):
     user = models.ForeignKey(Citizen, on_delete=models.CASCADE)
     date_of_brith = models.DateField()
     state_of_origin = models.CharField(max_length=30)
-    state = models.CharField(max_length=30)
     address = models.TextField()
     marital_status = models.CharField(
         max_length=30, choices=maritalStatus(), null=True, blank=True
