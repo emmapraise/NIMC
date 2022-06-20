@@ -36,9 +36,7 @@ export default {
 	name: 'HeaderComponent',
 	props: ['logout'],
 	data() {
-		return {
-			// login: false,
-		};
+		return {};
 	},
 };
 </script>
