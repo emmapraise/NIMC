@@ -8,6 +8,7 @@ router = routers.DefaultRouter()
 router.register(r"register", views.UserViewSet)
 router.register(r"user", views.CitizenViewSet)
 router.register(r"admin", views.AdminViewSet)
+router.register(r"nininfo", views.NinInfoViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),

@@ -3,7 +3,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.base_user import BaseUserManager
 
-from NIMC.enums.nin import document_types
+from NIMC.enums.nin import bloodGroup, documentTypes, maritalStatus, genotype
 from NIMC.enums.admin import admin_types, approval_status
 from NIMC.enums import admin, nin
 
@@ -98,9 +98,17 @@ class NinInfo(common):
     user = models.ForeignKey(Citizen, on_delete=models.CASCADE)
     date_of_brith = models.DateField()
     state_of_origin = models.CharField(max_length=30)
-    state = models.CharField(max_length=30)
     address = models.TextField()
+    marital_status = models.CharField(
+        max_length=30, choices=maritalStatus(), null=True, blank=True
+    )
+    blood_group = models.CharField(
+        max_length=10, choices=bloodGroup(), null=True, blank=True
+    )
+    genotype = models.CharField(max_length=2, choices=genotype(), null=True, blank=True)
     next_of_kin = models.CharField(max_length=100)
+    next_of_kin_email = models.EmailField(null=True, blank=True)
+    next_of_kin_phone = models.TextField(max_length=11, null=True, blank=True)
     next_of_kin_address = models.TextField()
     occupation = models.CharField(max_length=100)
 
@@ -112,7 +120,7 @@ class Document(common):
     """This is the object for all uploaded document"""
 
     nin_info = models.ForeignKey(NinInfo, on_delete=models.CASCADE)
-    type = models.CharField(max_length=100, choices=document_types())
+    type = models.CharField(max_length=100, choices=documentTypes())
     path = models.FileField(upload_to="documents/")
 
     def __str__(self):

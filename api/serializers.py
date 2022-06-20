@@ -87,3 +87,11 @@ class AdminSerializers(serializers.ModelSerializer):
         new_admin["user"] = user
         admin = Admin.objects.create(**new_admin)
         return admin
+
+
+class NinInfoSerializers(serializers.ModelSerializer):
+    """A serializer for all actions on Nin Info"""
+
+    class Meta:
+        model = NinInfo
+        fields = "__all__"

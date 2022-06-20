@@ -38,8 +38,13 @@ const routes = [
     component: () => import('../views/Patners/CheckIn.vue')
   },
   {
-    path: '/user/register',
+    path: '/admin/enrolment',
     name: 'enrolment',
+    component: () => import('../views/User/RegisterView.vue')
+  },
+  {
+    path: '/user/profile',
+    name: 'user_profile',
     component: () => import('../views/User/RegisterView.vue')
   },
   {
@@ -53,7 +58,7 @@ const routes = [
     component: () => import('../views/Admin/DocumentView.vue')
   },
   {
-    path: '/make-request',
+    path: '/user/make-request',
     name: 'make-request',
     component: () => import('../views/User/RegisterView.vue')
   }

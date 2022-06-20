@@ -1,6 +1,6 @@
 <template>
 	<div class="">
-		<header-vue />
+		<header-vue :logout="true" />
 		<b-row class="mt-2">
 			<b-col md="2">
 				<sidebar-vue />
@@ -13,9 +13,6 @@
 						class="was-validated"
 					>
 						<user-profile />
-						<!-- <div class="mt-5 float-right" align-h="end">
-					<b-button size="lg" variant="success">Submit</b-button>
-				</div> -->
 					</b-form>
 				</b-card>
 			</b-col>
@@ -36,13 +33,12 @@ export default {
 	data() {
 		return {};
 	},
-	mounted() {
-		console.log('object');
+	beforeCreate() {
+		if (!localStorage.getItem('token')) {
+			this.$router.push('/login');
+		}
 	},
-	methods: {
-		onsubmit() {
-			console.log('object');
-		},
-	},
+	mounted() {},
+	methods: {},
 };
 </script>

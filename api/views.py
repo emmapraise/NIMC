@@ -8,8 +8,13 @@ from rest_framework.generics import get_object_or_404
 from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from api.models import Admin, Citizen, User
-from api.serializers import AdminSerializers, CitizenSerializers, UserSerializers
+from api.models import Admin, Citizen, NinInfo, User
+from api.serializers import (
+    AdminSerializers,
+    CitizenSerializers,
+    NinInfoSerializers,
+    UserSerializers,
+)
 
 # User = get_user_model()
 
@@ -75,3 +80,9 @@ class AdminViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         return super().create(request, *args, **kwargs)
+
+
+class NinInfoViewSet(viewsets.ModelViewSet):
+    queryset = NinInfo.objects.all()
+    serializer_class = NinInfoSerializers
+    permission_classes = [permissions.IsAuthenticated]
