@@ -16,6 +16,7 @@
 							<b-form-select
 								:id="item.label"
 								v-model="item.value"
+								@change="emitValue"
 								required
 								:options="item.options"
 							></b-form-select>
@@ -59,6 +60,15 @@ export default {
 				},
 			],
 		};
+	},
+	methods: {
+		emitValue() {
+			const data = this.medical_tab.reduce(
+				(acc, cur) => ({ ...acc, [cur.label]: cur.value }),
+				{}
+			);
+			this.$emit('medicalData', data);
+		},
 	},
 };
 </script>

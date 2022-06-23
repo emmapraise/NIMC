@@ -1,13 +1,13 @@
 <template>
 	<div class="">
 		<b-form @submit.prevent="onSubmit">
-			<name />
+			<name @userData="userData" />
 			<hr />
-			<personal-data />
+			<personal-data @personalData="personalData" />
 			<hr />
-			<medical-data />
+			<medical-data @medicalData="medicalData" />
 			<hr />
-			<kinship-data />
+			<kinship-data @kinshipData="kinshipData" />
 			<div class="float-right mt-2">
 				<b-button type="submit" variant="success">Submit</b-button>
 			</div>
@@ -30,12 +30,28 @@ export default {
 	},
 	data() {
 		return {
-			tabIndex: 0,
+			data: {},
 		};
 	},
 	mounted() {
 		this.done();
 	},
-	methods: {},
+	methods: {
+		userData(e) {
+			console.log(e);
+		},
+		personalData(e) {
+			console.log(e);
+		},
+		medicalData(e) {
+			console.log(e);
+		},
+		kinshipData(e) {
+			console.log(e);
+		},
+		onSubmit() {
+			console.log(this.data);
+		},
+	},
 };
 </script>

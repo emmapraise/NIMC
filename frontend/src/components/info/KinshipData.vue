@@ -17,6 +17,7 @@
 								:id="item.label"
 								max-rows="6"
 								rows="3"
+								@input="emitValue"
 								required
 								v-model="item.value"
 							>
@@ -27,6 +28,7 @@
 								:id="item.label"
 								:type="item.type"
 								required
+								@input="emitValue"
 								v-model="item.value"
 							></b-form-input>
 						</div> </b-col
@@ -67,6 +69,15 @@ export default {
 				},
 			],
 		};
+	},
+	methods: {
+		emitValue() {
+			const data = this.kinship_tab.reduce(
+				(acc, cur) => ({ ...acc, [cur.label]: cur.value }),
+				{}
+			);
+			this.$emit('kinshipData', data);
+		},
 	},
 };
 </script>

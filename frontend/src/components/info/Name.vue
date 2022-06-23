@@ -12,6 +12,7 @@
 								:id="item.label"
 								v-model="item.value"
 								required
+								@input="emitValue"
 								:options="item.options"
 							></b-form-radio-group>
 						</div>
@@ -19,6 +20,8 @@
 							<b-form-input
 								:id="item.label"
 								:type="item.type"
+								@input="emitValue"
+								v-model="item.value"
 								required
 							></b-form-input>
 						</div> </b-col></b-row></b-col
@@ -35,16 +38,19 @@ export default {
 					name: 'Surname',
 					label: 'surname',
 					type: 'text',
+					value: '',
 				},
 				{
 					name: 'First Name',
 					label: 'last_name',
 					type: 'text',
+					value: '',
 				},
 				{
 					name: 'Middle Name',
 					label: 'middle_name',
 					type: 'text',
+					value: '',
 				},
 				{
 					name: 'Gender',
@@ -70,6 +76,15 @@ export default {
 				},
 			],
 		};
+	},
+	methods: {
+		emitValue() {
+			const data = this.name_tab.reduce(
+				(acc, cur) => ({ ...acc, [cur.label]: cur.value }),
+				{}
+			);
+			this.$emit('userData', data);
+		},
 	},
 };
 </script>

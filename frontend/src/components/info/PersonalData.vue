@@ -15,15 +15,17 @@
 						<div v-if="item.label === 'marital_status'">
 							<b-form-select
 								:id="item.label"
-								v-model="marital_status_selected"
+								v-model="item.value"
 								required
-								:options="marital_status_options"
+								@change="emitValue"
+								:options="item.options"
 							></b-form-select>
 						</div>
 						<div v-else-if="item.label === 'home_address'">
 							<b-form-textarea
 								:id="item.label"
 								max-rows="6"
+								@input="emitValue"
 								required
 								rows="3"
 								v-model="item.value"
@@ -36,6 +38,7 @@
 								required
 								:type="item.type"
 								v-model="item.value"
+								@input="emitValue"
 							></b-form-input>
 						</div> </b-col
 				></b-row>
@@ -48,25 +51,6 @@ export default {
 	name: 'PersonalDataComponents',
 	data() {
 		return {
-			marital_status_selected: null,
-			marital_status_options: [
-				{
-					value: null,
-					text: 'Please select an Option',
-				},
-				{
-					value: 'single',
-					text: 'Single',
-				},
-				{
-					value: 'married',
-					text: 'Married',
-				},
-				{
-					value: 'divorced',
-					text: 'Divorced',
-				},
-			],
 			personal_data_tab: [
 				{
 					name: 'Date of Birth',
@@ -78,7 +62,25 @@ export default {
 					name: 'Marital Status',
 					label: 'marital_status',
 					type: 'select',
-					value: '',
+					value: null,
+					options: [
+						{
+							value: null,
+							text: 'Please select an Option',
+						},
+						{
+							value: 'single',
+							text: 'Single',
+						},
+						{
+							value: 'married',
+							text: 'Married',
+						},
+						{
+							value: 'divorced',
+							text: 'Divorced',
+						},
+					],
 				},
 
 				{
@@ -89,6 +91,15 @@ export default {
 				},
 			],
 		};
+	},
+	methods: {
+		emitValue() {
+			const data = this.personal_data_tab.reduce(
+				(acc, cur) => ({ ...acc, [cur.label]: cur.value }),
+				{}
+			);
+			this.$emit('personalData', data);
+		},
 	},
 };
 </script>

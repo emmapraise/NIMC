@@ -1,7 +1,7 @@
 <template>
 	<div class="">
 		<header-vue />
-		<b-card class="mx-auto w-25 mt-3" title="Check NIN">
+		<b-card class="mx-auto mt-3" title="Check NIN">
 			<div v-for="(item, index) in checkin_data" :key="index">
 				<b-input-group class="mb-2 mt-2">
 					<b-input-group-prepend is-text>
