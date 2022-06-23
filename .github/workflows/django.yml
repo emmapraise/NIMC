@@ -27,17 +27,17 @@ jobs:
         pip install -r requirements.txt
     - name: Run Tests
       env:
-          SECRET_KEY: sdv78)*u-nm*q5!*i*xx-hnzddut8hmxbd=eh56vc2+jxq6*i
-          DB_NAME: ''
-          DB_USER: ''
-          DB_PASSWORD: ''
-          DB_PORT: 0
-          DB_HOST: ''
-          PAYSTACK_SECRET_KEY: ''
-          PAYSTACK_PUBLIC_KEY: ''
-          SENDGRID_API_KEY: ''
-          MAILGUN_API_KEY: ''
-          ENVIRONMENT: 'staging'
-          DEBUG: True
+        SECRET_KEY: sdv78)*u-nm*q5!*i*xx-hnzddut8hmxbd=eh56vc2+jxq6*i
+        DB_NAME: ''
+        DB_USER: ''
+        DB_PASSWORD: ''
+        DB_PORT: 0
+        DB_HOST: ''
+        PAYSTACK_SECRET_KEY: ''
+        PAYSTACK_PUBLIC_KEY: ''
+        SENDGRID_API_KEY: ''
+        MAILGUN_API_KEY: ''
+        ENVIRONMENT: 'staging'
+        DEBUG: True
       run: |
         python manage.py test
