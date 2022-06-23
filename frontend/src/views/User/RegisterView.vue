@@ -7,13 +7,13 @@
 			</b-col>
 			<b-col md="10">
 				<b-card title="Enrol A User" class="">
-					<b-form
+					<!-- <b-form
 						@submit.prevent="onSubmit"
 						validated="true"
 						class="was-validated"
-					>
-						<user-profile />
-					</b-form>
+					> -->
+					<user-profile />
+					<!-- </b-form> -->
 				</b-card>
 			</b-col>
 		</b-row>

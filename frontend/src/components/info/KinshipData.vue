@@ -1,28 +1,36 @@
 <template>
 	<div class="">
-		<b-row class="my-2" v-for="(item, index) in kinship_tab" :key="index">
-			<b-col sm="3">
-				<label :for="item.label"> {{ item.name }}</label>
-			</b-col>
-			<b-col sm="9">
-				<div v-if="item.type === 'textarea'">
-					<b-form-textarea
-						:id="item.label"
-						max-rows="6"
-						rows="3"
-						required
-						v-model="item.value"
-					>
-					</b-form-textarea>
-				</div>
-				<div v-else>
-					<b-form-input
-						:id="item.label"
-						:type="item.type"
-						required
-						v-model="item.value"
-					></b-form-input>
-				</div>
+		<b-row>
+			<b-col
+				class="my-1"
+				v-for="(item, index) in kinship_tab"
+				:key="index"
+				md="6"
+			>
+				<b-row>
+					<b-col md="3">
+						<label :for="item.label"> {{ item.name }}</label>
+					</b-col>
+					<b-col md="9">
+						<div v-if="item.type === 'textarea'">
+							<b-form-textarea
+								:id="item.label"
+								max-rows="6"
+								rows="3"
+								required
+								v-model="item.value"
+							>
+							</b-form-textarea>
+						</div>
+						<div v-else>
+							<b-form-input
+								:id="item.label"
+								:type="item.type"
+								required
+								v-model="item.value"
+							></b-form-input>
+						</div> </b-col
+				></b-row>
 			</b-col>
 		</b-row>
 	</div>

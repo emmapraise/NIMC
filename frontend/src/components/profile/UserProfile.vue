@@ -1,12 +1,17 @@
 <template>
 	<div class="">
-		<name />
-		<hr />
-		<personal-data />
-		<hr />
-		<medical-data />
-		<hr />
-		<kinship-data />
+		<b-form @submit.prevent="onSubmit">
+			<name />
+			<hr />
+			<personal-data />
+			<hr />
+			<medical-data />
+			<hr />
+			<kinship-data />
+			<div class="float-right mt-2">
+				<b-button type="submit" variant="success">Submit</b-button>
+			</div>
+		</b-form>
 	</div>
 </template>
 <script>

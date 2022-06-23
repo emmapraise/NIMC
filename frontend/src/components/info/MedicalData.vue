@@ -1,18 +1,26 @@
 <template>
 	<div class="">
-		<b-row class="my-2" v-for="(item, index) in medical_tab" :key="index">
-			<b-col sm="3">
-				<label :for="item.label">{{ item.name }} </label>
-			</b-col>
-			<b-col sm="9">
-				<div v-if="item.type === 'select'">
-					<b-form-select
-						:id="item.label"
-						v-model="item.value"
-						required
-						:options="item.options"
-					></b-form-select>
-				</div>
+		<b-row>
+			<b-col
+				class="my-1"
+				v-for="(item, index) in medical_tab"
+				:key="index"
+				md="6"
+			>
+				<b-row>
+					<b-col md="3">
+						<label :for="item.label">{{ item.name }} </label>
+					</b-col>
+					<b-col md="9">
+						<div v-if="item.type === 'select'">
+							<b-form-select
+								:id="item.label"
+								v-model="item.value"
+								required
+								:options="item.options"
+							></b-form-select>
+						</div> </b-col
+				></b-row>
 			</b-col>
 		</b-row>
 	</div>
