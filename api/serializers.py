@@ -1,0 +1,97 @@
+from rest_framework import serializers
+from NIMC.helpers.nin import generateNin
+from api.models import *
+
+
+class UserSerializers(serializers.ModelSerializer):
+    username = serializers.CharField(read_only=True)
+    nin = serializers.CharField(read_only=True)
+    is_admin = serializers.BooleanField(read_only=True)
+    is_citizen = serializers.BooleanField(read_only=True)
+    password = serializers.CharField(style={"input_type": "password"}, write_only=True)
+
+    class Meta:
+        model = User
+        exclude = [
+            "is_active",
+            "is_staff",
+            "is_superuser",
+            "date_joined",
+            "last_login",
+            "groups",
+            "user_permissions",
+        ]
+
+    def create(self, validated_data):
+        """Create User"""
+        first_name = validated_data["first_name"]
+        last_name = validated_data["last_name"]
+        phone = validated_data["phone"]
+        email = validated_data["email"]
+        nin = generateNin(10)
+        user = User.objects.create_user(
+            first_name=first_name,
+            last_name=last_name,
+            phone=phone,
+            nin=nin,
+            email=email,
+            username=email,
+            avatar=validated_data["avatar"],
+            gender=validated_data["gender"],
+            password=validated_data["password"],
+        )
+        user.save()
+        return user
+
+
+class CitizenSerializers(serializers.ModelSerializer):
+
+    user = UserSerializers()
+
+    class Meta:
+        model = Citizen
+        fields = "__all__"
+
+    def create(self, validated_data):
+        new_user = validated_data["user"]
+        new_user["nin"] = generateNin(10)
+        new_user["username"] = new_user["email"]
+        user = User.objects.create_user(**new_user)
+        user.is_citizen = True
+        user.save()
+
+        citizenData = {}
+        citizenData["user"] = user
+        citizen = Citizen.objects.create(**citizenData)
+        return citizen
+
+
+class AdminSerializers(serializers.ModelSerializer):
+    user = UserSerializers()
+
+    class Meta:
+        model = Admin
+        exclude = ["create_at", "update_at"]
+
+    def create(self, validated_data):
+        new_user = validated_data["user"]
+        new_user["nin"] = generateNin(10)
+        new_user["username"] = new_user["email"]
+        user = User.objects.create_user(**new_user)
+        user.is_admin = True
+        user.save()
+
+        if "user" in validated_data:
+            del validated_data["user"]
+        new_admin = validated_data
+        new_admin["user"] = user
+        admin = Admin.objects.create(**new_admin)
+        return admin
+
+
+class NinInfoSerializers(serializers.ModelSerializer):
+    """A serializer for all actions on Nin Info"""
+
+    class Meta:
+        model = NinInfo
+        fields = "__all__"
