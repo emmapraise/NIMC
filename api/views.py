@@ -3,6 +3,8 @@ from django.contrib.auth import get_user_model
 
 from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
 
 from rest_framework_simplejwt.exceptions import TokenError
@@ -82,7 +84,14 @@ class AdminViewSet(viewsets.ModelViewSet):
         return super().create(request, *args, **kwargs)
 
 
-class NinInfoViewSet(viewsets.ModelViewSet):
-    queryset = NinInfo.objects.all()
-    serializer_class = NinInfoSerializers
-    permission_classes = [permissions.IsAuthenticated]
+class NinInfoAPIView(APIView):
+    # queryset = NinInfo.objects.all()
+    # serializer_class = NinInfoSerializers
+    permission_classes = []
+
+    def get(self, request, fromat=None):
+        current_user = request.user.id
+        print(current_user)
+        # nin_info = NinInfo.objects.get(user_id=current_user.id)
+        # print(nin_info)
+        Response({current_user})

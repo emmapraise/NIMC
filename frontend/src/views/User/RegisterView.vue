@@ -31,14 +31,30 @@ export default {
 		SidebarVue,
 	},
 	data() {
-		return {};
+		return {
+			is_admin: false,
+		};
 	},
 	beforeCreate() {
 		if (!localStorage.getItem('token')) {
 			this.$router.push('/login');
 		}
+		this.is_admin = this.$route.name === 'enrolment' ? true : false;
 	},
-	mounted() {},
-	methods: {},
+	mounted() {
+		this.getUserProfile();
+	},
+	methods: {
+		getUserProfile() {
+			this.axios
+				.get('api/nininfo/1/')
+				.then((result) => {
+					console.log(result);
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		},
+	},
 };
 </script>
