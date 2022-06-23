@@ -7,13 +7,13 @@
 			</b-col>
 			<b-col md="10">
 				<b-card title="Enrol A User" class="">
-					<b-form
+					<!-- <b-form
 						@submit.prevent="onSubmit"
 						validated="true"
 						class="was-validated"
-					>
-						<user-profile />
-					</b-form>
+					> -->
+					<user-profile />
+					<!-- </b-form> -->
 				</b-card>
 			</b-col>
 		</b-row>
@@ -31,14 +31,30 @@ export default {
 		SidebarVue,
 	},
 	data() {
-		return {};
+		return {
+			is_admin: false,
+		};
 	},
 	beforeCreate() {
 		if (!localStorage.getItem('token')) {
 			this.$router.push('/login');
 		}
+		this.is_admin = this.$route.name === 'enrolment' ? true : false;
 	},
-	mounted() {},
-	methods: {},
+	mounted() {
+		this.getUserProfile();
+	},
+	methods: {
+		getUserProfile() {
+			this.axios
+				.get('api/nininfo/1/')
+				.then((result) => {
+					console.log(result);
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		},
+	},
 };
 </script>

@@ -1,46 +1,17 @@
 <template>
 	<div class="">
-		<b-tabs content-class="mt-3 w-75 mx-auto" justified v-model="tabIndex">
-			<b-tab title="Name Data" active>
-				<name />
-				<div align-h="end" class="float-right mt-3">
-					<b-button @click="tabIndex++" variant="outline-success">
-						Next <b-icon icon="chevron-double-right"></b-icon>
-					</b-button>
-				</div>
-			</b-tab>
-			<b-tab title="Personal Data">
-				<personal-data />
-				<div align-h="end" class="float-right mt-3">
-					<b-button-group>
-						<b-button @click="tabIndex--" variant="outline-warning">
-							<b-icon icon="chevron-double-left"></b-icon> Previous
-						</b-button>
-						<b-button @click="tabIndex++" variant="outline-success">
-							Next <b-icon icon="chevron-double-right"></b-icon> </b-button
-					></b-button-group>
-				</div>
-			</b-tab>
-			<b-tab title="Medical Details">
-				<medical-data />
-				<div align-h="end" class="float-right mt-3">
-					<b-button-group>
-						<b-button @click="tabIndex--" variant="outline-warning">
-							<b-icon icon="chevron-double-left"></b-icon> Previous
-						</b-button>
-						<b-button @click="tabIndex++" variant="outline-success">
-							Next <b-icon icon="chevron-double-right"></b-icon> </b-button
-					></b-button-group></div
-			></b-tab>
-			<b-tab title="Kinship Details">
-				<kinship-data />
-				<div align-h="end" class="float-right mt-3">
-					<b-button @click="tabIndex--" variant="outline-warning">
-						<b-icon icon="chevron-double-left"></b-icon> Previous
-					</b-button>
-				</div></b-tab
-			>
-		</b-tabs>
+		<b-form @submit.prevent="onSubmit">
+			<name @userData="userData" />
+			<hr />
+			<personal-data @personalData="personalData" />
+			<hr />
+			<medical-data @medicalData="medicalData" />
+			<hr />
+			<kinship-data @kinshipData="kinshipData" />
+			<div class="float-right mt-2">
+				<b-button type="submit" variant="success">Submit</b-button>
+			</div>
+		</b-form>
 	</div>
 </template>
 <script>
@@ -50,6 +21,7 @@ import MedicalData from '../info/MedicalData.vue';
 import KinshipData from '../info/KinshipData.vue';
 export default {
 	name: 'RegisterView',
+	props: ['is_admin'],
 	components: {
 		Name,
 		PersonalData,
@@ -58,12 +30,28 @@ export default {
 	},
 	data() {
 		return {
-			tabIndex: 0,
+			data: {},
 		};
 	},
 	mounted() {
 		this.done();
 	},
-	methods: {},
+	methods: {
+		userData(e) {
+			console.log(e);
+		},
+		personalData(e) {
+			console.log(e);
+		},
+		medicalData(e) {
+			console.log(e);
+		},
+		kinshipData(e) {
+			console.log(e);
+		},
+		onSubmit() {
+			console.log(this.data);
+		},
+	},
 };
 </script>

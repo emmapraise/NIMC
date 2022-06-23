@@ -1,7 +1,7 @@
 <template>
 	<div class="">
 		<header-vue />
-		<b-card class="mx-auto w-25 mt-3" title="User Login">
+		<b-card class="mx-auto mt-3" title="User Login">
 			<b-form @submit.prevent="onSubmit">
 				<div v-for="(item, index) in login_data" :key="index">
 					<b-input-group class="mb-2 mt-2">
