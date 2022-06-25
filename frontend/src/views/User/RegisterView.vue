@@ -49,7 +49,7 @@ export default {
 	methods: {
 		getUserProfile() {
 			this.axios
-				.get('api/nininfo/1/')
+				.get(`api/nininfo/`)
 				.then((result) => {
 					console.log(result);
 				})

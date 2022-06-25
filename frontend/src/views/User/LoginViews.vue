@@ -75,12 +75,12 @@ export default {
 				.post('api/login/', this.data)
 				.then((result) => {
 					const token = result.data.data.tokens.access;
-					const user = result.data.data.user;
+					const user = JSON.stringify(result.data.data.user);
 					this.$store.commit('setToken', token, user);
 					this.axios.defaults.headers.common['Authorization'] =
 						'Bearer ' + token;
 					localStorage.setItem('token', token);
-					localStorage.setItem('user', JSON.stringify(user));
+					localStorage.setItem('user', user);
 					user.is_admin
 						? this.$router.push({ name: 'enrolment' })
 						: this.$router.push({ name: 'make-request' });
