@@ -6,7 +6,7 @@
 				<sidebar-vue />
 			</b-col>
 			<b-col md="10">
-				<b-card title="Enrol A User" class="">
+				<b-card :title="title" class="">
 					<!-- <b-form
 						@submit.prevent="onSubmit"
 						validated="true"
@@ -33,6 +33,7 @@ export default {
 	data() {
 		return {
 			is_admin: false,
+			title: '',
 		};
 	},
 	beforeCreate() {
@@ -43,6 +44,7 @@ export default {
 	},
 	mounted() {
 		this.getUserProfile();
+		this.title = this.is_admin ? 'Enrol a User' : 'User Profile';
 	},
 	methods: {
 		getUserProfile() {

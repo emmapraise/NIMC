@@ -74,11 +74,11 @@ export default {
 			this.axios
 				.post('api/login/', this.data)
 				.then((result) => {
-					const token = result.data.data.tokens.refresh;
+					const token = result.data.data.tokens.access;
 					const user = result.data.data.user;
 					this.$store.commit('setToken', token, user);
 					this.axios.defaults.headers.common['Authorization'] =
-						'Token ' + token;
+						'Bearer ' + token;
 					localStorage.setItem('token', token);
 					localStorage.setItem('user', JSON.stringify(user));
 					user.is_admin
