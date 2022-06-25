@@ -95,7 +95,7 @@ class Admin(common):
 class NinInfo(common):
     """This is model to add NIN Information of the user"""
 
-    user = models.ForeignKey(Citizen, on_delete=models.CASCADE)
+    citizen = models.ForeignKey(Citizen, on_delete=models.CASCADE)
     date_of_brith = models.DateField()
     state_of_origin = models.CharField(max_length=30)
     address = models.TextField()

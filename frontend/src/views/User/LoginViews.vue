@@ -1,29 +1,37 @@
 <template>
 	<div class="">
 		<header-vue />
-		<b-card class="mx-auto mt-3" title="User Login">
-			<b-form @submit.prevent="onSubmit">
-				<div v-for="(item, index) in login_data" :key="index">
-					<b-input-group class="mb-2 mt-2">
-						<b-input-group-prepend is-text>
-							<b-icon :icon="item.icon"></b-icon>
-						</b-input-group-prepend>
-						<b-form-input
-							:type="item.type"
-							:placeholder="item.placeholder"
-							v-model="item.value"
-						></b-form-input>
-					</b-input-group>
-				</div>
+		<b-row>
+			<b-col md="3"></b-col>
+			<b-col md="6">
+				<b-card class="mx-auto mt-3" title="User Login">
+					<b-form @submit.prevent="onSubmit">
+						<div v-for="(item, index) in login_data" :key="index">
+							<b-input-group class="mb-2 mt-2">
+								<b-input-group-prepend is-text>
+									<b-icon :icon="item.icon"></b-icon>
+								</b-input-group-prepend>
+								<b-form-input
+									:type="item.type"
+									:placeholder="item.placeholder"
+									v-model="item.value"
+								></b-form-input>
+							</b-input-group>
+						</div>
 
-				<b-button variant="success" block class="mt-3" type="onSubmit"
-					>Login</b-button
-				>
-			</b-form>
-			<div v-show="isError" class="mt-2">
-				<b-alert show variant="danger" dismissible>{{ errorMessage }} </b-alert>
-			</div>
-		</b-card>
+						<b-button variant="success" block class="mt-3" type="onSubmit"
+							>Login</b-button
+						>
+					</b-form>
+					<div v-show="isError" class="mt-2">
+						<b-alert show variant="danger" dismissible
+							>{{ errorMessage }}
+						</b-alert>
+					</div>
+				</b-card>
+			</b-col>
+			<b-col md="3"></b-col>
+		</b-row>
 	</div>
 </template>
 <script>

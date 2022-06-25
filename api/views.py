@@ -84,14 +84,10 @@ class AdminViewSet(viewsets.ModelViewSet):
         return super().create(request, *args, **kwargs)
 
 
-class NinInfoAPIView(APIView):
-    # queryset = NinInfo.objects.all()
-    # serializer_class = NinInfoSerializers
+class NinInfoViewSet(viewsets.ModelViewSet):
+    queryset = NinInfo.objects.all()
+    serializer_class = NinInfoSerializers
     permission_classes = []
 
-    def get(self, request, fromat=None):
-        current_user = request.user.id
-        print(current_user)
-        # nin_info = NinInfo.objects.get(user_id=current_user.id)
-        # print(nin_info)
-        Response({current_user})
+    def create(self, request, *args, **kwargs):
+        return super().create(request, *args, **kwargs)
