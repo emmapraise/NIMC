@@ -14,5 +14,4 @@ urlpatterns = [
     path("", include(router.urls)),
     path("login/", views.CustomTokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("login/refresh", jwt_views.TokenRefreshView.as_view(), name="token_refresh"),
-    # path(r"nininfo/", views.NinInfoAPIView.as_view()),
 ]

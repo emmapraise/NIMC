@@ -87,7 +87,7 @@ class AdminViewSet(viewsets.ModelViewSet):
 class NinInfoViewSet(viewsets.ModelViewSet):
     queryset = NinInfo.objects.all()
     serializer_class = NinInfoSerializers
-    permission_classes = []
+    permission_classes = [permissions.IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
         return super().create(request, *args, **kwargs)
