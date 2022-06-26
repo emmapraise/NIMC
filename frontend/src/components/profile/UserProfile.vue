@@ -1,7 +1,7 @@
 <template>
 	<div class="">
 		<b-form @submit.prevent="onSubmit">
-			<name @userData="userData" />
+			<name @userData="userData" :userDispatch="userDispatch" />
 			<hr />
 			<personal-data @personalData="personalData" />
 			<hr />
@@ -21,7 +21,7 @@ import MedicalData from '../info/MedicalData.vue';
 import KinshipData from '../info/KinshipData.vue';
 export default {
 	name: 'RegisterView',
-	props: ['is_admin'],
+	props: ['is_admin', 'ninInfoData'],
 	components: {
 		Name,
 		PersonalData,
@@ -31,12 +31,18 @@ export default {
 	data() {
 		return {
 			data: {},
+			userDispatch: {},
 		};
 	},
-	mounted() {},
+	mounted() {
+		this.dispatchData();
+	},
 	methods: {
 		userData(e) {
 			console.log(e);
+		},
+		dispatchData() {
+			this.userDispatch = this.ninInfoData.citizen.user;
 		},
 		personalData(e) {
 			console.log(e);

@@ -12,7 +12,7 @@
 						validated="true"
 						class="was-validated"
 					> -->
-					<user-profile />
+					<user-profile :ninInfoData="data" />
 					<!-- </b-form> -->
 				</b-card>
 			</b-col>
@@ -34,6 +34,7 @@ export default {
 		return {
 			is_admin: false,
 			title: '',
+			data: {},
 		};
 	},
 	beforeCreate() {
@@ -53,6 +54,7 @@ export default {
 				.get(`api/nininfo/${user.id}/`)
 				.then((result) => {
 					console.log(result);
+					this.data = result;
 				})
 				.catch((err) => {
 					console.log(err);
