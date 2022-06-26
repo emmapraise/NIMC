@@ -48,8 +48,9 @@ export default {
 	},
 	methods: {
 		getUserProfile() {
+			const user = JSON.parse(this.$store.state.user);
 			this.axios
-				.get(`api/nininfo/`)
+				.get(`api/nininfo/${user.id}/`)
 				.then((result) => {
 					console.log(result);
 				})
