@@ -1,15 +1,12 @@
-# from django.shortcuts import render
-from django.contrib.auth import get_user_model
-
 from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
 
 from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
+from api import serializers
 
 from api.models import Admin, Citizen, NinInfo, User
 from api.serializers import (
@@ -110,6 +107,7 @@ class NinInfoViewSet(viewsets.ModelViewSet):
     def retrieve(self, request, pk=None):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid:
-            current_user = request.user
+            current_user = User.objects.get(pk=pk)
             nin_info = NinInfo.objects.get(citizen__user=current_user)
-            return Response(data=nin_info, status=status.HTTP_200_OK)
+            serializer = self.get_serializer(nin_info)
+            return Response(data=serializer.data, status=status.HTTP_200_OK)
