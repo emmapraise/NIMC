@@ -43,18 +43,10 @@ export default {
 	methods: {
 		logoutAction() {
 			console.log('first');
-			this.axios
-				.post(`api/logout/`)
-				.then((result) => {
-					console.log(result);
-					localStorage.removeItem('token');
-					localStorage.removeItem('user');
-					this.$store.commit('removeToken');
-					this.$router.push({ name: 'home' });
-				})
-				.catch((err) => {
-					console.log(err);
-				});
+			localStorage.removeItem('token');
+			localStorage.removeItem('user');
+			this.$store.commit('removeToken');
+			this.$router.push({ name: 'home' });
 		},
 	},
 };
