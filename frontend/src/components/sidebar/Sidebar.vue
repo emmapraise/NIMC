@@ -34,6 +34,7 @@ export default {
 		return {
 			Avatar,
 			user: {},
+			sidebar_menu: [],
 			admin_sidebar: [
 				{
 					name: 'Enroll A User',

@@ -24,7 +24,9 @@
 						>
 					</b-nav-form> -->
 					<div v-show="logout">
-						<b-button variant="danger">Logout</b-button>
+						<b-button variant="danger" @click.prevent="logoutAction"
+							>Logout</b-button
+						>
 					</div>
 				</b-navbar-nav>
 			</b-collapse>
@@ -37,6 +39,23 @@ export default {
 	props: ['logout'],
 	data() {
 		return {};
+	},
+	methods: {
+		logoutAction() {
+			console.log('first');
+			this.axios
+				.post(`api/logout/`)
+				.then((result) => {
+					console.log(result);
+					localStorage.removeItem('token');
+					localStorage.removeItem('user');
+					this.$store.commit('removeToken');
+					this.$router.push({ name: 'home' });
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		},
 	},
 };
 </script>

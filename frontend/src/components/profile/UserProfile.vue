@@ -33,9 +33,7 @@ export default {
 			data: {},
 		};
 	},
-	mounted() {
-		this.done();
-	},
+	mounted() {},
 	methods: {
 		userData(e) {
 			console.log(e);
