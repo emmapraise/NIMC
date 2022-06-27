@@ -51,7 +51,7 @@ class User(AbstractUser):
     )
     phone = models.CharField(max_length=11, unique=True)
     nin = models.CharField(max_length=20, unique=True)
-    avatar = models.ImageField(null=True, blank=True)
+    avatar = models.ImageField(null=True, blank=True, upload_to= "NIMC/data/")
     gender = models.CharField(choices=GENDER_CHOICES, max_length=1)
     is_citizen = models.BooleanField(default=False, null=True, blank=True)
     is_admin = models.BooleanField(default=False, null=True, blank=True)
@@ -125,6 +125,15 @@ class Document(common):
 
     def __str__(self):
         return self.type
+
+
+class EncodedImage(common):
+    "This stores the image encoded"
+    citizen = models.ForeignKey(Citizen, on_delete=models.CASCADE)
+    encodings = models.TextField()
+
+    def __str__(self):
+        return self.citizen.user.get_full_name()
 
 
 class Request(common):

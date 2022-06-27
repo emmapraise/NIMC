@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from NIMC.helpers.face_reg import extract_feature
 from NIMC.helpers.nin import generateNin
 from api.models import *
 
@@ -92,6 +93,11 @@ class NinInfoSerializers(serializers.ModelSerializer):
 
     def create(self, validated_data):
         citizen = CitizenSerializers.create(self, validated_data["citizen"])
+        avatar = validated_data["citizen"]["user"]["avatar"]
+        if avatar is not None:
+            EncodedImage.objects.create(
+                citizen=citizen, encodings=extract_feature(avatar)
+            )
         if "citizen" in validated_data:
             del validated_data["citizen"]
         new_ninifo = validated_data
