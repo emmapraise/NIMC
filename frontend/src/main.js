@@ -11,7 +11,7 @@ window.Vue = Vue;
 
 // Vue.config.productionTip = false
 Vue.use(VueAxios, axios);
-axios.defaults.baseURL = "http://127.0.0.1:8000"
+axios.defaults.baseURL = process.env.VUE_APP_BACKEND_URL
 
 new Vue({
   vuetify,
