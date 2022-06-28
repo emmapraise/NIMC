@@ -6,14 +6,14 @@
 				<sidebar-vue />
 			</b-col>
 			<b-col md="10">
-				<b-card title="Enrol A User" class="">
-					<b-form
+				<b-card :title="title" class="">
+					<!-- <b-form
 						@submit.prevent="onSubmit"
 						validated="true"
 						class="was-validated"
-					>
-						<user-profile />
-					</b-form>
+					> -->
+					<user-profile :ninInfoData="data" />
+					<!-- </b-form> -->
 				</b-card>
 			</b-col>
 		</b-row>
@@ -31,14 +31,35 @@ export default {
 		SidebarVue,
 	},
 	data() {
-		return {};
+		return {
+			is_admin: false,
+			title: '',
+			data: {},
+		};
 	},
 	beforeCreate() {
 		if (!localStorage.getItem('token')) {
 			this.$router.push('/login');
 		}
+		this.is_admin = this.$route.name === 'enrolment' ? true : false;
 	},
-	mounted() {},
-	methods: {},
+	mounted() {
+		this.getUserProfile();
+		this.title = this.is_admin ? 'Enrol a User' : 'User Profile';
+	},
+	methods: {
+		getUserProfile() {
+			const user = JSON.parse(this.$store.state.user);
+			this.axios
+				.get(`api/nininfo/${user.id}/`)
+				.then((result) => {
+					console.log(result);
+					this.data = result;
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		},
+	},
 };
 </script>

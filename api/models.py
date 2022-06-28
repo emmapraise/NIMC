@@ -5,7 +5,7 @@ from django.contrib.auth.base_user import BaseUserManager
 
 from NIMC.enums.nin import bloodGroup, documentTypes, maritalStatus, genotype
 from NIMC.enums.admin import admin_types, approval_status
-from NIMC.enums import admin, nin
+from NIMC.enums import admin
 
 
 class UserManager(BaseUserManager):
@@ -51,12 +51,12 @@ class User(AbstractUser):
     )
     phone = models.CharField(max_length=11, unique=True)
     nin = models.CharField(max_length=20, unique=True)
-    avatar = models.ImageField(null=True, blank=True)
+    avatar = models.ImageField(null=True, blank=True, upload_to= "NIMC/data/")
     gender = models.CharField(choices=GENDER_CHOICES, max_length=1)
     is_citizen = models.BooleanField(default=False, null=True, blank=True)
     is_admin = models.BooleanField(default=False, null=True, blank=True)
 
-    # USERNAME_FIELD = "nin"
+    # USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
     objects = UserManager()
@@ -95,7 +95,7 @@ class Admin(common):
 class NinInfo(common):
     """This is model to add NIN Information of the user"""
 
-    user = models.ForeignKey(Citizen, on_delete=models.CASCADE)
+    citizen = models.ForeignKey(Citizen, on_delete=models.CASCADE)
     date_of_brith = models.DateField()
     state_of_origin = models.CharField(max_length=30)
     address = models.TextField()
@@ -127,8 +127,17 @@ class Document(common):
         return self.type
 
 
+class EncodedImage(common):
+    "This stores the image encoded"
+    citizen = models.ForeignKey(Citizen, on_delete=models.CASCADE)
+    encodings = models.TextField()
+
+    def __str__(self):
+        return self.citizen.user.get_full_name()
+
+
 class Request(common):
-    """This is the model that hold all the request made"""
+    """This is the model that hold all the update request made"""
 
     title = models.CharField(max_length=100)
     description = models.TextField()

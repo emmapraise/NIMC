@@ -1,12 +1,12 @@
-# from django.shortcuts import render
-from django.contrib.auth import get_user_model
-
 from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework.generics import get_object_or_404
 
 from rest_framework_simplejwt.exceptions import TokenError
+from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
+from api import serializers
 
 from api.models import Admin, Citizen, NinInfo, User
 from api.serializers import (
@@ -15,8 +15,6 @@ from api.serializers import (
     NinInfoSerializers,
     UserSerializers,
 )
-
-# User = get_user_model()
 
 
 class CustomTokenObtainPairView(TokenObtainPairView):
@@ -52,7 +50,6 @@ class CustomTokenObtainPairView(TokenObtainPairView):
         return Response(data=response, status=status_code)
 
 
-# Create your views here.
 class UserViewSet(viewsets.ModelViewSet):
     """The API endpoint that performs CURD operations on the User Model"""
 
@@ -62,6 +59,20 @@ class UserViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         return super().create(request, *args, **kwargs)
+
+
+class LogoutView(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def post(self, request):
+        try:
+            refresh_token = request.data["refresh_token"]
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+
+            return Response(status=status.HTTP_205_RESET_CONTENT)
+        except Exception as e:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 class CitizenViewSet(viewsets.ModelViewSet):
@@ -86,3 +97,14 @@ class NinInfoViewSet(viewsets.ModelViewSet):
     queryset = NinInfo.objects.all()
     serializer_class = NinInfoSerializers
     permission_classes = [permissions.IsAuthenticated]
+
+    def create(self, request, *args, **kwargs):
+        return super().create(request, *args, **kwargs)
+
+    def retrieve(self, request, pk=None):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid:
+            current_user = User.objects.get(pk=pk)
+            nin_info = NinInfo.objects.get(citizen__user=current_user)
+            serializer = self.get_serializer(nin_info)
+            return Response(data=serializer.data, status=status.HTTP_200_OK)

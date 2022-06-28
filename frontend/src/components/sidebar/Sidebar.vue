@@ -24,7 +24,7 @@
 	</div>
 </template>
 <script>
-import Avatar from '../../assets/images/download.jpeg';
+import Avatar from '../../assets/images/avatar.webp';
 export default {
 	name: 'SidebarComponent',
 	mounted() {
@@ -34,6 +34,7 @@ export default {
 		return {
 			Avatar,
 			user: {},
+			sidebar_menu: [],
 			admin_sidebar: [
 				{
 					name: 'Enroll A User',

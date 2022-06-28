@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from NIMC.helpers.face_reg import extract_feature
 from NIMC.helpers.nin import generateNin
 from api.models import *
 
@@ -53,16 +54,11 @@ class CitizenSerializers(serializers.ModelSerializer):
         fields = "__all__"
 
     def create(self, validated_data):
-        new_user = validated_data["user"]
-        new_user["nin"] = generateNin(10)
-        new_user["username"] = new_user["email"]
-        user = User.objects.create_user(**new_user)
+        user = UserSerializers.create(self, validated_data["user"])
         user.is_citizen = True
         user.save()
 
-        citizenData = {}
-        citizenData["user"] = user
-        citizen = Citizen.objects.create(**citizenData)
+        citizen = Citizen.objects.create(user=user)
         return citizen
 
 
@@ -74,10 +70,7 @@ class AdminSerializers(serializers.ModelSerializer):
         exclude = ["create_at", "update_at"]
 
     def create(self, validated_data):
-        new_user = validated_data["user"]
-        new_user["nin"] = generateNin(10)
-        new_user["username"] = new_user["email"]
-        user = User.objects.create_user(**new_user)
+        user = UserSerializers.create(self, validated_data["user"])
         user.is_admin = True
         user.save()
 
@@ -92,6 +85,22 @@ class AdminSerializers(serializers.ModelSerializer):
 class NinInfoSerializers(serializers.ModelSerializer):
     """A serializer for all actions on Nin Info"""
 
+    citizen = CitizenSerializers()
+
     class Meta:
         model = NinInfo
-        fields = "__all__"
+        exclude = ["create_at", "update_at"]
+
+    def create(self, validated_data):
+        citizen = CitizenSerializers.create(self, validated_data["citizen"])
+        avatar = validated_data["citizen"]["user"]["avatar"]
+        if avatar is not None:
+            EncodedImage.objects.create(
+                citizen=citizen, encodings=extract_feature(avatar)
+            )
+        if "citizen" in validated_data:
+            del validated_data["citizen"]
+        new_ninifo = validated_data
+        new_ninifo["citizen"] = citizen
+        nin_info = NinInfo.objects.create(**new_ninifo)
+        return nin_info
