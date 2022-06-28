@@ -7,8 +7,7 @@
 						<label :for="item.label">{{ item.name }}</label></b-col
 					>
 					<b-col md="9">
-						<div v-if="isProfilePage"></div>
-						<div v-else>
+						<div>
 							<div v-if="item.type === 'radio'">
 								<b-form-radio-group
 									:id="item.label"
@@ -33,7 +32,6 @@
 <script>
 export default {
 	name: 'NameComponet',
-	props: ['userDispatch'],
 	data() {
 		return {
 			name_tab: [
@@ -78,12 +76,9 @@ export default {
 					value: '',
 				},
 			],
-			isProfilePage: false,
 		};
 	},
-	mounted() {
-		this.name_tab = this.userDispatch;
-	},
+	mounted() {},
 	methods: {
 		emitValue() {
 			const data = this.name_tab.reduce(

@@ -38,9 +38,6 @@ export default {
 		};
 	},
 	beforeCreate() {
-		if (!localStorage.getItem('token')) {
-			this.$router.push('/login');
-		}
 		this.is_admin = this.$route.name === 'enrolment' ? true : false;
 	},
 	mounted() {

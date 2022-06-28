@@ -1,7 +1,7 @@
 <template>
 	<div class="">
 		<b-form @submit.prevent="onSubmit">
-			<name @userData="userData" :userDispatch="userDispatch" />
+			<name @userData="userData" />
 			<hr />
 			<personal-data @personalData="personalData" />
 			<hr />
@@ -31,7 +31,6 @@ export default {
 	data() {
 		return {
 			data: {},
-			userDispatch: {},
 		};
 	},
 	mounted() {
@@ -40,9 +39,6 @@ export default {
 	methods: {
 		userData(e) {
 			console.log(e);
-		},
-		dispatchData() {
-			this.userDispatch = this.ninInfoData.citizen.user;
 		},
 		personalData(e) {
 			console.log(e);
