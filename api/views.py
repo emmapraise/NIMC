@@ -1,10 +1,6 @@
-# from django.shortcuts import render
-from django.contrib.auth import get_user_model
-
 from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
 
 from rest_framework_simplejwt.exceptions import TokenError
@@ -18,8 +14,6 @@ from api.serializers import (
     NinInfoSerializers,
     UserSerializers,
 )
-
-# User = get_user_model()
 
 
 class CustomTokenObtainPairView(TokenObtainPairView):
@@ -55,7 +49,6 @@ class CustomTokenObtainPairView(TokenObtainPairView):
         return Response(data=response, status=status_code)
 
 
-# Create your views here.
 class UserViewSet(viewsets.ModelViewSet):
     """The API endpoint that performs CURD operations on the User Model"""
 
