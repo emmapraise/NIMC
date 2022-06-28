@@ -1,4 +1,3 @@
-from tkinter.tix import Tree
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.base_user import BaseUserManager
@@ -51,7 +50,7 @@ class User(AbstractUser):
     )
     phone = models.CharField(max_length=11, unique=True)
     nin = models.CharField(max_length=20, unique=True)
-    avatar = models.ImageField(null=True, blank=True, upload_to= "NIMC/data/")
+    avatar = models.ImageField(null=True, blank=True, upload_to="NIMC/data/")
     gender = models.CharField(choices=GENDER_CHOICES, max_length=1)
     is_citizen = models.BooleanField(default=False, null=True, blank=True)
     is_admin = models.BooleanField(default=False, null=True, blank=True)
