@@ -50,12 +50,13 @@ class User(AbstractUser):
     )
     phone = models.CharField(max_length=11, unique=True)
     nin = models.CharField(max_length=20, unique=True)
+    email = models.EmailField(unique=True)
     avatar = models.ImageField(null=True, blank=True, upload_to="NIMC/data/")
     gender = models.CharField(choices=GENDER_CHOICES, max_length=1)
     is_citizen = models.BooleanField(default=False, null=True, blank=True)
     is_admin = models.BooleanField(default=False, null=True, blank=True)
 
-    # USERNAME_FIELD = "email"
+    USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
     objects = UserManager()
