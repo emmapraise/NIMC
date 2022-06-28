@@ -24,7 +24,7 @@
 	</div>
 </template>
 <script>
-import Avatar from '../../assets/images/download.jpeg';
+import Avatar from '../../assets/images/avatar.webp';
 export default {
 	name: 'SidebarComponent',
 	mounted() {
