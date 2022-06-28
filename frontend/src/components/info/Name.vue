@@ -7,30 +7,33 @@
 						<label :for="item.label">{{ item.name }}</label></b-col
 					>
 					<b-col md="9">
-						<div v-if="item.type === 'radio'">
-							<b-form-radio-group
-								:id="item.label"
-								v-model="item.value"
-								required
-								@input="emitValue"
-								:options="item.options"
-							></b-form-radio-group>
-						</div>
+						<div v-if="isProfilePage"></div>
 						<div v-else>
-							<b-form-input
-								:id="item.label"
-								:type="item.type"
-								@input="emitValue"
-								v-model="item.value"
-								required
-							></b-form-input>
-						</div> </b-col></b-row></b-col
+							<div v-if="item.type === 'radio'">
+								<b-form-radio-group
+									:id="item.label"
+									v-model="item.value"
+									required
+									@input="emitValue"
+									:options="item.options"
+								></b-form-radio-group>
+							</div>
+							<div v-else>
+								<b-form-input
+									:id="item.label"
+									:type="item.type"
+									@input="emitValue"
+									v-model="item.value"
+									required
+								></b-form-input>
+							</div></div></b-col></b-row></b-col
 		></b-row>
 	</div>
 </template>
 <script>
 export default {
 	name: 'NameComponet',
+	props: ['userDispatch'],
 	data() {
 		return {
 			name_tab: [
@@ -75,7 +78,11 @@ export default {
 					value: '',
 				},
 			],
+			isProfilePage: false,
 		};
+	},
+	mounted() {
+		this.name_tab = this.userDispatch;
 	},
 	methods: {
 		emitValue() {
