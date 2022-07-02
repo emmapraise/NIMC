@@ -12,7 +12,7 @@
 						validated="true"
 						class="was-validated"
 					> -->
-					<user-profile :ninInfoData="data" />
+					<user-profile :ninInfoData="data" :isAdmin="isAdmin" />
 					<!-- </b-form> -->
 				</b-card>
 			</b-col>
@@ -32,7 +32,7 @@ export default {
 	},
 	data() {
 		return {
-			is_admin: false,
+			isAdmin: false,
 			title: '',
 			data: {},
 		};
@@ -52,9 +52,9 @@ export default {
 			const user = JSON.parse(this.$store.state.user);
 			this.axios
 				.get(`api/nininfo/${user.id}/`)
-				.then((result) => {
-					console.log(result);
-					this.data = result;
+				.then(({ data }) => {
+					console.log(data);
+					this.data = data;
 				})
 				.catch((err) => {
 					console.log(err);

@@ -8,20 +8,24 @@
 				md="6"
 			>
 				<b-row>
-					<b-col md="3">
+					<b-col md="4">
 						<label :for="item.label">{{ item.name }} </label>
 					</b-col>
-					<b-col md="9">
-						<div v-if="item.type === 'select'">
-							<b-form-select
-								:id="item.label"
-								v-model="item.value"
-								@change="emitValue"
-								required
-								:options="item.options"
-							></b-form-select>
-						</div> </b-col
-				></b-row>
+					<b-col md="8">
+						<template v-if="isAdmin">
+							<div v-if="item.type === 'select'">
+								<b-form-select
+									:id="item.label"
+									v-model="item.value"
+									@change="emitValue"
+									required
+									:options="item.options"
+								></b-form-select>
+							</div>
+						</template>
+						<template v-else>{{ item.value }}</template></b-col
+					></b-row
+				>
 			</b-col>
 		</b-row>
 	</div>
@@ -29,6 +33,7 @@
 <script>
 export default {
 	name: 'MedicalDataComponent',
+	props: ['isAdmin', 'getData'],
 	data() {
 		return {
 			medical_tab: [
@@ -61,6 +66,9 @@ export default {
 			],
 		};
 	},
+	mounted() {
+		this.loadData();
+	},
 	methods: {
 		emitValue() {
 			const data = this.medical_tab.reduce(
@@ -68,6 +76,15 @@ export default {
 				{}
 			);
 			this.$emit('medicalData', data);
+		},
+		loadData() {
+			this.medical_tab.map((obj) => {
+				Object.keys(this.getData).map((item) => {
+					if (obj.label === item) {
+						obj.value = this.getData[item];
+					}
+				});
+			});
 		},
 	},
 };

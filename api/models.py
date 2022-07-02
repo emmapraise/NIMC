@@ -49,6 +49,7 @@ class User(AbstractUser):
         ("F", "Female"),
     )
     phone = models.CharField(max_length=11, unique=True)
+    middle_name = models.CharField(max_length=25, blank=True, null=True)
     nin = models.CharField(max_length=20, unique=True)
     avatar = models.ImageField(null=True, blank=True, upload_to="NIMC/data/")
     gender = models.CharField(choices=GENDER_CHOICES, max_length=1)
@@ -95,7 +96,7 @@ class NinInfo(common):
     """This is model to add NIN Information of the user"""
 
     citizen = models.ForeignKey(Citizen, on_delete=models.CASCADE)
-    date_of_brith = models.DateField()
+    date_of_birth = models.DateField()
     state_of_origin = models.CharField(max_length=30)
     address = models.TextField()
     marital_status = models.CharField(

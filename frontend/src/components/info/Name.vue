@@ -3,12 +3,11 @@
 		<b-row>
 			<b-col md="6" v-for="(item, index) in name_tab" :key="index" class="my-1">
 				<b-row>
-					<b-col md="3">
+					<b-col md="4">
 						<label :for="item.label">{{ item.name }}</label></b-col
 					>
-					<b-col md="9">
-						<div v-if="isProfilePage"></div>
-						<div v-else>
+					<b-col md="8">
+						<template v-if="isAdmin">
 							<div v-if="item.type === 'radio'">
 								<b-form-radio-group
 									:id="item.label"
@@ -26,26 +25,33 @@
 									v-model="item.value"
 									required
 								></b-form-input>
-							</div></div></b-col></b-row></b-col
-		></b-row>
+							</div>
+						</template>
+						<template v-else>
+							{{ item.value }}
+						</template>
+					</b-col></b-row
+				></b-col
+			></b-row
+		>
 	</div>
 </template>
 <script>
 export default {
 	name: 'NameComponet',
-	props: ['userDispatch'],
+	props: ['getData', 'isAdmin'],
 	data() {
 		return {
 			name_tab: [
 				{
 					name: 'Surname',
-					label: 'surname',
+					label: 'last_name',
 					type: 'text',
 					value: '',
 				},
 				{
 					name: 'First Name',
-					label: 'last_name',
+					label: 'first_name',
 					type: 'text',
 					value: '',
 				},
@@ -73,16 +79,15 @@ export default {
 				},
 				{
 					name: 'Phone',
-					label: 'phone_number',
+					label: 'phone',
 					type: 'tel',
 					value: '',
 				},
 			],
-			isProfilePage: false,
 		};
 	},
 	mounted() {
-		this.name_tab = this.userDispatch;
+		this.loadData();
 	},
 	methods: {
 		emitValue() {
@@ -91,6 +96,15 @@ export default {
 				{}
 			);
 			this.$emit('userData', data);
+		},
+		loadData() {
+			this.name_tab.map((obj) => {
+				Object.keys(this.getData.citizen.user).map((item) => {
+					if (obj.label === item) {
+						obj.value = this.getData.citizen.user[item];
+					}
+				});
+			});
 		},
 	},
 };

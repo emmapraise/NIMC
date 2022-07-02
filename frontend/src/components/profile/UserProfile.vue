@@ -1,13 +1,25 @@
 <template>
 	<div class="">
 		<b-form @submit.prevent="onSubmit">
-			<name @userData="userData" :userDispatch="userDispatch" />
+			<name @userData="userData" :getData="ninInfoData" :isAdmin="isAdmin" />
 			<hr />
-			<personal-data @personalData="personalData" />
+			<personal-data
+				@personalData="personalData"
+				:isAdmin="isAdmin"
+				:getData="ninInfoData"
+			/>
 			<hr />
-			<medical-data @medicalData="medicalData" />
+			<medical-data
+				@medicalData="medicalData"
+				:isAdmin="isAdmin"
+				:getData="ninInfoData"
+			/>
 			<hr />
-			<kinship-data @kinshipData="kinshipData" />
+			<kinship-data
+				@kinshipData="kinshipData"
+				:isAdmin="isAdmin"
+				:getData="ninInfoData"
+			/>
 			<div class="float-right mt-2">
 				<b-button type="submit" variant="success">Submit</b-button>
 			</div>
@@ -21,7 +33,7 @@ import MedicalData from '../info/MedicalData.vue';
 import KinshipData from '../info/KinshipData.vue';
 export default {
 	name: 'RegisterView',
-	props: ['is_admin', 'ninInfoData'],
+	props: ['isAdmin', 'ninInfoData'],
 	components: {
 		Name,
 		PersonalData,
@@ -31,18 +43,20 @@ export default {
 	data() {
 		return {
 			data: {},
-			userDispatch: {},
+			userDispatch: {
+				user: {},
+			},
 		};
 	},
 	mounted() {
-		this.dispatchData();
+		this.loadData();
 	},
 	methods: {
+		loadData() {
+			this.userDispatch = this.ninInfoData.citizen;
+		},
 		userData(e) {
 			console.log(e);
-		},
-		dispatchData() {
-			this.userDispatch = this.ninInfoData.citizen.user;
 		},
 		personalData(e) {
 			console.log(e);
