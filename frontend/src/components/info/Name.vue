@@ -3,11 +3,11 @@
 		<b-row>
 			<b-col md="6" v-for="(item, index) in name_tab" :key="index" class="my-1">
 				<b-row>
-					<b-col md="3">
+					<b-col md="4">
 						<label :for="item.label">{{ item.name }}</label></b-col
 					>
-					<b-col md="9">
-						<div>
+					<b-col md="8">
+						<div v-if="isAdmin">
 							<div v-if="item.type === 'radio'">
 								<b-form-radio-group
 									:id="item.label"
@@ -25,25 +25,39 @@
 									v-model="item.value"
 									required
 								></b-form-input>
-							</div></div></b-col></b-row></b-col
-		></b-row>
+							</div>
+						</div>
+						<div v-else>
+							<div v-if="item.type === 'radio'">
+								<template v-if="item.value === 'F'"> Female </template>
+								<template v-else> Male </template>
+							</div>
+							<div v-else>
+								{{ item.value }}
+							</div>
+						</div>
+					</b-col></b-row
+				></b-col
+			></b-row
+		>
 	</div>
 </template>
 <script>
 export default {
 	name: 'NameComponet',
+	props: ['getData', 'isAdmin'],
 	data() {
 		return {
 			name_tab: [
 				{
 					name: 'Surname',
-					label: 'surname',
+					label: 'last_name',
 					type: 'text',
 					value: '',
 				},
 				{
 					name: 'First Name',
-					label: 'last_name',
+					label: 'first_name',
 					type: 'text',
 					value: '',
 				},
@@ -71,14 +85,18 @@ export default {
 				},
 				{
 					name: 'Phone',
-					label: 'phone_number',
+					label: 'phone',
 					type: 'tel',
 					value: '',
 				},
 			],
 		};
 	},
-	mounted() {},
+	mounted() {
+		if (!this.isAdmin) {
+			this.loadData();
+		}
+	},
 	methods: {
 		emitValue() {
 			const data = this.name_tab.reduce(
@@ -86,6 +104,17 @@ export default {
 				{}
 			);
 			this.$emit('userData', data);
+		},
+		async loadData() {
+			const user = this.getData.citizen['user'];
+			this.name_tab = await this.name_tab.map((obj) => {
+				Object.keys(user).map((itemData) => {
+					if (obj['label'] === itemData) {
+						obj['value'] = this.getData.citizen.user[itemData];
+						return obj;
+					}
+				});
+			});
 		},
 	},
 };

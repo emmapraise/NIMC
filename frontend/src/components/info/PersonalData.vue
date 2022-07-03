@@ -8,40 +8,44 @@
 				class="my-1"
 			>
 				<b-row>
-					<b-col md="3">
+					<b-col md="4">
 						<label :for="item.label">{{ item.name }}</label>
 					</b-col>
-					<b-col md="9">
-						<div v-if="item.label === 'marital_status'">
-							<b-form-select
-								:id="item.label"
-								v-model="item.value"
-								required
-								@change="emitValue"
-								:options="item.options"
-							></b-form-select>
-						</div>
-						<div v-else-if="item.label === 'home_address'">
-							<b-form-textarea
-								:id="item.label"
-								max-rows="6"
-								@input="emitValue"
-								required
-								rows="3"
-								v-model="item.value"
-							>
-							</b-form-textarea>
-						</div>
-						<div v-else>
-							<b-form-input
-								:id="item.label"
-								required
-								:type="item.type"
-								v-model="item.value"
-								@input="emitValue"
-							></b-form-input>
-						</div> </b-col
-				></b-row>
+					<b-col md="8">
+						<template v-if="isAdmin">
+							<div v-if="item.label === 'marital_status'">
+								<b-form-select
+									:id="item.label"
+									v-model="item.value"
+									required
+									@change="emitValue"
+									:options="item.options"
+								></b-form-select>
+							</div>
+							<div v-else-if="item.type === 'textarea'">
+								<b-form-textarea
+									:id="item.label"
+									max-rows="6"
+									@input="emitValue"
+									required
+									rows="3"
+									v-model="item.value"
+								>
+								</b-form-textarea>
+							</div>
+							<div v-else>
+								<b-form-input
+									:id="item.label"
+									required
+									:type="item.type"
+									v-model="item.value"
+									@input="emitValue"
+								></b-form-input>
+							</div>
+						</template>
+						<template v-else> {{ item.value }}</template>
+					</b-col></b-row
+				>
 			</b-col>
 		</b-row>
 	</div>
@@ -49,12 +53,13 @@
 <script>
 export default {
 	name: 'PersonalDataComponents',
+	props: ['getData', 'isAdmin'],
 	data() {
 		return {
 			personal_data_tab: [
 				{
 					name: 'Date of Birth',
-					label: 'dob',
+					label: 'date_of_birth',
 					type: 'date',
 					value: '',
 				},
@@ -73,7 +78,7 @@ export default {
 							text: 'Single',
 						},
 						{
-							value: 'married',
+							value: 'Married',
 							text: 'Married',
 						},
 						{
@@ -85,12 +90,17 @@ export default {
 
 				{
 					name: 'Home Address',
-					label: 'home_address',
+					label: 'address',
 					type: 'textarea',
 					value: '',
 				},
 			],
 		};
+	},
+	mounted() {
+		if (!this.isAdmin) {
+			this.loadData();
+		}
 	},
 	methods: {
 		emitValue() {
@@ -99,6 +109,15 @@ export default {
 				{}
 			);
 			this.$emit('personalData', data);
+		},
+		async loadData() {
+			this.personal_data_tab = await this.personal_data_tab.map((obj) => {
+				Object.keys(this.getData).map((item) => {
+					if (obj.label === item) {
+						obj.value = this.getData[item];
+					}
+				});
+			});
 		},
 	},
 };

@@ -12,7 +12,7 @@
 						validated="true"
 						class="was-validated"
 					> -->
-					<user-profile :ninInfoData="data" />
+					<user-profile :isAdmin="isAdmin" />
 					<!-- </b-form> -->
 				</b-card>
 			</b-col>
@@ -32,31 +32,26 @@ export default {
 	},
 	data() {
 		return {
-			is_admin: false,
+			isAdmin: false,
 			title: '',
 			data: {},
+			isLoading: true,
 		};
 	},
 	beforeCreate() {
-		this.is_admin = this.$route.name === 'enrolment' ? true : false;
+		if (!localStorage.getItem('token')) {
+			this.$router.push('/login');
+		}
+		this.isAdmin = this.$route.name === 'enrolment' ? true : false;
 	},
+	created() {},
 	mounted() {
-		this.getUserProfile();
-		this.title = this.is_admin ? 'Enrol a User' : 'User Profile';
+		// if (!this.is_admin) {
+		// 	this.getUserProfile();
+		// }
+
+		this.title = this.isAdmin ? 'Enrol a User' : 'User Profile';
 	},
-	methods: {
-		getUserProfile() {
-			const user = JSON.parse(this.$store.state.user);
-			this.axios
-				.get(`api/nininfo/${user.id}/`)
-				.then((result) => {
-					console.log(result);
-					this.data = result;
-				})
-				.catch((err) => {
-					console.log(err);
-				});
-		},
-	},
+	methods: {},
 };
 </script>
