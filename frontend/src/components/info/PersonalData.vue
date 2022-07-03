@@ -98,8 +98,9 @@ export default {
 		};
 	},
 	mounted() {
-		console.log(this.getData);
-		this.loadData();
+		if (!this.isAdmin) {
+			this.loadData();
+		}
 	},
 	methods: {
 		emitValue() {
@@ -109,9 +110,8 @@ export default {
 			);
 			this.$emit('personalData', data);
 		},
-
-		loadData() {
-			this.personal_data_tab.map((obj) => {
+		async loadData() {
+			this.personal_data_tab = await this.personal_data_tab.map((obj) => {
 				Object.keys(this.getData).map((item) => {
 					if (obj.label === item) {
 						obj.value = this.getData[item];

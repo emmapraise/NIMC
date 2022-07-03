@@ -74,7 +74,9 @@ export default {
 		};
 	},
 	mounted() {
-		this.loadData();
+		if (!this.isAdmin) {
+			this.loadData();
+		}
 	},
 	methods: {
 		emitValue() {
@@ -84,8 +86,8 @@ export default {
 			);
 			this.$emit('kinshipData', data);
 		},
-		loadData() {
-			this.kinship_tab.map((obj) => {
+		async loadData() {
+			this.kinship_tab = await this.kinship_tab.map((obj) => {
 				Object.keys(this.getData).map((item) => {
 					if (obj.label === item) {
 						obj.value = this.getData[item];

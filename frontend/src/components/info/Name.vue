@@ -7,7 +7,7 @@
 						<label :for="item.label">{{ item.name }}</label></b-col
 					>
 					<b-col md="8">
-						<template v-if="isAdmin">
+						<div v-if="isAdmin">
 							<div v-if="item.type === 'radio'">
 								<b-form-radio-group
 									:id="item.label"
@@ -26,10 +26,16 @@
 									required
 								></b-form-input>
 							</div>
-						</template>
-						<template v-else>
-							{{ item.value }}
-						</template>
+						</div>
+						<div v-else>
+							<div v-if="item.type === 'radio'">
+								<template v-if="item.value === 'F'"> Female </template>
+								<template v-else> Male </template>
+							</div>
+							<div v-else>
+								{{ item.value }}
+							</div>
+						</div>
 					</b-col></b-row
 				></b-col
 			></b-row
@@ -87,7 +93,9 @@ export default {
 		};
 	},
 	mounted() {
-		this.loadData();
+		if (!this.isAdmin) {
+			this.loadData();
+		}
 	},
 	methods: {
 		emitValue() {
@@ -97,11 +105,13 @@ export default {
 			);
 			this.$emit('userData', data);
 		},
-		loadData() {
-			this.name_tab.map((obj) => {
-				Object.keys(this.getData.citizen.user).map((item) => {
-					if (obj.label === item) {
-						obj.value = this.getData.citizen.user[item];
+		async loadData() {
+			const user = this.getData.citizen['user'];
+			this.name_tab = await this.name_tab.map((obj) => {
+				Object.keys(user).map((itemData) => {
+					if (obj['label'] === itemData) {
+						obj['value'] = this.getData.citizen.user[itemData];
+						return obj;
 					}
 				});
 			});

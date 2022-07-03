@@ -67,7 +67,9 @@ export default {
 		};
 	},
 	mounted() {
-		this.loadData();
+		if (!this.isAdmin) {
+			this.loadData();
+		}
 	},
 	methods: {
 		emitValue() {
@@ -77,11 +79,11 @@ export default {
 			);
 			this.$emit('medicalData', data);
 		},
-		loadData() {
-			this.medical_tab.map((obj) => {
+		async loadData() {
+			this.medical_tab = await this.medical_tab.map((obj) => {
 				Object.keys(this.getData).map((item) => {
-					if (obj.label === item) {
-						obj.value = this.getData[item];
+					if (obj['label'] === item) {
+						obj['value'] = this.getData[item];
 					}
 				});
 			});
