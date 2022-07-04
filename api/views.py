@@ -8,13 +8,22 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 from api import serializers
 
-from api.models import Admin, Citizen, Document, EducationDocument, NinInfo, User
+from api.models import (
+    Admin,
+    Citizen,
+    Document,
+    EducationDocument,
+    NinInfo,
+    ProfessionalDocument,
+    User,
+)
 from api.serializers import (
     AdminSerializers,
     CitizenSerializers,
     DocumentSerializers,
     EducationDocumentSerializers,
     NinInfoSerializers,
+    ProfessionalDocumentSerializer,
     UserSerializers,
 )
 
@@ -121,4 +130,10 @@ class DocumentViewSet(viewsets.ModelViewSet):
 class EducationDocumentViewSet(viewsets.ModelViewSet):
     queryset = EducationDocument.objects.all()
     serializer_class = EducationDocumentSerializers
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class ProfessionalDocumentViewSet(viewsets.ModelViewSet):
+    queryset = ProfessionalDocument.objects.all()
+    serializer_class = ProfessionalDocumentSerializer
     permission_classes = [permissions.IsAuthenticated]

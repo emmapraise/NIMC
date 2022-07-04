@@ -93,17 +93,16 @@ class NinInfoSerializers(serializers.ModelSerializer):
         exclude = ["create_at", "update_at"]
 
     def create(self, validated_data):
-        citizen = CitizenSerializers.create(self, validated_data["citizen"])
+        validated_data["citizen"] = CitizenSerializers.create(
+            self, validated_data["citizen"]
+        )
         # avatar = validated_data["citizen"]["user"]["avatar"]
         # if avatar is not None:
         #     EncodedImage.objects.create(
         #         citizen=citizen, encodings=extract_feature(avatar)
         #     )
-        if "citizen" in validated_data:
-            del validated_data["citizen"]
-        new_ninifo = validated_data
-        new_ninifo["citizen"] = citizen
-        nin_info = NinInfo.objects.create(**new_ninifo)
+
+        nin_info = NinInfo.objects.create(**validated_data)
         return nin_info
 
 
@@ -113,6 +112,10 @@ class DocumentSerializers(serializers.ModelSerializer):
     class Meta:
         model = Document
         exclude = ["create_at", "update_at"]
+
+    def create(self, validated_data):
+        document_instance = Document.objects.create(**validated_data)
+        return document_instance
 
 
 class EducationDocumentSerializers(serializers.ModelSerializer):
@@ -125,4 +128,32 @@ class EducationDocumentSerializers(serializers.ModelSerializer):
         model = EducationDocument
         exclude = ["create_at", "update_at"]
 
-        # def create(self, validated_data):
+    def create(self, validated_data):
+        validated_data["certificate"] = DocumentSerializers.create(
+            self, validated_data["certificate"]
+        )
+        validated_data["transcript"] = DocumentSerializers.create(
+            self, validated_data["transcript"]
+        )
+
+        education_document_instance = EducationDocument.objects.create(**validated_data)
+        return education_document_instance
+
+
+class ProfessionalDocumentSerializer(serializers.ModelSerializer):
+    """Serializer for all action on Professional Documents"""
+
+    document = DocumentSerializers()
+
+    class Meta:
+        model = ProfessionalDocument
+        exclude = ["create_at", "update_at"]
+
+    def create(self, validated_data):
+        validated_data["document"] = DocumentSerializers.create(
+            self, validated_data["document"]
+        )
+        professional_document_instance = ProfessionalDocument.objects.create(
+            **validated_data
+        )
+        return professional_document_instance
