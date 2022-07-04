@@ -6,7 +6,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("api", "0016_alter_user_email"),
+        ("api", "0015_alter_user_avatar"),
     ]
 
     operations = [

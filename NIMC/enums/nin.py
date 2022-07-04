@@ -6,6 +6,25 @@ DRIVERS_LICENSE = "Driver’s License"
 VOTERS_CARD = "Voter’s card (Temporary or Permanent)"
 INTERNATIONAL_PASSPORT = "Nigerian International passport"
 COO = "Certificate of Origin"
+CV = "Curriculum Vitae"
+CERTIFICATE = "Certificate"
+TRANSCRIPT = "Transcript"
+
+# Education Type
+PRIMARY_EDUCATION = "Primary Education"
+SECONDARY_EDUCATION = "Secondary Education"
+OND = "Ordinary National Diploma"
+HND = "Higher National Diploma"
+DEGREE = "Degree"
+MASTERS = "Masters"
+PHD = "Doctor of Philosophy"
+
+# Education Class type
+FIRST_CLASS = "First class"
+SECOND_CLASS_UPPER = "Second class upper"
+SECOND_CLASS_LOWER = "Second class lower"
+THIRD_CLASS = "Third class"
+PASS = "Pass"
 
 # Martial Status
 SINGLE = "Single"
@@ -32,8 +51,35 @@ def documentTypes():
         (VOTERS_CARD, "Voter’s card (Temporary or Permanent)"),
         (INTERNATIONAL_PASSPORT, "Nigerian International passport"),
         (COO, "Certificate of Origin"),
+        (CV, "Curriculum Vitae"),
+        (CERTIFICATE, "Certificate"),
+        (TRANSCRIPT, "Transcript"),
     ]
 
+    return types
+
+
+def education_type():
+    types = [
+        (PRIMARY_EDUCATION, "Primary Education"),
+        (SECONDARY_EDUCATION, "Secondary Education"),
+        (OND, "Ordinary National Diploma"),
+        (HND, "Higher National Diploma"),
+        (DEGREE, "Degree"),
+        (MASTERS, "Masters"),
+        (PHD, "Doctor of Philosophy"),
+    ]
+    return types
+
+
+def education_class_type():
+    types = [
+        (FIRST_CLASS, "First Class"),
+        (SECOND_CLASS_UPPER, "Second Class Upper"),
+        (SECOND_CLASS_LOWER, "Second Class Lower"),
+        (THIRD_CLASS, "Third Class"),
+        (PASS, "Pass"),
+    ]
     return types
 
 

@@ -154,3 +154,4 @@ pnpm-debug.log*
 *.png
 *.jpg
 *jpeg
+media/

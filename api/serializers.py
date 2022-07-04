@@ -105,3 +105,24 @@ class NinInfoSerializers(serializers.ModelSerializer):
         new_ninifo["citizen"] = citizen
         nin_info = NinInfo.objects.create(**new_ninifo)
         return nin_info
+
+
+class DocumentSerializers(serializers.ModelSerializer):
+    """Serializer for all actions on Documents"""
+
+    class Meta:
+        model = Document
+        exclude = ["create_at", "update_at"]
+
+
+class EducationDocumentSerializers(serializers.ModelSerializer):
+    """Serializer for all action on Education Documents"""
+
+    certificate = DocumentSerializers()
+    transcript = DocumentSerializers()
+
+    class Meta:
+        model = EducationDocument
+        exclude = ["create_at", "update_at"]
+
+        # def create(self, validated_data):
