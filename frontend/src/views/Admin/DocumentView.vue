@@ -11,7 +11,15 @@
 						@submit.prevent="onSubmit"
 						validated="true"
 						class="was-validated"
+						v-if="!isLoading"
 					>
+						<b-form-input list="citizen-list" v-model="result"></b-form-input>
+						<datalist id="citizen-list">
+							<option v-for="(item, index) in results" :key="index">
+								{{ item.user.first_name }} {{ item.user.last_name }} (
+								{{ item.user.nin }})
+							</option>
+						</datalist>
 						<upload-document-vue />
 					</b-form>
 				</b-card>
@@ -31,7 +39,28 @@ export default {
 		UploadDocumentVue,
 	},
 	data() {
-		return {};
+		return {
+			results: [],
+			isLoading: true,
+			result: '',
+		};
+	},
+	created() {
+		this.getCitizen();
+	},
+	methods: {
+		async getCitizen() {
+			await this.axios
+				.get(`api/citizen/`)
+				.then(({ data }) => {
+					console.log(data.results);
+					this.results = data.results;
+					this.isLoading = false;
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		},
 	},
 };
 </script>
