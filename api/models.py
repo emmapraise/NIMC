@@ -132,19 +132,24 @@ class Document(common):
     path = models.FileField(upload_to="NIMC/static/documents")
 
     def __str__(self):
-        return self.type
+        return f"{self.nin_info.citizen.user} {self.type} document"
 
 
 class EducationDocument(common):
     """This is the Model to store all Educational Documents"""
 
-    document = models.ForeignKey(Document, on_delete=models.CASCADE)
     highest_education = models.CharField(max_length=100, choices=education_type())
     year_of_graduation = models.CharField(max_length=4)
     class_of_graduation = models.CharField(
         max_length=20, choices=education_class_type()
     )
     country_of_graduation = models.CharField(max_length=20)
+    certificate = models.ForeignKey(
+        Document, on_delete=models.CASCADE, related_name="certificate"
+    )
+    transcript = models.ForeignKey(
+        Document, on_delete=models.CASCADE, related_name="transcript"
+    )
 
     def __str__(self):
         return self.highest_education

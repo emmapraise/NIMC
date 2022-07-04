@@ -113,3 +113,16 @@ class DocumentSerializers(serializers.ModelSerializer):
     class Meta:
         model = Document
         exclude = ["create_at", "update_at"]
+
+
+class EducationDocumentSerializers(serializers.ModelSerializer):
+    """Serializer for all action on Education Documents"""
+
+    certificate = DocumentSerializers()
+    transcript = DocumentSerializers()
+
+    class Meta:
+        model = EducationDocument
+        exclude = ["create_at", "update_at"]
+
+        # def create(self, validated_data):
