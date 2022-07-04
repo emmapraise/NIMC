@@ -21,6 +21,9 @@
 						drop-placeholder="Drop file here..."
 					></b-form-file>
 				</div>
+				<div v-else-if="item.type === 'combobox'">
+					<user-combobox-vue :citizens="citizens" />
+				</div>
 				<div v-else>
 					<b-form-input
 						:id="item.label"
@@ -34,11 +37,20 @@
 	</div>
 </template>
 <script>
+import UserComboboxVue from '../combobox/UserCombobox.vue';
 export default {
 	name: 'ProfessionalDocument',
+	props: ['citizens'],
+	components: { UserComboboxVue },
 	data() {
 		return {
 			professional_tab: [
+				{
+					name: 'User',
+					label: 'citizen',
+					type: 'combobox',
+					value: '',
+				},
 				{
 					name: 'Name',
 					label: 'name',
