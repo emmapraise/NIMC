@@ -2,7 +2,14 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.base_user import BaseUserManager
 
-from NIMC.enums.nin import bloodGroup, documentTypes, maritalStatus, genotype
+from NIMC.enums.nin import (
+    bloodGroup,
+    documentTypes,
+    education_class_type,
+    education_type,
+    maritalStatus,
+    genotype,
+)
 from NIMC.enums.admin import admin_types, approval_status
 from NIMC.enums import admin
 
@@ -52,7 +59,7 @@ class User(AbstractUser):
     middle_name = models.CharField(max_length=25, blank=True, null=True)
     nin = models.CharField(max_length=20, unique=True)
     email = models.EmailField(unique=True)
-    avatar = models.ImageField(null=True, blank=True, upload_to="NIMC/data/")
+    avatar = models.ImageField(null=True, blank=True, upload_to="NIMC/static/images")
     gender = models.CharField(choices=GENDER_CHOICES, max_length=1)
     is_citizen = models.BooleanField(default=False, null=True, blank=True)
     is_admin = models.BooleanField(default=False, null=True, blank=True)
@@ -97,7 +104,7 @@ class NinInfo(common):
     """This is model to add NIN Information of the user"""
 
     citizen = models.ForeignKey(Citizen, on_delete=models.CASCADE)
-    date_of_birth = models.DateField()
+    date_of_birth = models.DateField(blank=True, null=True)
     state_of_origin = models.CharField(max_length=30)
     address = models.TextField()
     marital_status = models.CharField(
@@ -122,10 +129,36 @@ class Document(common):
 
     nin_info = models.ForeignKey(NinInfo, on_delete=models.CASCADE)
     type = models.CharField(max_length=100, choices=documentTypes())
-    path = models.FileField(upload_to="documents/")
+    path = models.FileField(upload_to="NIMC/static/documents")
 
     def __str__(self):
         return self.type
+
+
+class EducationDocument(common):
+    """This is the Model to store all Educational Documents"""
+
+    document = models.ForeignKey(Document, on_delete=models.CASCADE)
+    highest_education = models.CharField(max_length=100, choices=education_type())
+    year_of_graduation = models.CharField(max_length=4)
+    class_of_graduation = models.CharField(
+        max_length=20, choices=education_class_type()
+    )
+    country_of_graduation = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.highest_education
+
+
+class ProfessionalDocument(common):
+    """This is the model that stores all Professional Documents"""
+
+    document = models.ForeignKey(Document, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    year_of_achievement = models.CharField(max_length=4)
+
+    def __str__(self):
+        return self.name
 
 
 class EncodedImage(common):
