@@ -7,11 +7,7 @@
 			</b-col>
 			<b-col md="10">
 				<b-card title="Upload Document" class="">
-					<b-form
-						@submit.prevent="onSubmit"
-						validated="true"
-						class="was-validated"
-					>
+					<b-form @submit.prevent="onSubmit">
 						<upload-document-vue />
 					</b-form>
 				</b-card>
@@ -31,7 +27,12 @@ export default {
 		UploadDocumentVue,
 	},
 	data() {
-		return {};
+		return {
+			results: [],
+			result: '',
+		};
 	},
+	created() {},
+	methods: {},
 };
 </script>

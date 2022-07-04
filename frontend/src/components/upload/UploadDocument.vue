@@ -1,19 +1,32 @@
 <template>
 	<div>
-		<b-tabs content-class="mt-3 w-75 mx-auto" justified v-model="tabIndex">
+		<b-tabs
+			content-class="mt-3 w-75 mx-auto"
+			justified
+			v-model="tabIndex"
+			v-if="!isLoading"
+		>
 			<b-tab title="Education" active>
-				<education-vue />
+				<education-vue :citizens="results" />
 			</b-tab>
 			<b-tab title="CV">
-				<cv-vue />
+				<cv-vue :citizens="results" />
 			</b-tab>
 			<b-tab title="Professional Document">
-				<professional-document-vue />
+				<professional-document-vue :citizens="results" />
 			</b-tab>
 			<b-tab title="Certificates">
-				<certificate-document-vue />
+				<certificate-document-vue :citizens="results" />
 			</b-tab>
 		</b-tabs>
+		<div v-else class="d-flex justify-content-center mb-3">
+			<b-spinner
+				type="grow"
+				variant="info"
+				style="width: 3rem; height: 3rem"
+				label="loading"
+			/>
+		</div>
 	</div>
 </template>
 <script>
@@ -30,7 +43,28 @@ export default {
 		CertificateDocumentVue,
 	},
 	data() {
-		return {};
+		return {
+			results: [],
+			isLoading: true,
+			tabIndex: null,
+		};
+	},
+	created() {
+		this.getCitizen();
+	},
+	methods: {
+		async getCitizen() {
+			await this.axios
+				.get(`api/citizen/`)
+				.then(({ data }) => {
+					console.log(data.results);
+					this.results = data.results;
+					this.isLoading = false;
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		},
 	},
 };
 </script>
