@@ -121,7 +121,7 @@ class NinInfo(common):
     occupation = models.CharField(max_length=100)
 
     def __str__(self):
-        return f"({self.user}) NIN information"
+        return f"{self.citizen.user} with NIN {self.citizen.user.nin}"
 
 
 class Document(common):
