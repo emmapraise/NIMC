@@ -11,6 +11,7 @@ router.register(r"admin", views.AdminViewSet)
 router.register(r"nininfo", views.NinInfoViewSet)
 router.register(r"document", views.DocumentViewSet)
 router.register(r"education-document", views.EducationDocumentViewSet)
+router.register(r"professional-document", views.ProfessionalDocumentViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),

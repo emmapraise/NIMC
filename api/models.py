@@ -145,10 +145,18 @@ class EducationDocument(common):
     )
     country_of_graduation = models.CharField(max_length=20)
     certificate = models.ForeignKey(
-        Document, on_delete=models.CASCADE, related_name="certificate"
+        Document,
+        on_delete=models.CASCADE,
+        related_name="certificate",
+        blank=True,
+        null=True,
     )
     transcript = models.ForeignKey(
-        Document, on_delete=models.CASCADE, related_name="transcript"
+        Document,
+        on_delete=models.CASCADE,
+        related_name="transcript",
+        null=True,
+        blank=True,
     )
 
     def __str__(self):
