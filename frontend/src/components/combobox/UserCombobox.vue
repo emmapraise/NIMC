@@ -7,17 +7,20 @@
 		></b-form-input>
 
 		<datalist id="citizen-list">
-			<option v-for="(item, index) in citizens" :key="index">
-				{{ item.user.nin }} {{ item.user.first_name }}
-				{{ item.user.last_name }}
+			<option v-for="(item, index) in nininfo" :key="index">
+				{{ item.citizen.user.nin }} {{ item.citizen.user.first_name }}
+				{{ item.citizen.user.last_name }}
 			</option>
 		</datalist>
+		<div style="display: none">
+			{{ nininfo }}
+		</div>
 	</div>
 </template>
 <script>
 export default {
 	name: 'UserCombobox',
-	props: ['citizens'],
+	props: ['nininfo'],
 	data() {
 		return {
 			result: '',
@@ -28,7 +31,8 @@ export default {
 	methods: {
 		comboboxEvent() {
 			const nin = this.result.split(' ')[0];
-			this.user = this.citizens.find((o) => o.user.nin === nin);
+			this.user = this.nininfo.find((obj) => obj.citizen.user.nin === nin);
+			this.$emit('combobox', this.user);
 		},
 	},
 };

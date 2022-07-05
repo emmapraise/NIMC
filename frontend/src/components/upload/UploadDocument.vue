@@ -10,7 +10,7 @@
 				<education-vue :citizens="results" />
 			</b-tab>
 			<b-tab title="CV">
-				<cv-vue :citizens="results" />
+				<cv-vue :nininfo="results" />
 			</b-tab>
 			<b-tab title="Professional Document">
 				<professional-document-vue :citizens="results" />
@@ -55,9 +55,9 @@ export default {
 	methods: {
 		async getCitizen() {
 			await this.axios
-				.get(`api/citizen/`)
+				.get(`api/nininfo/`)
 				.then(({ data }) => {
-					console.log(data.results);
+					console.log('ninfo', data.results);
 					this.results = data.results;
 					this.isLoading = false;
 				})
