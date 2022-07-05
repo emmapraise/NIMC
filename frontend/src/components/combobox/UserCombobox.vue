@@ -12,9 +12,6 @@
 				{{ item.citizen.user.last_name }}
 			</option>
 		</datalist>
-		<div style="display: none">
-			{{ nininfo }}
-		</div>
 	</div>
 </template>
 <script>

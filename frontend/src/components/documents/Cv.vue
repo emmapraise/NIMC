@@ -9,6 +9,7 @@
 		>
 			<p>Document Uploaded Successfully</p>
 		</b-alert>
+
 		<b-form @submit.prevent="onSubmit">
 			<b-row v-for="(item, index) in cv_tab" :key="index" class="my-2">
 				<b-col sm="3">
