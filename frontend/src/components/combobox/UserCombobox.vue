@@ -29,7 +29,6 @@ export default {
 		comboboxEvent() {
 			const nin = this.result.split(' ')[0];
 			this.user = this.citizens.find((o) => o.user.nin === nin);
-			console.log(this.user);
 		},
 	},
 };
