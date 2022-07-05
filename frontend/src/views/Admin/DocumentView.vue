@@ -7,9 +7,7 @@
 			</b-col>
 			<b-col md="10">
 				<b-card title="Upload Document" class="">
-					<b-form @submit.prevent="onSubmit">
-						<upload-document-vue />
-					</b-form>
+					<upload-document-vue />
 				</b-card>
 			</b-col>
 		</b-row>

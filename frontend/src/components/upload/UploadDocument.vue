@@ -7,16 +7,16 @@
 			v-if="!isLoading"
 		>
 			<b-tab title="Education" active>
-				<education-vue :citizens="results" />
+				<education-vue :nininfo="results" />
 			</b-tab>
 			<b-tab title="CV">
-				<cv-vue :citizens="results" />
+				<cv-vue :nininfo="results" />
 			</b-tab>
 			<b-tab title="Professional Document">
-				<professional-document-vue :citizens="results" />
+				<professional-document-vue :nininfo="results" />
 			</b-tab>
 			<b-tab title="Certificates">
-				<certificate-document-vue :citizens="results" />
+				<certificate-document-vue :nininfo="results" />
 			</b-tab>
 		</b-tabs>
 		<div v-else class="d-flex justify-content-center mb-3">
@@ -55,9 +55,8 @@ export default {
 	methods: {
 		async getCitizen() {
 			await this.axios
-				.get(`api/citizen/`)
+				.get(`api/nininfo/`)
 				.then(({ data }) => {
-					console.log(data.results);
 					this.results = data.results;
 					this.isLoading = false;
 				})
