@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from NIMC.enums import nin
 
 # from NIMC.helpers.face_reg import extract_feature
 from NIMC.helpers.nin import generateNin
@@ -129,9 +130,12 @@ class EducationDocumentSerializers(serializers.ModelSerializer):
         exclude = ["create_at", "update_at"]
 
     def create(self, validated_data):
+        validated_data["certificate"]["type"] = nin.CERTIFICATE
         validated_data["certificate"] = DocumentSerializers.create(
             self, validated_data["certificate"]
         )
+        validated_data["transcript"]["type"] = nin.TRANSCRIPT
+
         validated_data["transcript"] = DocumentSerializers.create(
             self, validated_data["transcript"]
         )
@@ -150,6 +154,7 @@ class ProfessionalDocumentSerializer(serializers.ModelSerializer):
         exclude = ["create_at", "update_at"]
 
     def create(self, validated_data):
+        validated_data["document"]["type"] = nin.CERTIFICATE
         validated_data["document"] = DocumentSerializers.create(
             self, validated_data["document"]
         )

@@ -14,7 +14,7 @@
 					></b-form-file>
 				</div>
 				<div v-else-if="item.type === 'combobox'">
-					<user-combobox-vue :citizens="citizens" />
+					<user-combobox-vue :nininfo="nininfo" />
 				</div>
 				<div v-else>
 					<b-form-input
@@ -32,14 +32,14 @@
 import UserComboboxVue from '../combobox/UserCombobox.vue';
 export default {
 	namee: 'CertificateDocument',
-	props: ['citizens'],
+	props: ['nininfo'],
 	components: { UserComboboxVue },
 	data() {
 		return {
 			certificate: [
 				{
 					name: 'User',
-					label: 'citizen',
+					label: 'nin_info',
 					type: 'combobox',
 					value: '',
 				},
