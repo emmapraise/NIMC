@@ -5,7 +5,6 @@ import os
 
 
 def extract_feature(image_path):
-    # image_path = "frontend/src/assets/images/user/Remi.JPG"
     # image = cv2.imread(image_path)
     # image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     image = frc.load_image_file(image_path)

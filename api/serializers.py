@@ -162,3 +162,28 @@ class ProfessionalDocumentSerializer(serializers.ModelSerializer):
             **validated_data
         )
         return professional_document_instance
+
+
+class CertificateDocumentSeriaizer(serializers.ModelSerializer):
+    """Serializer for all action on Certificate Documents"""
+
+    certificate = DocumentSerializers()
+    transcript = DocumentSerializers()
+
+    class Meta:
+        model = CertificateDocument
+        exclude = ["create_at", "update_at"]
+
+    def create(self, validated_data):
+        validated_data["certificate"]["type"] = nin.CERTIFICATE
+        validated_data["certificate"] = DocumentSerializers.create(
+            self, validated_data["certificate"]
+        )
+
+        validated_data["transcript"]["type"] = nin.TRANSCRIPT
+        validated_data["transcript"] = DocumentSerializers.create(
+            self, validated_data["transcript"]
+        )
+
+        certificate_instance = CertificateDocument.objects.create(**validated_data)
+        return certificate_instance
