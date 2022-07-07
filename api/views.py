@@ -10,6 +10,7 @@ from api import serializers
 
 from api.models import (
     Admin,
+    CertificateDocument,
     Citizen,
     Document,
     EducationDocument,
@@ -19,6 +20,7 @@ from api.models import (
 )
 from api.serializers import (
     AdminSerializers,
+    CertificateDocumentSeriaizer,
     CitizenSerializers,
     DocumentSerializers,
     EducationDocumentSerializers,
@@ -136,4 +138,10 @@ class EducationDocumentViewSet(viewsets.ModelViewSet):
 class ProfessionalDocumentViewSet(viewsets.ModelViewSet):
     queryset = ProfessionalDocument.objects.all()
     serializer_class = ProfessionalDocumentSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class CertificateDocumentViewSet(viewsets.ModelViewSet):
+    queryset = CertificateDocument.objects.all()
+    serializer_class = CertificateDocumentSeriaizer
     permission_classes = [permissions.IsAuthenticated]
