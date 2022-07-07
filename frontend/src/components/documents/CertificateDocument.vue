@@ -91,11 +91,11 @@ export default {
 			);
 			console.log(this.ninInfo);
 			const formData = new FormData();
-			formData.append('certificate.nin_info', parseInt(this.nininfo.id));
+			formData.append('certificate.nin_info', this.ninInfo.id);
 			formData.append('certificate.path', data.upload_cert);
 			formData.append('certificate.type', 'Certificate');
 
-			formData.append('transcript.nin_info', parseInt(this.ninInfo.id));
+			formData.append('transcript.nin_info', this.ninInfo.id);
 			formData.append('transcript.path', data.upload_transcript);
 			formData.append('transcript.type', 'Transcript');
 
