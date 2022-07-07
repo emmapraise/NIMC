@@ -186,7 +186,7 @@ class CertificateDocument(common):
     )
 
     def __str__(self):
-        return f"Certificate Document for {self.certificate.nin_info.citizen.user}"
+        return f"Certificate Document for "
 
 
 class EncodedImage(common):
