@@ -53,6 +53,11 @@ const routes = [
     component: () => import('../views/Admin/DocumentView.vue')
   },
   {
+    path: '/user/documents',
+    name: 'documents',
+    component: () => import('../views/Admin/DocumentView.vue')
+  },
+  {
     path: '/admin/requests',
     name: 'requests',
     component: () => import('../views/Admin/DocumentView.vue')

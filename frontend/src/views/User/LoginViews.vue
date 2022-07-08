@@ -83,7 +83,7 @@ export default {
 					localStorage.setItem('user', user);
 					user.is_admin
 						? this.$router.push({ name: 'enrolment' })
-						: this.$router.push({ name: 'make-request' });
+						: this.$router.push({ name: 'user_profile' });
 				})
 				.catch((err) => {
 					this.isError = true;

@@ -18,7 +18,7 @@ export default new Vuex.Store({
             } else {
                 state.token = ''
                 state.isAuthenticated = false
-                state.user={}
+                state.user= {}
             }
         },
         setToken(state, token, user){
