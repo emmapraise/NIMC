@@ -63,19 +63,16 @@ export default {
 	},
 	mounted() {},
 	methods: {
-		getUserProfile() {
-			const user = JSON.parse(this.$store.state.user);
-			this.axios
+		async getUserProfile() {
+			const user = JSON.parse(localStorage.getItem('user'));
+			await this.axios
 				.get(`api/nininfo/${user.id}/`)
 				.then(({ data }) => {
-					console.log('data', data);
 					this.data = data;
 
 					this.isLoading = false;
 				})
-				.catch((err) => {
-					console.log(err);
-				});
+				.catch(() => {});
 		},
 		userData(e) {
 			console.log(e);

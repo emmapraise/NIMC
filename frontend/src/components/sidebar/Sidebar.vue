@@ -59,12 +59,12 @@ export default {
 					path: '/user/profile',
 				},
 				{
-					name: 'Upload Document',
-					label: 'upload_document',
-					path: '/admin/upload',
+					name: 'Documents',
+					label: 'documents',
+					path: '/user/documents',
 				},
 				{
-					name: 'Make Update Request',
+					name: 'Update Request',
 					label: 'make-request',
 					path: '/user/make-request',
 				},
