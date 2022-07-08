@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
     operations = [
         migrations.RenameField(
             model_name="nininfo",
-            old_name="date_of_brith",
+            old_name="date_of_birth",
             new_name="date_of_birth",
         ),
     ]
