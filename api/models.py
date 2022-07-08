@@ -139,16 +139,25 @@ class EducationDocument(common):
     """This is the Model to store all Educational Documents"""
 
     highest_education = models.CharField(max_length=100, choices=education_type())
+    name_of_school = models.CharField(max_length=200, blank=True, null=True)
     year_of_graduation = models.CharField(max_length=4)
     class_of_graduation = models.CharField(
         max_length=20, choices=education_class_type()
     )
     country_of_graduation = models.CharField(max_length=20)
     certificate = models.ForeignKey(
-        Document, on_delete=models.CASCADE, related_name="certificate"
+        Document,
+        on_delete=models.CASCADE,
+        related_name="education_certificate",
+        blank=True,
+        null=True,
     )
     transcript = models.ForeignKey(
-        Document, on_delete=models.CASCADE, related_name="transcript"
+        Document,
+        on_delete=models.CASCADE,
+        related_name="education_transcript",
+        null=True,
+        blank=True,
     )
 
     def __str__(self):
@@ -164,6 +173,20 @@ class ProfessionalDocument(common):
 
     def __str__(self):
         return self.name
+
+
+class CertificateDocument(common):
+    """This is the model that stores all Certificate Documents"""
+
+    certificate = models.ForeignKey(
+        Document, on_delete=models.CASCADE, related_name="certificate"
+    )
+    transcript = models.ForeignKey(
+        Document, on_delete=models.CASCADE, related_name="transcript"
+    )
+
+    def __str__(self):
+        return f"Certificate Document for "
 
 
 class EncodedImage(common):
