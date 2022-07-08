@@ -64,7 +64,7 @@ class User(AbstractUser):
     is_citizen = models.BooleanField(default=False, null=True, blank=True)
     is_admin = models.BooleanField(default=False, null=True, blank=True)
 
-    # USERNAME_FIELD = "email"
+    USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
     objects = UserManager()
