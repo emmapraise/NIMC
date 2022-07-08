@@ -148,6 +148,9 @@ export default {
 			],
 		};
 	},
+	mounted() {
+		this.getDocument();
+	},
 	methods: {
 		countDownChanged(dismissCountDown) {
 			this.dismissCountDown = dismissCountDown;
@@ -189,6 +192,17 @@ export default {
 					this.$router.go();
 				})
 				.catch(() => {});
+		},
+		async getDocument() {
+			const user = JSON.parse(localStorage.getItem('user'));
+			await this.axios
+				.get(`api/education-document/${user.id}/`)
+				.then((result) => {
+					console.log(result);
+				})
+				.catch((err) => {
+					console.log(err);
+				});
 		},
 	},
 };
