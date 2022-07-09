@@ -90,7 +90,6 @@ export default {
 				(acc, cur) => ({ ...acc, [cur.label]: cur.value }),
 				{}
 			);
-			console.log(this.ninInfo);
 			const formData = new FormData();
 			formData.append('certificate.nin_info', this.ninInfo.id);
 			formData.append('certificate.path', data.upload_cert);

@@ -11,17 +11,24 @@
 			</div>
 			<template v-else>
 				<b-col sm="3">
-					<label for="certificate"> Certificate</label>
+					<label for="name">Name</label>
 				</b-col>
 				<b-col sm="9">
-					<a :href="data.certificate.path" target="blank"> View Certificate</a>
+					<p>{{ data.name }}</p>
 				</b-col>
 
 				<b-col sm="3">
-					<label for="transcript"> Transcript</label>
+					<label for="name">Year of Achievement</label>
 				</b-col>
 				<b-col sm="9">
-					<a :href="data.transcript.path" target="blank"> View Transcript</a>
+					<p>{{ data.year_of_achievement }}</p>
+				</b-col>
+
+				<b-col sm="3">
+					<label for="name">Certification</label>
+				</b-col>
+				<b-col sm="9">
+					<a :href="data.document.path" target="blank">View Certification</a>
 				</b-col>
 			</template>
 		</b-row>
@@ -29,7 +36,7 @@
 </template>
 <script>
 export default {
-	name: 'GetCertificate',
+	name: 'GetProfessionalDocument',
 	props: ['user'],
 	data() {
 		return {
@@ -42,8 +49,9 @@ export default {
 	},
 	methods: {
 		async getDocument() {
+			const user = JSON.parse(localStorage.getItem('user'));
 			await this.axios
-				.get(`api/certificate/${this.user.id}/`)
+				.get(`api/professional-document/${user.id}/`)
 				.then(({ data }) => {
 					this.data = data;
 					this.isLoading = false;
