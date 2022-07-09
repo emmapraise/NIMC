@@ -16,7 +16,12 @@
 				<professional-document-vue :nininfo="results" />
 			</b-tab>
 			<b-tab title="Certificates">
-				<certificate-document-vue :nininfo="results" />
+				<template v-if="user.is_admin">
+					<upload-certificate-vue :nininfo="results" />
+				</template>
+				<template v-else>
+					<get-certificate-vue :user="user" />
+				</template>
 			</b-tab>
 		</b-tabs>
 		<div v-else class="d-flex justify-content-center mb-3">
@@ -32,7 +37,8 @@
 <script>
 import EducationVue from '../documents/Education.vue';
 import CvVue from '../documents/Cv.vue';
-import CertificateDocumentVue from '../documents/CertificateDocument.vue';
+import UploadCertificateVue from '../documents/certificate/UploadCertificate.vue';
+import GetCertificateVue from '../documents/certificate/GetCertificate.vue';
 import ProfessionalDocumentVue from '../documents/ProfessionalDocument.vue';
 export default {
 	name: 'UploadDocumentComponent',
@@ -40,16 +46,19 @@ export default {
 		EducationVue,
 		CvVue,
 		ProfessionalDocumentVue,
-		CertificateDocumentVue,
+		UploadCertificateVue,
+		GetCertificateVue,
 	},
 	data() {
 		return {
 			results: [],
 			isLoading: true,
 			tabIndex: null,
+			user: {},
 		};
 	},
 	created() {
+		this.user = JSON.parse(localStorage.getItem('user'));
 		this.getCitizen();
 	},
 	methods: {

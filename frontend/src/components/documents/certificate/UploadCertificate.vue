@@ -32,7 +32,8 @@
 							:id="item.label"
 							:type="item.type"
 							required
-						></b-form-input></div></b-col
+						></b-form-input>
+					</div> </b-col
 			></b-row>
 			<div class="float-right mt-2">
 				<b-button variant="success" type="submit">Submit</b-button>
@@ -41,9 +42,9 @@
 	</div>
 </template>
 <script>
-import UserComboboxVue from '../combobox/UserCombobox.vue';
+import UserComboboxVue from '../../combobox/UserCombobox.vue';
 export default {
-	namee: 'CertificateDocument',
+	name: 'CertificateDocument',
 	props: ['nininfo'],
 	components: { UserComboboxVue },
 	data() {

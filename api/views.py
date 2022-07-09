@@ -183,6 +183,7 @@ class CertificateDocumentViewSet(viewsets.ModelViewSet):
 
     def retrieve(self, request, pk=None):
         serializer = self.get_serializer(data=request.data)
+        print(request)
         if serializer.is_valid:
             certificate_instance = get_object_or_404(
                 CertificateDocument, certificate__nin_info__citizen__user=request.user
