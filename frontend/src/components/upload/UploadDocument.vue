@@ -7,16 +7,37 @@
 			v-if="!isLoading"
 		>
 			<b-tab title="Education" active>
-				<education-vue :nininfo="results" />
+				<template v-if="user.is_admin">
+					<upload-education-vue :nininfo="results"
+				/></template>
+				<template v-else> <get-education-vue :user="user" /></template>
 			</b-tab>
+
 			<b-tab title="CV">
-				<cv-vue :nininfo="results" />
+				<template v-if="user.is_admin">
+					<upload-cv-vue :nininfo="results" />
+				</template>
+				<template v-else>
+					<get-cv-vue :user="user" />
+				</template>
 			</b-tab>
+
 			<b-tab title="Professional Document">
-				<professional-document-vue :nininfo="results" />
+				<template v-if="user.is_admin">
+					<upload-professional :nininfo="results" />
+				</template>
+				<template v-else>
+					<get-professional-vue :user="user" />
+				</template>
 			</b-tab>
+
 			<b-tab title="Certificates">
-				<certificate-document-vue :nininfo="results" />
+				<template v-if="user.is_admin">
+					<upload-certificate-vue :nininfo="results" />
+				</template>
+				<template v-else>
+					<get-certificate-vue :user="user" />
+				</template>
 			</b-tab>
 		</b-tabs>
 		<div v-else class="d-flex justify-content-center mb-3">
@@ -30,26 +51,36 @@
 	</div>
 </template>
 <script>
-import EducationVue from '../documents/Education.vue';
-import CvVue from '../documents/Cv.vue';
-import CertificateDocumentVue from '../documents/CertificateDocument.vue';
-import ProfessionalDocumentVue from '../documents/ProfessionalDocument.vue';
+import UploadEducationVue from '../documents/education/UploadEducation.vue';
+import GetEducationVue from '../documents/education/GetEducation.vue';
+import UploadCvVue from '../documents/cv/UploadCv.vue';
+import GetCvVue from '../documents/cv/GetCV.vue';
+import UploadCertificateVue from '../documents/certificate/UploadCertificate.vue';
+import GetCertificateVue from '../documents/certificate/GetCertificate.vue';
+import UploadProfessional from '../documents/professional/UploadProfessional.vue';
+import GetProfessionalVue from '../documents/professional/GetProfessional.vue';
 export default {
 	name: 'UploadDocumentComponent',
 	components: {
-		EducationVue,
-		CvVue,
-		ProfessionalDocumentVue,
-		CertificateDocumentVue,
+		UploadEducationVue,
+		GetEducationVue,
+		UploadCvVue,
+		GetCvVue,
+		UploadProfessional,
+		UploadCertificateVue,
+		GetCertificateVue,
+		GetProfessionalVue,
 	},
 	data() {
 		return {
 			results: [],
 			isLoading: true,
 			tabIndex: null,
+			user: {},
 		};
 	},
 	created() {
+		this.user = JSON.parse(localStorage.getItem('user'));
 		this.getCitizen();
 	},
 	methods: {

@@ -9,25 +9,14 @@
 		>
 			<p>Document Uploaded Successfully</p>
 		</b-alert>
+
 		<b-form @submit.prevent="onSubmit">
-			<b-row
-				v-for="(item, index) in professional_tab"
-				:key="index"
-				class="my-2"
-			>
+			<b-row v-for="(item, index) in certificate" :key="index" class="my-2">
 				<b-col sm="3">
 					<label :for="item.label">{{ item.name }}</label></b-col
 				>
 				<b-col sm="9">
-					<div v-if="item.type === 'select'">
-						<b-form-select
-							:id="item.label"
-							v-model="item.value"
-							required
-							:options="item.options"
-						></b-form-select>
-					</div>
-					<div v-else-if="item.type === 'file'">
+					<div v-if="item.type === 'file'">
 						<b-form-file
 							v-model="item.value"
 							:state="Boolean(item.value)"
@@ -42,9 +31,9 @@
 						<b-form-input
 							:id="item.label"
 							:type="item.type"
-							v-model="item.value"
 							required
-						></b-form-input></div></b-col
+						></b-form-input>
+					</div> </b-col
 			></b-row>
 			<div class="float-right mt-2">
 				<b-button variant="success" type="submit">Submit</b-button>
@@ -53,9 +42,9 @@
 	</div>
 </template>
 <script>
-import UserComboboxVue from '../combobox/UserCombobox.vue';
+import UserComboboxVue from '../../combobox/UserCombobox.vue';
 export default {
-	name: 'ProfessionalDocument',
+	name: 'CertificateDocument',
 	props: ['nininfo'],
 	components: { UserComboboxVue },
 	data() {
@@ -64,28 +53,22 @@ export default {
 			dismissCountDown: 0,
 			showDismissibleAlert: false,
 			ninInfo: {},
-			professional_tab: [
+			certificate: [
 				{
 					name: 'User',
 					label: 'nin_info',
 					type: 'combobox',
+					value: '',
+				},
+				{
+					name: 'Upload Certificate',
+					label: 'upload_cert',
+					type: 'file',
 					value: null,
 				},
 				{
-					name: 'Name',
-					label: 'name',
-					type: 'text',
-					value: '',
-				},
-				{
-					name: 'Year of Achievement',
-					label: 'year',
-					type: 'text',
-					value: '',
-				},
-				{
-					name: 'Upload proof of certification',
-					label: 'proof_of_cert',
+					name: 'Upload Transcript',
+					label: 'upload_transcript',
 					type: 'file',
 					value: null,
 				},
@@ -103,20 +86,21 @@ export default {
 			this.ninInfo = value;
 		},
 		async onSubmit() {
-			const data = this.professional_tab.reduce(
+			const data = this.certificate.reduce(
 				(acc, cur) => ({ ...acc, [cur.label]: cur.value }),
 				{}
 			);
-
 			const formData = new FormData();
-			formData.append('name', data.name);
-			formData.append('year_of_achievement', data.year);
-			formData.append('document.nin_info', this.ninInfo.id);
-			formData.append('document.path', data.proof_of_cert);
-			formData.append('document.type', 'Certificate');
+			formData.append('certificate.nin_info', this.ninInfo.id);
+			formData.append('certificate.path', data.upload_cert);
+			formData.append('certificate.type', 'Certificate');
+
+			formData.append('transcript.nin_info', this.ninInfo.id);
+			formData.append('transcript.path', data.upload_transcript);
+			formData.append('transcript.type', 'Transcript');
 
 			await this.axios
-				.post(`api/professional-document/`, formData, {
+				.post(`api/certificate/`, formData, {
 					headers: {
 						'content-type': 'multipart/form-data',
 					},
