@@ -24,7 +24,7 @@ export default {
 	props: ['user'],
 	data() {
 		return {
-			isLoading: true,
+			isLoading: false,
 			data: {},
 		};
 	},
@@ -36,13 +36,10 @@ export default {
 			await this.axios
 				.get(`api/cv/${this.user.id}/`)
 				.then(({ data }) => {
-					console.log(data);
 					this.data = data;
 					this.isLoading = false;
 				})
-				.catch((err) => {
-					console.error(err);
-				});
+				.catch(() => {});
 		},
 	},
 };

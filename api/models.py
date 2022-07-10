@@ -65,6 +65,7 @@ class User(AbstractUser):
     is_admin = models.BooleanField(default=False, null=True, blank=True)
 
     # USERNAME_FIELD = "email"
+
     REQUIRED_FIELDS = []
 
     objects = UserManager()
@@ -173,6 +174,15 @@ class ProfessionalDocument(common):
 
     def __str__(self):
         return self.name
+
+
+class CV(common):
+    """This is the model that stores all CVs"""
+
+    cv = models.ForeignKey(Document, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.cv.document.nin_info.citizen.user} {self.type} document"
 
 
 class CertificateDocument(common):

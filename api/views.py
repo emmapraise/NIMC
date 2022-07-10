@@ -9,6 +9,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from api import serializers
 
 from api.models import (
+    CV,
     Admin,
     CertificateDocument,
     Citizen,
@@ -20,6 +21,7 @@ from api.models import (
 )
 from api.serializers import (
     AdminSerializers,
+    CVSerializer,
     CertificateDocumentSeriaizer,
     CitizenSerializers,
     DocumentSerializers,
@@ -152,6 +154,21 @@ class EducationDocumentViewSet(viewsets.ModelViewSet):
                 EducationDocument, certificate__nin_info__citizen__user=request.user
             )
             serializer = self.get_serializer(education_instance)
+            return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+
+class CVViewSet(viewsets.ModelViewSet):
+    queryset = CV.objects.all()
+    serializer_class = CVSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def retrieve(self, request, pk=None):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid:
+            cv_instance = get_object_or_404(
+                CV, cv__nin_info__citizen__user=request.user
+            )
+            serializer = self.get_serializer(cv_instance)
             return Response(data=serializer.data, status=status.HTTP_200_OK)
 
 
