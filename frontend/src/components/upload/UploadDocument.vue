@@ -12,9 +12,16 @@
 				/></template>
 				<template v-else> <get-education-vue :user="user" /></template>
 			</b-tab>
+
 			<b-tab title="CV">
-				<cv-vue :nininfo="results" />
+				<template v-if="user.is_admin">
+					<upload-cv-vue :nininfo="results" />
+				</template>
+				<template v-else>
+					<get-cv-vue :user="user" />
+				</template>
 			</b-tab>
+
 			<b-tab title="Professional Document">
 				<template v-if="user.is_admin">
 					<upload-professional :nininfo="results" />
@@ -23,6 +30,7 @@
 					<get-professional-vue :user="user" />
 				</template>
 			</b-tab>
+
 			<b-tab title="Certificates">
 				<template v-if="user.is_admin">
 					<upload-certificate-vue :nininfo="results" />
@@ -45,7 +53,8 @@
 <script>
 import UploadEducationVue from '../documents/education/UploadEducation.vue';
 import GetEducationVue from '../documents/education/GetEducation.vue';
-import CvVue from '../documents/Cv.vue';
+import UploadCvVue from '../documents/cv/UploadCv.vue';
+import GetCvVue from '../documents/cv/GetCV.vue';
 import UploadCertificateVue from '../documents/certificate/UploadCertificate.vue';
 import GetCertificateVue from '../documents/certificate/GetCertificate.vue';
 import UploadProfessional from '../documents/professional/UploadProfessional.vue';
@@ -55,7 +64,8 @@ export default {
 	components: {
 		UploadEducationVue,
 		GetEducationVue,
-		CvVue,
+		UploadCvVue,
+		GetCvVue,
 		UploadProfessional,
 		UploadCertificateVue,
 		GetCertificateVue,

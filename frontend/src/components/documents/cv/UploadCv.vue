@@ -36,9 +36,9 @@
 	</div>
 </template>
 <script>
-import UserComboboxVue from '../combobox/UserCombobox.vue';
+import UserComboboxVue from '../../combobox/UserCombobox.vue';
 export default {
-	name: 'CVComponent',
+	name: 'UploadCVComponent',
 	components: { UserComboboxVue },
 	props: ['nininfo'],
 	data() {
@@ -78,7 +78,7 @@ export default {
 			formData.append('path', this.file);
 
 			await this.axios
-				.post(`api/document/`, formData, {
+				.post(`api/cv/`, formData, {
 					headers: {
 						'content-type': 'multipart/form-data',
 					},

@@ -71,7 +71,7 @@ export default {
 			await this.axios
 				.get(`api/education-document/${this.user.id}/`)
 				.then(({ data }) => {
-					this.education = this.education.map((obj) => {
+					this.education.map((obj) => {
 						Object.keys(data).map((itemData) => {
 							if (obj['label'] === itemData) {
 								obj['value'] = data[itemData];
