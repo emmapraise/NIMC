@@ -7,7 +7,10 @@
 			v-if="!isLoading"
 		>
 			<b-tab title="Education" active>
-				<education-vue :nininfo="results" />
+				<template v-if="user.is_admin">
+					<upload-education-vue :nininfo="results"
+				/></template>
+				<template v-else> <get-education-vue :user="user" /></template>
 			</b-tab>
 			<b-tab title="CV">
 				<cv-vue :nininfo="results" />
@@ -40,7 +43,8 @@
 	</div>
 </template>
 <script>
-import EducationVue from '../documents/Education.vue';
+import UploadEducationVue from '../documents/education/UploadEducation.vue';
+import GetEducationVue from '../documents/education/GetEducation.vue';
 import CvVue from '../documents/Cv.vue';
 import UploadCertificateVue from '../documents/certificate/UploadCertificate.vue';
 import GetCertificateVue from '../documents/certificate/GetCertificate.vue';
@@ -49,7 +53,8 @@ import GetProfessionalVue from '../documents/professional/GetProfessional.vue';
 export default {
 	name: 'UploadDocumentComponent',
 	components: {
-		EducationVue,
+		UploadEducationVue,
+		GetEducationVue,
 		CvVue,
 		UploadProfessional,
 		UploadCertificateVue,

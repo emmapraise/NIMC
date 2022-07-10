@@ -56,10 +56,13 @@ export default {
 					this.data = data;
 					this.isLoading = false;
 				})
-				.catch((err) => {
-					console.log(err);
-				});
+				.catch(() => {});
 		},
 	},
 };
 </script>
+<style scoped>
+a {
+	text-decoration: none;
+}
+</style>

@@ -49,9 +49,9 @@
 	</div>
 </template>
 <script>
-import UserComboboxVue from '../combobox/UserCombobox.vue';
+import UserComboboxVue from '../../combobox/UserCombobox.vue';
 export default {
-	name: 'EducationComponent',
+	name: 'UploadEducation',
 	props: ['nininfo'],
 	components: { UserComboboxVue },
 	data() {
@@ -148,9 +148,7 @@ export default {
 			],
 		};
 	},
-	mounted() {
-		this.getDocument();
-	},
+	mounted() {},
 	methods: {
 		countDownChanged(dismissCountDown) {
 			this.dismissCountDown = dismissCountDown;
@@ -178,6 +176,7 @@ export default {
 
 			formData.append('highest_education', data.highest_education);
 			formData.append('year_of_graduation', data.year_of_graduation);
+			formData.append('name_of_school', data.name_of_schoool);
 			formData.append('class_of_graduation', data.class_of_graduation);
 			formData.append('country_of_graduation', data.country_of_graduation);
 
@@ -192,17 +191,6 @@ export default {
 					this.$router.go();
 				})
 				.catch(() => {});
-		},
-		async getDocument() {
-			const user = JSON.parse(localStorage.getItem('user'));
-			await this.axios
-				.get(`api/education-document/${user.id}/`)
-				.then((result) => {
-					console.log(result);
-				})
-				.catch((err) => {
-					console.log(err);
-				});
 		},
 	},
 };
