@@ -110,6 +110,8 @@ class NinInfoSerializers(serializers.ModelSerializer):
 class DocumentSerializers(serializers.ModelSerializer):
     """Serializer for all actions on Documents"""
 
+    # type = serializers.CharField(read_only=True)
+
     class Meta:
         model = Document
         exclude = ["create_at", "update_at"]
@@ -142,6 +144,23 @@ class EducationDocumentSerializers(serializers.ModelSerializer):
 
         education_document_instance = EducationDocument.objects.create(**validated_data)
         return education_document_instance
+
+
+class CVSerializer(serializers.ModelSerializer):
+    """Serializer for all action on CV"""
+
+    cv = DocumentSerializers()
+
+    class Meta:
+        model = CV
+        exclude = ["create_at", "update_at"]
+
+    def create(self, validated_data):
+        validated_data["cv"]["type"] = nin.CV
+        validated_data["cv"] = DocumentSerializers.create(self, validated_data["cv"])
+
+        cv_instance = CV.objects.create(**validated_data)
+        return cv_instance
 
 
 class ProfessionalDocumentSerializer(serializers.ModelSerializer):
