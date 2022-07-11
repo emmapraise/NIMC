@@ -98,11 +98,11 @@ class PatnerAccessView(APIView):
     def post(self, request):
         nin = request.data["nin"]
         access_code = request.data["access_code"]
-        user_instance = get_object_or_404(
+        nin_info_instance = get_object_or_404(
             NinInfo, citizen__user__nin=nin, citizen__user__access_code=access_code
         )
-        if user_instance:
-            ser = NinInfoSerializers(user_instance)
+        if nin_info_instance:
+            ser = NinInfoSerializers(nin_info_instance)
             return Response(data=ser.data, status=status.HTTP_200_OK)
 
 
