@@ -90,6 +90,22 @@ class LogoutView(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
+class PatnerAccessView(APIView):
+    """API View for Action on Patner Access to User Nin Information"""
+
+    permission_classes = []
+
+    def post(self, request):
+        nin = request.data["nin"]
+        access_code = request.data["access_code"]
+        nin_info_instance = get_object_or_404(
+            NinInfo, citizen__user__nin=nin, citizen__user__access_code=access_code
+        )
+        if nin_info_instance:
+            ser = NinInfoSerializers(nin_info_instance)
+            return Response(data=ser.data, status=status.HTTP_200_OK)
+
+
 class CitizenViewSet(viewsets.ModelViewSet):
     queryset = Citizen.objects.all()
     serializer_class = CitizenSerializers
