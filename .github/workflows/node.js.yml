@@ -31,5 +31,5 @@ jobs:
       working-directory: ./frontend
     - run: yarn run build --if-present
       working-directory: ./frontend
-    - run: yarn test
-      working-directory: ./frontend
+    # - run: yarn test
+    #   working-directory: ./frontend
