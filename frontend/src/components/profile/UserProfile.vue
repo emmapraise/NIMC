@@ -56,7 +56,6 @@ export default {
 		};
 	},
 	created() {
-		console.log('admins', this.isAdmin);
 		if (!this.isAdmin) {
 			this.getUserProfile();
 		}

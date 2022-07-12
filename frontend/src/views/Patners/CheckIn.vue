@@ -76,7 +76,6 @@ export default {
 				.post(`api/patner-access/`, this.data)
 				.then(({ data }) => {
 					this.isError = false;
-					console.log(data);
 					localStorage.setItem('nininfo', JSON.stringify(data));
 					this.$router.push({ name: 'patner_user_profile' });
 				})
