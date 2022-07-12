@@ -14,6 +14,7 @@ router.register(r"education-document", views.EducationDocumentViewSet)
 router.register(r"professional-document", views.ProfessionalDocumentViewSet)
 router.register(r"certificate", views.CertificateDocumentViewSet)
 router.register(r"cv", views.CVViewSet)
+router.register(r"update-ninifo", views.UpdateNinInfoViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),

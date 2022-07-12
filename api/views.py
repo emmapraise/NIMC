@@ -17,6 +17,7 @@ from api.models import (
     EducationDocument,
     NinInfo,
     ProfessionalDocument,
+    UpdateNinInfo,
     User,
 )
 from api.serializers import (
@@ -28,6 +29,7 @@ from api.serializers import (
     EducationDocumentSerializers,
     NinInfoSerializers,
     ProfessionalDocumentSerializer,
+    UpdateNinInfoSerializers,
     UserSerializers,
 )
 
@@ -138,6 +140,12 @@ class NinInfoViewSet(viewsets.ModelViewSet):
             nin_info = NinInfo.objects.get(citizen__user=request.user)
             serializer = self.get_serializer(nin_info)
             return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+
+class UpdateNinInfoViewSet(viewsets.ModelViewSet):
+    queryset = UpdateNinInfo.objects.all()
+    serializer_class = UpdateNinInfoSerializers
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class DocumentViewSet(viewsets.ModelViewSet):
