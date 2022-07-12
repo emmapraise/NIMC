@@ -42,7 +42,6 @@ export default {
 	},
 	methods: {
 		logoutAction() {
-			console.log('first');
 			localStorage.removeItem('token');
 			localStorage.removeItem('user');
 			this.$store.commit('removeToken');

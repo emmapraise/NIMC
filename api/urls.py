@@ -20,4 +20,5 @@ urlpatterns = [
     path("login/", views.CustomTokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("login/refresh", jwt_views.TokenRefreshView.as_view(), name="token_refresh"),
     path("logout/", views.LogoutView.as_view(), name="auth_logout"),
+    path("patner-access/", views.PatnerAccessView.as_view(), name="patner_access"),
 ]

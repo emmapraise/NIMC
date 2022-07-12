@@ -11,9 +11,7 @@
 			</div>
 			<template v-else>
 				<b-col sm="3">CV</b-col>
-				<b-col sm="9"
-					><a :href="data.cv.path" target="blank"> View CV</a></b-col
-				>
+				<b-col sm="9"><a :href="cv" target="blank"> View CV</a></b-col>
 			</template>
 		</b-row>
 	</div>
@@ -26,6 +24,7 @@ export default {
 		return {
 			isLoading: false,
 			data: {},
+			cv: null,
 		};
 	},
 	created() {
@@ -37,6 +36,7 @@ export default {
 				.get(`api/cv/${this.user.id}/`)
 				.then(({ data }) => {
 					this.data = data;
+					this.cv = data.cv.path;
 					this.isLoading = false;
 				})
 				.catch(() => {});

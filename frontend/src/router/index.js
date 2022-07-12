@@ -38,6 +38,17 @@ const routes = [
     component: () => import('../views/Patners/CheckIn.vue')
   },
   {
+    path: '/patners/user/profile',
+    name: 'patner_user_profile',
+    component: () => import('../views/Patners/Profile.vue')
+  },
+
+  {
+    path: '/patners/user/documents',
+    name: 'patner_user_documents',
+    component: () => import('../views/Patners/Documents.vue')
+  },
+  {
     path: '/admin/enrolment',
     name: 'enrolment',
     component: () => import('../views/User/RegisterView.vue')

@@ -45,12 +45,12 @@ export default {
 		return {
 			login_data: [
 				{
-					name: 'NIN',
+					name: 'Email',
 					label: 'username',
-					type: 'text',
+					type: 'email',
 					icon: 'person-fill',
 					value: '',
-					placeholder: 'Enter NIN',
+					placeholder: 'Enter Email Address',
 				},
 				{
 					name: 'Password',

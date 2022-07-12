@@ -90,6 +90,22 @@ class LogoutView(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
+class PatnerAccessView(APIView):
+    """API View for Action on Patner Access to User Nin Information"""
+
+    permission_classes = []
+
+    def post(self, request):
+        nin = request.data["nin"]
+        access_code = request.data["access_code"]
+        nin_info_instance = get_object_or_404(
+            NinInfo, citizen__user__nin=nin, citizen__user__access_code=access_code
+        )
+        if nin_info_instance:
+            ser = NinInfoSerializers(nin_info_instance)
+            return Response(data=ser.data, status=status.HTTP_200_OK)
+
+
 class CitizenViewSet(viewsets.ModelViewSet):
     queryset = Citizen.objects.all()
     serializer_class = CitizenSerializers
@@ -145,13 +161,13 @@ class DocumentViewSet(viewsets.ModelViewSet):
 class EducationDocumentViewSet(viewsets.ModelViewSet):
     queryset = EducationDocument.objects.all()
     serializer_class = EducationDocumentSerializers
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = []
 
     def retrieve(self, request, pk=None):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid:
             education_instance = get_object_or_404(
-                EducationDocument, certificate__nin_info__citizen__user=request.user
+                EducationDocument, certificate__nin_info__citizen__user=pk
             )
             serializer = self.get_serializer(education_instance)
             return Response(data=serializer.data, status=status.HTTP_200_OK)
@@ -160,14 +176,12 @@ class EducationDocumentViewSet(viewsets.ModelViewSet):
 class CVViewSet(viewsets.ModelViewSet):
     queryset = CV.objects.all()
     serializer_class = CVSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = []
 
     def retrieve(self, request, pk=None):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid:
-            cv_instance = get_object_or_404(
-                CV, cv__nin_info__citizen__user=request.user
-            )
+            cv_instance = get_object_or_404(CV, cv__nin_info__citizen__user=pk)
             serializer = self.get_serializer(cv_instance)
             return Response(data=serializer.data, status=status.HTTP_200_OK)
 
@@ -175,7 +189,7 @@ class CVViewSet(viewsets.ModelViewSet):
 class ProfessionalDocumentViewSet(viewsets.ModelViewSet):
     queryset = ProfessionalDocument.objects.all()
     serializer_class = ProfessionalDocumentSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = []
 
     def create(self, request, *args, **kwargs):
         return super().create(request, *args, **kwargs)
@@ -184,7 +198,7 @@ class ProfessionalDocumentViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid:
             professional_instance = get_object_or_404(
-                ProfessionalDocument, document__nin_info__citizen__user=request.user
+                ProfessionalDocument, document__nin_info__citizen__user=pk
             )
             serializer = self.get_serializer(professional_instance)
             return Response(data=serializer.data, status=status.HTTP_200_OK)
@@ -193,7 +207,7 @@ class ProfessionalDocumentViewSet(viewsets.ModelViewSet):
 class CertificateDocumentViewSet(viewsets.ModelViewSet):
     queryset = CertificateDocument.objects.all()
     serializer_class = CertificateDocumentSeriaizer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = []
 
     def create(self, request, *args, **kwargs):
         return super().create(request, *args, **kwargs)
@@ -203,7 +217,7 @@ class CertificateDocumentViewSet(viewsets.ModelViewSet):
         print(request)
         if serializer.is_valid:
             certificate_instance = get_object_or_404(
-                CertificateDocument, certificate__nin_info__citizen__user=request.user
+                CertificateDocument, certificate__nin_info__citizen__user=pk
             )
             serializer = self.get_serializer(certificate_instance)
             return Response(data=serializer.data, status=status.HTTP_200_OK)

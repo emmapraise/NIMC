@@ -27,6 +27,7 @@
 import Avatar from '../../assets/images/avatar.webp';
 export default {
 	name: 'SidebarComponent',
+	props: ['userType'],
 	mounted() {
 		this.getUsers();
 	},
@@ -69,15 +70,33 @@ export default {
 					path: '/user/make-request',
 				},
 			],
+			patner_sidebar: [
+				{
+					name: 'User Profile',
+					label: 'patner_user_profile',
+					path: '/patner/user/profile',
+				},
+				{
+					name: 'Documents',
+					label: 'patner_user_documents',
+					path: '/patners/user/documents',
+				},
+			],
 		};
 	},
 	methods: {
 		getUsers() {
-			const userData = localStorage.getItem('user');
-			this.user = JSON.parse(userData);
-			this.sidebar_menu = this.user.is_admin
-				? this.admin_sidebar
-				: this.user_sidebar;
+			if (this.userType === 'patner') {
+				const userData = JSON.parse(localStorage.getItem('nininfo'));
+				this.user = userData.citizen.user;
+				this.sidebar_menu = this.patner_sidebar;
+			} else {
+				const userData = localStorage.getItem('user');
+				this.user = JSON.parse(userData);
+				this.sidebar_menu = this.user.is_admin
+					? this.admin_sidebar
+					: this.user_sidebar;
+			}
 		},
 	},
 };

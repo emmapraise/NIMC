@@ -155,9 +155,7 @@ export default {
 				.then(() => {
 					this.$router.push({ name: 'login' });
 				})
-				.catch((err) => {
-					console.log('error', err);
-				});
+				.catch(() => {});
 		},
 	},
 };
