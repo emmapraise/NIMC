@@ -80,8 +80,12 @@ export default {
 		};
 	},
 	created() {
-		this.user = JSON.parse(localStorage.getItem('user'));
-		this.getCitizen();
+		if (this.$route.name === 'documents') {
+			this.isLoading = false;
+			this.user = JSON.parse(localStorage.getItem('user'));
+		} else {
+			this.getCitizen();
+		}
 	},
 	methods: {
 		async getCitizen() {
