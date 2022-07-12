@@ -49,9 +49,8 @@ export default {
 	},
 	methods: {
 		async getDocument() {
-			const user = JSON.parse(localStorage.getItem('user'));
 			await this.axios
-				.get(`api/professional-document/${user.id}/`)
+				.get(`api/professional-document/${this.user.id}/`)
 				.then(({ data }) => {
 					this.data = data;
 					this.isLoading = false;
