@@ -102,7 +102,7 @@ class Admin(common):
         return self.user.get_full_name()
 
 
-class NinInfo(common):
+class NinInfoCommon(common):
     """This is model to add NIN Information of the user"""
 
     citizen = models.ForeignKey(Citizen, on_delete=models.CASCADE)
@@ -121,6 +121,22 @@ class NinInfo(common):
     next_of_kin_phone = models.TextField(max_length=11, null=True, blank=True)
     next_of_kin_address = models.TextField()
     occupation = models.CharField(max_length=100)
+
+    class Meta:
+        abstract = True
+
+
+class NinInfo(NinInfoCommon):
+    """This is model to add NIN Information of the user"""
+
+    def __str__(self):
+        return f"{self.citizen.user} with NIN {self.citizen.user.nin}"
+
+
+class UpdateNinInfo(NinInfoCommon):
+    """This is model saves all update on Nin Info"""
+
+    nin_info = models.ForeignKey(NinInfo, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.citizen.user} with NIN {self.citizen.user.nin}"

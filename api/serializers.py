@@ -107,6 +107,14 @@ class NinInfoSerializers(serializers.ModelSerializer):
         return nin_info
 
 
+class UpdateNinInfoSerializers(serializers.ModelSerializer):
+    """A serializer for all actions on Update Nin Info"""
+
+    class Meta:
+        model = UpdateNinInfo
+        exclude = ["create_at", "update_at"]
+
+
 class DocumentSerializers(serializers.ModelSerializer):
     """Serializer for all actions on Documents"""
 
