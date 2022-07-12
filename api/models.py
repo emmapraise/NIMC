@@ -118,7 +118,7 @@ class NinInfoCommon(common):
     genotype = models.CharField(max_length=2, choices=genotype(), null=True, blank=True)
     next_of_kin = models.CharField(max_length=100)
     next_of_kin_email = models.EmailField(null=True, blank=True)
-    next_of_kin_phone = models.TextField(max_length=11, null=True, blank=True)
+    next_of_kin_phone = models.CharField(max_length=11, null=True, blank=True)
     next_of_kin_address = models.TextField()
     occupation = models.CharField(max_length=100)
 
