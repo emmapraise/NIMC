@@ -12,7 +12,7 @@
 						<label :for="item.label"> {{ item.name }}</label>
 					</b-col>
 					<b-col md="8">
-						<template v-if="isAdmin">
+						<template v-if="edit">
 							<div v-if="item.type === 'textarea'">
 								<b-form-textarea
 									:id="item.label"
@@ -42,7 +42,7 @@
 <script>
 export default {
 	name: 'KinshipData',
-	props: ['isAdmin', 'getData'],
+	props: { isAdmin: Boolean, getData: Object, edit: Boolean },
 	data() {
 		return {
 			kinship_tab: [

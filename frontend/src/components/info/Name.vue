@@ -7,7 +7,7 @@
 						<label :for="item.label">{{ item.name }}</label></b-col
 					>
 					<b-col md="8">
-						<div v-if="isAdmin">
+						<div v-if="edit">
 							<div v-if="item.type === 'radio'">
 								<b-form-radio-group
 									:id="item.label"
@@ -45,7 +45,11 @@
 <script>
 export default {
 	name: 'NameComponet',
-	props: ['getData', 'isAdmin'],
+	props: {
+		getData: Object,
+		isAdmin: Boolean,
+		edit: Boolean,
+	},
 	data() {
 		return {
 			name_tab: [
@@ -93,9 +97,7 @@ export default {
 		};
 	},
 	mounted() {
-		if (!this.isAdmin) {
-			this.loadData();
-		}
+		this.loadData();
 	},
 	methods: {
 		emitValue() {

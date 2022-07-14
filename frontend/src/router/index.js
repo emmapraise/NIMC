@@ -22,11 +22,13 @@ const routes = [
   {
     path: '/login',
     name: 'login',
+    meta: { title: 'NIMC - Login' },
     component: () => import('../views/User/LoginViews.vue')
   },
   {
     path: '/admin/register',
     name: 'admin_register',
+    meta: { title: 'NIMC - Admin Sign Up' },
     component: () => import('../views/Admin/SignUp.vue')
   },
   {
@@ -48,31 +50,37 @@ const routes = [
   {
     path: '/admin/enrolment',
     name: 'enrolment',
+    meta: { title: 'NIMC - Enrol New User' },
     component: () => import('../views/User/RegisterView.vue')
   },
   {
     path: '/user/profile',
     name: 'user_profile',
+    meta: { title: 'NIMC - User Profile' },
     component: () => import('../views/User/RegisterView.vue')
   },
   {
     path: '/admin/upload-document',
     name: 'upload_document',
+    meta: { title: 'NIMC - Upload DOcuments' },
     component: () => import('../views/Admin/DocumentView.vue')
   },
   {
     path: '/user/documents',
     name: 'documents',
+    meta: { title: 'NIMC - Documents' },
     component: () => import('../views/Admin/DocumentView.vue')
   },
   {
     path: '/admin/requests',
     name: 'requests',
+    meta: { title: 'NIMC - Approve Request' },
     component: () => import('../views/Admin/DocumentView.vue')
   },
   {
     path: '/user/make-request',
     name: 'make-request',
+    meta: { title: 'NIMC - Update Request' },
     component: () => import('../views/User/MakeRequestView.vue')
   }
 ]
@@ -84,3 +92,12 @@ const router = new VueRouter({
 })
 
 export default router
+
+const DEFAULT_TITLE = process.env.VUE_APP_TITLE;
+router.afterEach((to) => {
+    // Use next tick to handle router history correctly
+    // see: https://github.com/vuejs/vue-router/issues/914#issuecomment-384477609
+    Vue.nextTick(() => {
+        document.title = to.meta.title || DEFAULT_TITLE;
+    });
+});
