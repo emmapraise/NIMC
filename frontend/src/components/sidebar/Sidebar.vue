@@ -1,7 +1,7 @@
 <template>
 	<div class="justify-content-center align-items-center">
 		<div class="mt-2 justify-content-center align-items-center text-center">
-			<b-avatar :src="Avatar" size="7rem" class=""></b-avatar>
+			<b-avatar :src="user.avatar" size="7rem" class=""></b-avatar>
 			<div>
 				<p class="text-center font-weight-bold m-0 p-0 mt-2">
 					{{ user.first_name }} {{ user.last_name }}
@@ -34,7 +34,9 @@ export default {
 	data() {
 		return {
 			Avatar,
-			user: {},
+			user: {
+				avatar: null,
+			},
 			sidebar_menu: [],
 			admin_sidebar: [
 				{
@@ -55,7 +57,7 @@ export default {
 			],
 			user_sidebar: [
 				{
-					name: 'Enroll A User',
+					name: 'User Profile',
 					label: 'user_profile',
 					path: '/user/profile',
 				},
@@ -89,10 +91,12 @@ export default {
 			if (this.userType === 'patner') {
 				const userData = JSON.parse(localStorage.getItem('nininfo'));
 				this.user = userData.citizen.user;
+				this.user.avatar = `${process.env.VUE_APP_BACKEND_URL}${userData.citizen.user.avatar}`;
 				this.sidebar_menu = this.patner_sidebar;
 			} else {
 				const userData = localStorage.getItem('user');
 				this.user = JSON.parse(userData);
+				this.user.avatar = `${process.env.VUE_APP_BACKEND_URL}${this.user.avatar}`;
 				this.sidebar_menu = this.user.is_admin
 					? this.admin_sidebar
 					: this.user_sidebar;
