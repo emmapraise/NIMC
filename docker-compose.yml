@@ -1,0 +1,37 @@
+version: "3.9"
+services:
+  db:
+    container_name: db
+    image: postgres:13
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=emmapraise
+      - POSTGRES_PASSWORD=olusegun
+      - POSTGRES_DB=nimc
+    networks:
+      - djangonetwork
+    
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env.dev
+    depends_on:
+      - db
+    links:
+      - db:db
+    networks:
+      - djangonetwork
+
+volumes:
+  postgres_data:
+networks:
+  djangonetwork:
+    driver: bridge
