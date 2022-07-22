@@ -5,6 +5,7 @@ services:
     image: postgres:13
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+    command: postgres -c port=5432
     ports:
       - "5432:5432"
     environment:
