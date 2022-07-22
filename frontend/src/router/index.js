@@ -62,7 +62,7 @@ const routes = [
   {
     path: '/admin/upload-document',
     name: 'upload_document',
-    meta: { title: 'NIMC - Upload DOcuments' },
+    meta: { title: 'NIMC - Upload Documents' },
     component: () => import('../views/Admin/DocumentView.vue')
   },
   {

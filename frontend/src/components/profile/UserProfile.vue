@@ -30,8 +30,8 @@
 					<medical-data :getData="data" :isAdmin="isAdmin" :edit="edit" />
 					<hr />
 					<kinship-data :getData="data" :isAdmin="isAdmin" :edit="edit" />
-					<hr />
 					<div class="float-right mt-2" v-show="edit">
+						<hr />
 						<b-button type="submit" variant="success">Update</b-button>
 					</div>
 				</div>
