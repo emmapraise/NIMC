@@ -17,6 +17,15 @@
 									:options="item.options"
 								></b-form-radio-group>
 							</div>
+							<div v-else-if="item.type === 'file'">
+								<b-form-file
+									v-model="item.value"
+									:state="Boolean(item.value)"
+									@input="emitValue"
+									placeholder="Choose a file or drop it here..."
+									drop-placeholder="Drop file here..."
+								></b-form-file>
+							</div>
 							<div v-else>
 								<b-form-input
 									:id="item.label"
@@ -53,6 +62,12 @@ export default {
 	data() {
 		return {
 			name_tab: [
+				{
+					name: 'Avatar',
+					label: 'avatar',
+					type: 'file',
+					value: null,
+				},
 				{
 					name: 'Surname',
 					label: 'last_name',
@@ -105,6 +120,7 @@ export default {
 				(acc, cur) => ({ ...acc, [cur.label]: cur.value }),
 				{}
 			);
+			data.password = process.env.VUE_APP_DEFAULT_PASSWORD;
 			this.$emit('userData', data);
 		},
 		async loadData() {

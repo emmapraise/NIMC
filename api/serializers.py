@@ -35,6 +35,7 @@ class UserSerializers(serializers.ModelSerializer):
         user = User.objects.create_user(
             first_name=first_name,
             last_name=last_name,
+            middle_name=validated_data["middle_name"],
             phone=phone,
             nin=nin,
             email=email,

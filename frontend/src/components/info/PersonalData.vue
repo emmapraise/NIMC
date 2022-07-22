@@ -68,6 +68,18 @@ export default {
 					value: '',
 				},
 				{
+					name: 'State of Origin',
+					label: 'state_of_origin',
+					type: 'text',
+					value: '',
+				},
+				{
+					name: 'Occupation',
+					label: 'occupation',
+					type: 'text',
+					value: '',
+				},
+				{
 					name: 'Marital Status',
 					label: 'marital_status',
 					type: 'select',

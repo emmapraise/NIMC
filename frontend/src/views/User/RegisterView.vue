@@ -40,7 +40,7 @@ export default {
 		}
 		this.isAdmin = this.$route.name === 'enrolment' ? true : false;
 
-		this.title = this.isAdmin ? 'Enrol a User' : 'User Profile';
+		this.title = this.isAdmin ? 'Enroll a User' : 'User Profile';
 	},
 	methods: {},
 };

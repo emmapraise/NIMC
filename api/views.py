@@ -137,7 +137,7 @@ class NinInfoViewSet(viewsets.ModelViewSet):
     def retrieve(self, request, pk=None):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid:
-            nin_info = NinInfo.objects.get(citizen__user=request.user)
+            nin_info = NinInfo.objects.get(citizen__user=pk)
             serializer = self.get_serializer(nin_info)
             return Response(data=serializer.data, status=status.HTTP_200_OK)
 

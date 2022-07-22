@@ -69,7 +69,11 @@ export default {
 	},
 	data() {
 		return {
-			data: {},
+			data: {
+				citizen: {
+					user: {},
+				},
+			},
 			isLoading: true,
 			edit: true,
 		};
@@ -94,19 +98,47 @@ export default {
 				.catch(() => {});
 		},
 		userData(e) {
-			console.log(e);
+			this.data.citizen.user = e;
+			return e;
 		},
 		personalData(e) {
-			console.log(e);
+			this.data = Object.assign(this.data, e);
+			return e;
 		},
 		medicalData(e) {
-			console.log(e);
+			this.data = Object.assign(this.data, e);
+			return e;
 		},
 		kinshipData(e) {
-			console.log(e);
+			this.data = Object.assign(this.data, e);
+			return e;
 		},
-		onSubmit() {
-			console.log(this.data);
+		formatInput() {
+			const user = this.data.citizen.user;
+			const formData = new FormData();
+			for (var key in this.data) {
+				if (key == 'citizen') {
+					for (var item in user) {
+						formData.append(`citizen.user.${item}`, user[item]);
+					}
+				}
+				formData.append(key, this.data[key]);
+			}
+			return formData;
+		},
+		async onSubmit() {
+			await this.axios
+				.post(`api/nininfo/`, this.formatInput(), {
+					headers: {
+						'content-type': 'multipart/form-data',
+					},
+				})
+				.then(({ data }) => {
+					console.log(data);
+				})
+				.catch((err) => {
+					console.log(err);
+				});
 		},
 	},
 };
