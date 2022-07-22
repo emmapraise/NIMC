@@ -2,13 +2,25 @@
 	<div class="">
 		<b-form @submit.prevent="onSubmit">
 			<template v-if="isAdmin">
-				<name @userData="userData" />
+				<name @userData="userData" :isAdmin="isAdmin" :edit="edit" />
 				<hr />
-				<personal-data @personalData="personalData" />
+				<personal-data
+					@personalData="personalData"
+					:isAdmin="isAdmin"
+					:edit="edit"
+				/>
 				<hr />
-				<medical-data @medicalData="medicalData" />
+				<medical-data
+					@medicalData="medicalData"
+					:isAdmin="isAdmin"
+					:edit="edit"
+				/>
 				<hr />
-				<kinship-data @kinshipData="kinshipData" />
+				<kinship-data
+					@kinshipData="kinshipData"
+					:isAdmin="isAdmin"
+					:edit="edit"
+				/>
 				<div class="float-right mt-2">
 					<b-button type="submit" variant="success">Submit</b-button>
 				</div>
@@ -48,7 +60,6 @@ export default {
 	name: 'RegisterView',
 	props: {
 		isAdmin: Boolean,
-		edit: Boolean,
 	},
 	components: {
 		Name,
@@ -60,11 +71,13 @@ export default {
 		return {
 			data: {},
 			isLoading: true,
+			edit: true,
 		};
 	},
 	created() {
 		if (!this.isAdmin) {
 			this.getUserProfile();
+			this.edit = this.$route.name === 'user_profile' ? false : true;
 		}
 	},
 	mounted() {},

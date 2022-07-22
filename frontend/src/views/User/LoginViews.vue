@@ -73,14 +73,15 @@ export default {
 			);
 			this.axios
 				.post('api/login/', this.data)
-				.then((result) => {
-					const token = result.data.data.tokens.access;
-					const user = JSON.stringify(result.data.data.user);
+				.then(({ data }) => {
+					const token = data.data.tokens.access;
+					const user = data.data.user;
+					const userData = JSON.stringify(user);
 					this.$store.commit('setToken', token, user);
 					this.axios.defaults.headers.common['Authorization'] =
 						'Bearer ' + token;
 					localStorage.setItem('token', token);
-					localStorage.setItem('user', user);
+					localStorage.setItem('user', userData);
 					user.is_admin
 						? this.$router.push({ name: 'enrolment' })
 						: this.$router.push({ name: 'user_profile' });
