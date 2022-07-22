@@ -137,6 +137,7 @@ class UpdateNinInfo(NinInfoCommon):
     """This is model saves all update on Nin Info"""
 
     nin_info = models.ForeignKey(NinInfo, on_delete=models.CASCADE)
+    status = models.IntegerField(choices=approval_status(), default=admin.PENDING)
 
     def __str__(self):
         return f"{self.citizen.user} with NIN {self.citizen.user.nin}"
@@ -238,7 +239,6 @@ class Request(common):
         Admin, on_delete=models.DO_NOTHING, null=True, blank=True
     )
     document_path = models.FileField(upload_to="documents/")
-    status = models.IntegerField(choices=approval_status(), default=admin.PENDING)
 
     def __str__(self):
         return f"The Request {self.title} is currently ({self.status})"
