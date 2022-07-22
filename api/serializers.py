@@ -110,6 +110,8 @@ class NinInfoSerializers(serializers.ModelSerializer):
 class UpdateNinInfoSerializers(serializers.ModelSerializer):
     """A serializer for all actions on Update Nin Info"""
 
+    # citizen = CitizenSerializers()
+
     class Meta:
         model = UpdateNinInfo
         exclude = ["create_at", "update_at"]
