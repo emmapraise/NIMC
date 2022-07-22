@@ -8,7 +8,7 @@ FEDERAL = "Federal Government"
 # Approval Status
 PENDING = 0
 DISAPPROVED = 1
-VERIFIED = 2
+COMPLETED = 2
 APPROVED = 3
 
 
@@ -29,7 +29,7 @@ def approval_status():
     status = [
         (PENDING, "Pending"),
         (DISAPPROVED, "Disapproved"),
-        (VERIFIED, "Verified"),
+        (COMPLETED, "Completed"),
         (APPROVED, "Approved"),
     ]
     return status

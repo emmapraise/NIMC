@@ -7,7 +7,7 @@
 						<label :for="item.label">{{ item.name }}</label></b-col
 					>
 					<b-col md="8">
-						<div v-if="isAdmin">
+						<div v-if="edit">
 							<div v-if="item.type === 'radio'">
 								<b-form-radio-group
 									:id="item.label"
@@ -16,6 +16,15 @@
 									@input="emitValue"
 									:options="item.options"
 								></b-form-radio-group>
+							</div>
+							<div v-else-if="item.type === 'file'">
+								<b-form-file
+									v-model="item.value"
+									:state="Boolean(item.value)"
+									@input="emitValue"
+									placeholder="Choose a file or drop it here..."
+									drop-placeholder="Drop file here..."
+								></b-form-file>
 							</div>
 							<div v-else>
 								<b-form-input
@@ -45,10 +54,20 @@
 <script>
 export default {
 	name: 'NameComponet',
-	props: ['getData', 'isAdmin'],
+	props: {
+		getData: Object,
+		isAdmin: Boolean,
+		edit: Boolean,
+	},
 	data() {
 		return {
 			name_tab: [
+				{
+					name: 'Avatar',
+					label: 'avatar',
+					type: 'file',
+					value: null,
+				},
 				{
 					name: 'Surname',
 					label: 'last_name',
@@ -93,9 +112,7 @@ export default {
 		};
 	},
 	mounted() {
-		if (!this.isAdmin) {
-			this.loadData();
-		}
+		this.loadData();
 	},
 	methods: {
 		emitValue() {
@@ -103,6 +120,7 @@ export default {
 				(acc, cur) => ({ ...acc, [cur.label]: cur.value }),
 				{}
 			);
+			data.password = process.env.VUE_APP_DEFAULT_PASSWORD;
 			this.$emit('userData', data);
 		},
 		async loadData() {

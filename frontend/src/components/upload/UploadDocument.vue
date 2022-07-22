@@ -84,6 +84,7 @@ export default {
 			this.isLoading = false;
 			this.user = JSON.parse(localStorage.getItem('user'));
 		} else {
+			this.user = JSON.parse(localStorage.getItem('user'));
 			this.getCitizen();
 		}
 	},

@@ -7,13 +7,7 @@
 			</b-col>
 			<b-col md="10">
 				<b-card :title="title" class="">
-					<!-- <b-form
-						@submit.prevent="onSubmit"
-						validated="true"
-						class="was-validated"
-					> -->
 					<user-profile :isAdmin="isAdmin" />
-					<!-- </b-form> -->
 				</b-card>
 			</b-col>
 		</b-row>
@@ -38,19 +32,15 @@ export default {
 			isLoading: true,
 		};
 	},
-	beforeCreate() {
+	beforeCreate() {},
+	created() {},
+	mounted() {
 		if (!localStorage.getItem('token')) {
 			this.$router.push('/login');
 		}
 		this.isAdmin = this.$route.name === 'enrolment' ? true : false;
-	},
-	created() {},
-	mounted() {
-		// if (!this.is_admin) {
-		// 	this.getUserProfile();
-		// }
 
-		this.title = this.isAdmin ? 'Enrol a User' : 'User Profile';
+		this.title = this.isAdmin ? 'Enroll a User' : 'User Profile';
 	},
 	methods: {},
 };

@@ -12,7 +12,7 @@
 						<label :for="item.label">{{ item.name }}</label>
 					</b-col>
 					<b-col md="8">
-						<template v-if="isAdmin">
+						<template v-if="edit">
 							<div v-if="item.label === 'marital_status'">
 								<b-form-select
 									:id="item.label"
@@ -53,7 +53,11 @@
 <script>
 export default {
 	name: 'PersonalDataComponents',
-	props: ['getData', 'isAdmin'],
+	props: {
+		getData: Object,
+		isAdmin: Boolean,
+		edit: Boolean,
+	},
 	data() {
 		return {
 			personal_data_tab: [
@@ -61,6 +65,18 @@ export default {
 					name: 'Date of Birth',
 					label: 'date_of_birth',
 					type: 'date',
+					value: '',
+				},
+				{
+					name: 'State of Origin',
+					label: 'state_of_origin',
+					type: 'text',
+					value: '',
+				},
+				{
+					name: 'Occupation',
+					label: 'occupation',
+					type: 'text',
 					value: '',
 				},
 				{
@@ -74,7 +90,7 @@ export default {
 							text: 'Please select an Option',
 						},
 						{
-							value: 'single',
+							value: 'Single',
 							text: 'Single',
 						},
 						{
@@ -82,7 +98,7 @@ export default {
 							text: 'Married',
 						},
 						{
-							value: 'divorced',
+							value: 'Divorced',
 							text: 'Divorced',
 						},
 					],

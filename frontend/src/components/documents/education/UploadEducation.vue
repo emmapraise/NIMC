@@ -112,7 +112,7 @@ export default {
 							text: 'Second Class Lower',
 						},
 						{
-							value: 'Third Class',
+							value: 'Third class',
 							text: 'Third Class',
 						},
 						{
