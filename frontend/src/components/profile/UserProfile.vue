@@ -135,6 +135,10 @@ export default {
 				})
 				.then(({ data }) => {
 					console.log(data);
+					this.$router.push({
+						name: 'enrolment_success',
+						params: { user: data.citizen.user },
+					});
 				})
 				.catch((err) => {
 					console.log(err);

@@ -54,6 +54,12 @@ const routes = [
     component: () => import('../views/User/RegisterView.vue')
   },
   {
+    path: '/admin/enrolment/success',
+    name: 'enrolment_success',
+    meta: { title: 'NIMC - Enrol Success' },
+    component: () => import('../views/Admin/SuccessView.vue')
+  },
+  {
     path: '/user/profile',
     name: 'user_profile',
     meta: { title: 'NIMC - User Profile' },
