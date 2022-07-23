@@ -2,7 +2,7 @@ from rest_framework import serializers
 from NIMC.enums import nin
 
 # from NIMC.helpers.face_reg import extract_feature
-from NIMC.helpers.nin import generateNin
+from NIMC.helpers.nin import create_qrcode, generateNin
 from api.models import *
 
 
@@ -43,6 +43,7 @@ class UserSerializers(serializers.ModelSerializer):
             avatar=validated_data["avatar"],
             gender=validated_data["gender"],
             password=validated_data["password"],
+            qrcode=create_qrcode(email),
         )
         user.save()
         return user
