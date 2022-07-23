@@ -126,13 +126,12 @@ export default {
 			);
 			this.$emit('personalData', data);
 		},
-		async loadData() {
-			this.personal_data_tab = await this.personal_data_tab.map((obj) => {
-				Object.keys(this.getData).map((item) => {
-					if (obj.label === item) {
-						obj.value = this.getData[item];
-					}
-				});
+		loadData() {
+			this.personal_data_tab.map((item) => {
+				const asArray = Object.entries(this.getData);
+				const filtered = asArray.filter(([key]) => key === item['label']);
+				const justStrings = Object.fromEntries(filtered);
+				return (item['value'] = justStrings[item['label']]);
 			});
 		},
 	},

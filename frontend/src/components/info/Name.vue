@@ -10,7 +10,7 @@
 						<div v-if="edit">
 							<div v-if="item.type === 'radio'">
 								<b-form-radio-group
-									:id="item.label"
+									:id="`${item.label}`"
 									v-model="item.value"
 									required
 									@input="emitValue"
@@ -19,6 +19,7 @@
 							</div>
 							<div v-else-if="item.type === 'file'">
 								<b-form-file
+									:id="`${item.label}`"
 									v-model="item.value"
 									:state="Boolean(item.value)"
 									@input="emitValue"
@@ -28,7 +29,7 @@
 							</div>
 							<div v-else>
 								<b-form-input
-									:id="item.label"
+									:id="`${item.label}`"
 									:type="item.type"
 									@input="emitValue"
 									v-model="item.value"
@@ -111,8 +112,16 @@ export default {
 			],
 		};
 	},
-	mounted() {
+	created() {
 		this.loadData();
+	},
+	mounted() {
+		// this.loadData();
+	},
+	computed: {
+		getLabel(e) {
+			return e.label;
+		},
 	},
 	methods: {
 		emitValue() {
@@ -123,15 +132,17 @@ export default {
 			data.password = process.env.VUE_APP_DEFAULT_PASSWORD;
 			this.$emit('userData', data);
 		},
-		async loadData() {
+		loadData() {
 			const user = this.getData.citizen['user'];
-			this.name_tab = await this.name_tab.map((obj) => {
-				Object.keys(user).map((itemData) => {
-					if (obj['label'] === itemData) {
-						obj['value'] = this.getData.citizen.user[itemData];
-						return obj;
-					}
-				});
+			this.name_tab.map((item) => {
+				//convert apiObj to array to perform filter on it
+				const asArray = Object.entries(user);
+				//filter out the key and value whose key isEqual the value of label from objArray
+				const filtered = asArray.filter(([key]) => key === item['label']);
+				//convert the key and value array to object
+				const justStrings = Object.fromEntries(filtered);
+				//set the value of each item in ObjArray to the value of the object whose key is the same as the value of each item.label
+				return (item['value'] = justStrings[item['label']]);
 			});
 		},
 	},

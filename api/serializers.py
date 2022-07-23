@@ -1,9 +1,9 @@
 from rest_framework import serializers
 from NIMC.enums import nin
-
-# from NIMC.helpers.face_reg import extract_feature
 from NIMC.helpers.nin import generateNin
 from api.models import *
+
+# from NIMC.helpers.face_reg import extract_feature
 
 
 class UserSerializers(serializers.ModelSerializer):

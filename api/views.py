@@ -6,7 +6,6 @@ from rest_framework.generics import get_object_or_404
 from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
-from api import serializers
 
 from api.models import (
     CV,

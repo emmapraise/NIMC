@@ -1,7 +1,7 @@
 <template>
 	<div class="">
-		<b-form @submit.prevent="onSubmit">
-			<template v-if="isAdmin">
+		<template v-if="isAdmin">
+			<b-form @submit.prevent="onSubmit">
 				<name @userData="userData" :isAdmin="isAdmin" :edit="edit" />
 				<hr />
 				<personal-data
@@ -24,8 +24,11 @@
 				<div class="float-right mt-2">
 					<b-button type="submit" variant="success">Submit</b-button>
 				</div>
-			</template>
-			<template v-else>
+			</b-form>
+		</template>
+
+		<template v-else>
+			<b-form @submit.prevent="onUpdate">
 				<div v-if="isLoading" class="d-flex justify-content-center mb-3">
 					<b-spinner
 						type="grow"
@@ -35,20 +38,40 @@
 					/>
 				</div>
 				<div v-else>
-					<name :getData="data" :isAdmin="isAdmin" :edit="edit" />
+					<name
+						@userData="userData"
+						:getData="data"
+						:isAdmin="isAdmin"
+						:edit="edit"
+					/>
 					<hr />
-					<personal-data :getData="data" :isAdmin="isAdmin" :edit="edit" />
+					<personal-data
+						:getData="data"
+						:isAdmin="isAdmin"
+						:edit="edit"
+						@personalData="personalData"
+					/>
 					<hr />
-					<medical-data :getData="data" :isAdmin="isAdmin" :edit="edit" />
+					<medical-data
+						:getData="data"
+						:isAdmin="isAdmin"
+						:edit="edit"
+						@medicalData="medicalData"
+					/>
 					<hr />
-					<kinship-data :getData="data" :isAdmin="isAdmin" :edit="edit" />
+					<kinship-data
+						:getData="data"
+						:isAdmin="isAdmin"
+						:edit="edit"
+						@kinshipData="kinshipData"
+					/>
 					<div class="float-right mt-2" v-show="edit">
 						<hr />
 						<b-button type="submit" variant="success">Update</b-button>
 					</div>
 				</div>
-			</template>
-		</b-form>
+			</b-form>
+		</template>
 	</div>
 </template>
 <script>
@@ -78,21 +101,26 @@ export default {
 			edit: true,
 		};
 	},
-	created() {
-		if (!this.isAdmin) {
-			this.getUserProfile();
-			this.edit = this.$route.name === 'user_profile' ? false : true;
-		}
+	created() {},
+	mounted() {
+		this.getEditMode();
 	},
-	mounted() {},
 	methods: {
+		getEditMode() {
+			if (
+				this.$route.name === 'make_request' ||
+				this.$route.name === 'user_profile'
+			) {
+				this.getUserProfile();
+				this.edit = this.$route.name === 'user_profile' ? false : true;
+			}
+		},
 		async getUserProfile() {
 			const user = JSON.parse(localStorage.getItem('user'));
 			await this.axios
 				.get(`api/nininfo/${user.id}/`)
 				.then(({ data }) => {
 					this.data = data;
-
 					this.isLoading = false;
 				})
 				.catch(() => {});
@@ -143,6 +171,9 @@ export default {
 				.catch((err) => {
 					console.log(err);
 				});
+		},
+		onUpdate() {
+			console.log('data', this.data);
 		},
 	},
 };
