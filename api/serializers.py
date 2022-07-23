@@ -32,6 +32,7 @@ class UserSerializers(serializers.ModelSerializer):
         phone = validated_data["phone"]
         email = validated_data["email"]
         nin = generateNin(10)
+        qrcode = create_qrcode(email)
         user = User.objects.create_user(
             first_name=first_name,
             last_name=last_name,
@@ -43,7 +44,7 @@ class UserSerializers(serializers.ModelSerializer):
             avatar=validated_data["avatar"],
             gender=validated_data["gender"],
             password=validated_data["password"],
-            qrcode=create_qrcode(email),
+            qrcode=qrcode,
         )
         user.save()
         return user

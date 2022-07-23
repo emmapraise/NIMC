@@ -60,7 +60,7 @@ class User(AbstractUser):
     nin = models.CharField(max_length=20, unique=True)
     email = models.EmailField(unique=True)
     avatar = models.ImageField(null=True, blank=True, upload_to="NIMC/static/images")
-    qrcode = models.ImageField(null=True, blank=True, upload_to="NIMC/qrcodes")
+    qrcode = models.ImageField(null=True, blank=True, upload_to="NIMC/static/qrcodes")
     gender = models.CharField(choices=GENDER_CHOICES, max_length=1)
     is_citizen = models.BooleanField(default=False, null=True, blank=True)
     access_code = models.CharField(default="1234", max_length=6)
