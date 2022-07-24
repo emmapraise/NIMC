@@ -28,6 +28,15 @@
 		</template>
 
 		<template v-else>
+			<b-alert
+				:show="dismissCountDown"
+				dismissible
+				variant="success"
+				@dismissed="dismissCountDown = 0"
+				@dismiss-count-down="countDownChanged"
+			>
+				<p>Update Request Successful</p>
+			</b-alert>
 			<b-form @submit.prevent="onUpdate">
 				<div v-if="isLoading" class="d-flex justify-content-center mb-3">
 					<b-spinner
@@ -92,6 +101,9 @@ export default {
 	},
 	data() {
 		return {
+			dismissSecs: 5,
+			dismissCountDown: 0,
+			showDismissibleAlert: false,
 			data: {
 				citizen: {
 					user: {},
@@ -106,6 +118,12 @@ export default {
 		this.getEditMode();
 	},
 	methods: {
+		countDownChanged(dismissCountDown) {
+			this.dismissCountDown = dismissCountDown;
+		},
+		showAlert() {
+			this.dismissCountDown = this.dismissSecs;
+		},
 		getEditMode() {
 			if (
 				this.$route.name === 'make_request' ||
@@ -162,7 +180,6 @@ export default {
 					},
 				})
 				.then(({ data }) => {
-					console.log(data);
 					this.$router.push({
 						name: 'enrolment_success',
 						params: { user: data.citizen.user },
@@ -172,8 +189,22 @@ export default {
 					console.log(err);
 				});
 		},
-		onUpdate() {
-			console.log('data', this.data);
+		async onUpdate() {
+			this.data.citizen = this.data.citizen.id;
+			this.data.nin_info = this.data.id;
+			await this.axios
+				.post(`api/update-nininfo/`, this.data, {
+					headers: {
+						'content-type': 'application/json',
+					},
+				})
+				.then(() => {
+					this.showAlert();
+					setTimeout(this.$router.push({ name: 'user_profile' }), 10000);
+				})
+				.catch((err) => {
+					console.log(err);
+				});
 		},
 	},
 };
