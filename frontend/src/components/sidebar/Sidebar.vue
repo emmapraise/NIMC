@@ -51,7 +51,7 @@ export default {
 				},
 				{
 					name: 'Update Requests',
-					label: 'update_request',
+					label: 'requests',
 					path: '/admin/request',
 				},
 			],
@@ -68,7 +68,7 @@ export default {
 				},
 				{
 					name: 'Update Request',
-					label: 'make-request',
+					label: 'make_request',
 					path: '/user/make-request',
 				},
 			],

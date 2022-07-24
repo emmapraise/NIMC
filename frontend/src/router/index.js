@@ -85,7 +85,7 @@ const routes = [
   },
   {
     path: '/user/make-request',
-    name: 'make-request',
+    name: 'make_request',
     meta: { title: 'NIMC - Update Request' },
     component: () => import('../views/User/MakeRequestView.vue')
   }

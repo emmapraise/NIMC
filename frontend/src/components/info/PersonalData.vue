@@ -43,7 +43,12 @@
 								></b-form-input>
 							</div>
 						</template>
-						<template v-else> {{ item.value }}</template>
+						<template v-else>
+							<template v-if="item.type === 'date'">
+								{{ item.value | convertDate }}
+							</template>
+							<template v-else> {{ item.value }}</template></template
+						>
 					</b-col></b-row
 				>
 			</b-col>
@@ -118,6 +123,13 @@ export default {
 			this.loadData();
 		}
 	},
+	filters: {
+		convertDate: function (value) {
+			const date = new Date(value);
+			const month = date.toLocaleDateString('en-GB', { month: 'long' });
+			return `${date.getDate()} ${month}, ${date.getFullYear()}`;
+		},
+	},
 	methods: {
 		emitValue() {
 			const data = this.personal_data_tab.reduce(
@@ -126,13 +138,12 @@ export default {
 			);
 			this.$emit('personalData', data);
 		},
-		async loadData() {
-			this.personal_data_tab = await this.personal_data_tab.map((obj) => {
-				Object.keys(this.getData).map((item) => {
-					if (obj.label === item) {
-						obj.value = this.getData[item];
-					}
-				});
+		loadData() {
+			this.personal_data_tab.map((item) => {
+				const asArray = Object.entries(this.getData);
+				const filtered = asArray.filter(([key]) => key === item['label']);
+				const justStrings = Object.fromEntries(filtered);
+				return (item['value'] = justStrings[item['label']]);
 			});
 		},
 	},
