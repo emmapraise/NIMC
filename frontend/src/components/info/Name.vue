@@ -10,7 +10,7 @@
 						<div v-if="edit">
 							<div v-if="item.type === 'radio'">
 								<b-form-radio-group
-									:id="`${item.label}`"
+									:id="item.label"
 									v-model="item.value"
 									required
 									@input="emitValue"
@@ -19,7 +19,7 @@
 							</div>
 							<div v-else-if="item.type === 'file'">
 								<b-form-file
-									:id="`${item.label}`"
+									:id="item.label"
 									v-model="item.value"
 									:state="Boolean(item.value)"
 									@input="emitValue"
@@ -29,7 +29,7 @@
 							</div>
 							<div v-else>
 								<b-form-input
-									:id="`${item.label}`"
+									:id="item.label"
 									:type="item.type"
 									@input="emitValue"
 									v-model="item.value"
@@ -115,9 +115,7 @@ export default {
 	created() {
 		this.loadData();
 	},
-	mounted() {
-		// this.loadData();
-	},
+	mounted() {},
 	computed: {
 		getLabel(e) {
 			return e.label;

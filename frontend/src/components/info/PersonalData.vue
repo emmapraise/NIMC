@@ -43,7 +43,12 @@
 								></b-form-input>
 							</div>
 						</template>
-						<template v-else> {{ item.value }}</template>
+						<template v-else>
+							<template v-if="item.type === 'date'">
+								{{ item.value | convertDate }}
+							</template>
+							<template v-else> {{ item.value }}</template></template
+						>
 					</b-col></b-row
 				>
 			</b-col>
@@ -117,6 +122,13 @@ export default {
 		if (!this.isAdmin) {
 			this.loadData();
 		}
+	},
+	filters: {
+		convertDate: function (value) {
+			const date = new Date(value);
+			const month = date.toLocaleDateString('en-GB', { month: 'long' });
+			return `${date.getDate()} ${month}, ${date.getFullYear()}`;
+		},
 	},
 	methods: {
 		emitValue() {
