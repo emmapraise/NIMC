@@ -8,7 +8,7 @@
 			<b-col md="10">
 				<b-card title="Update Requests" class="">
 					<b-table
-						:items="data"
+						:items="items"
 						:fields="fields"
 						responsive="md"
 						head-variant="info"
@@ -22,14 +22,14 @@
 								icon="check"
 								v-b-tooltip.hover.top="'Approve'"
 								font-scale="1.5"
-								@click="action(row.item.id, 3)"
+								@click="action(row.item.id, true, row.index)"
 								role="button"
 							/>
 							<b-icon
 								icon="x"
 								v-b-tooltip.hover.top="'Disapprove'"
 								font-scale="1.5"
-								@click="action(row.item.id, 1)"
+								@click="action(row.item.id, false)"
 								role="button"
 							/>
 							<b-icon
@@ -68,17 +68,7 @@ export default {
 				{ key: 'next_of_kin', sortable: true },
 				{ key: 'actions', sortable: false },
 			],
-			items: [
-				{
-					isActive: true,
-					nin: 40,
-					first_name: 'Dickerson',
-					last_name: 'Macdonald',
-				},
-				{ isActive: false, nin: 21, first_name: 'Larsen', last_name: 'Shaw' },
-				{ isActive: false, nin: 89, first_name: 'Geneva', last_name: 'Wilson' },
-				{ isActive: true, nin: 38, first_name: 'Jami', last_name: 'Carney' },
-			],
+			items: [],
 		};
 	},
 	created() {
@@ -89,7 +79,8 @@ export default {
 			await this.axios
 				.get(`api/update-request/`)
 				.then(({ data }) => {
-					this.data = data.map((obj) => ({
+					this.data = data;
+					this.items = data.map((obj) => ({
 						id: obj.id,
 						nin: obj.citizen.user.nin,
 						full_name: `${obj.citizen.user.first_name} ${obj.citizen.user.last_name}`,
@@ -103,8 +94,26 @@ export default {
 					console.log(err);
 				});
 		},
-		async action(id, status) {
-			const data = { status: status };
+		action(id, status, index) {
+			status
+				? this.updateNinInfo(id, status, index)
+				: this.updateRequest(id, status);
+		},
+		async updateNinInfo(id, status, index) {
+			await this.axios
+				.patch(`api/nininfo/${id}/`, this.data[index])
+				.then(({ data }) => {
+					console.log(data);
+					this.updateRequest(id, status);
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		},
+		async updateRequest(id, status) {
+			const status_value = status ? 3 : 1;
+			const data = { status: status_value };
+
 			await this.axios
 				.patch(`api/update-nininfo/${id}/`, data)
 				.then(() => {
