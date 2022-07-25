@@ -1,9 +1,9 @@
 from rest_framework import serializers
 from NIMC.enums import nin
-
-# from NIMC.helpers.face_reg import extract_feature
 from NIMC.helpers.nin import generateNin
 from api.models import *
+
+# from NIMC.helpers.face_reg import extract_feature
 
 
 class UserSerializers(serializers.ModelSerializer):
@@ -35,6 +35,7 @@ class UserSerializers(serializers.ModelSerializer):
         user = User.objects.create_user(
             first_name=first_name,
             last_name=last_name,
+            middle_name=validated_data["middle_name"],
             phone=phone,
             nin=nin,
             email=email,
@@ -105,6 +106,16 @@ class NinInfoSerializers(serializers.ModelSerializer):
 
         nin_info = NinInfo.objects.create(**validated_data)
         return nin_info
+
+
+class UpdateNinInfoSerializers(serializers.ModelSerializer):
+    """A serializer for all actions on Update Nin Info"""
+
+    # citizen = CitizenSerializers()
+
+    class Meta:
+        model = UpdateNinInfo
+        exclude = ["create_at", "update_at"]
 
 
 class DocumentSerializers(serializers.ModelSerializer):

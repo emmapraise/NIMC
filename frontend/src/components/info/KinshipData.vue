@@ -12,7 +12,7 @@
 						<label :for="item.label"> {{ item.name }}</label>
 					</b-col>
 					<b-col md="8">
-						<template v-if="isAdmin">
+						<template v-if="edit">
 							<div v-if="item.type === 'textarea'">
 								<b-form-textarea
 									:id="item.label"
@@ -42,7 +42,7 @@
 <script>
 export default {
 	name: 'KinshipData',
-	props: ['isAdmin', 'getData'],
+	props: { isAdmin: Boolean, getData: Object, edit: Boolean },
 	data() {
 		return {
 			kinship_tab: [
@@ -86,13 +86,12 @@ export default {
 			);
 			this.$emit('kinshipData', data);
 		},
-		async loadData() {
-			this.kinship_tab = await this.kinship_tab.map((obj) => {
-				Object.keys(this.getData).map((item) => {
-					if (obj.label === item) {
-						obj.value = this.getData[item];
-					}
-				});
+		loadData() {
+			this.kinship_tab.map((item) => {
+				const asArray = Object.entries(this.getData);
+				const filtered = asArray.filter(([key]) => key === item['label']);
+				const justStrings = Object.fromEntries(filtered);
+				return (item['value'] = justStrings[item['label']]);
 			});
 		},
 	},

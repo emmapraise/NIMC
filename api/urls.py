@@ -1,4 +1,3 @@
-from xml.etree.ElementInclude import include
 from django.urls import include, path
 from rest_framework import routers
 from api import views
@@ -14,6 +13,7 @@ router.register(r"education-document", views.EducationDocumentViewSet)
 router.register(r"professional-document", views.ProfessionalDocumentViewSet)
 router.register(r"certificate", views.CertificateDocumentViewSet)
 router.register(r"cv", views.CVViewSet)
+router.register(r"update-nininfo", views.UpdateNinInfoViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),

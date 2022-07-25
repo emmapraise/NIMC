@@ -12,7 +12,7 @@
 						<label :for="item.label">{{ item.name }}</label>
 					</b-col>
 					<b-col md="8">
-						<template v-if="isAdmin">
+						<template v-if="edit">
 							<div v-if="item.label === 'marital_status'">
 								<b-form-select
 									:id="item.label"
@@ -43,7 +43,12 @@
 								></b-form-input>
 							</div>
 						</template>
-						<template v-else> {{ item.value }}</template>
+						<template v-else>
+							<template v-if="item.type === 'date'">
+								{{ item.value | convertDate }}
+							</template>
+							<template v-else> {{ item.value }}</template></template
+						>
 					</b-col></b-row
 				>
 			</b-col>
@@ -53,7 +58,11 @@
 <script>
 export default {
 	name: 'PersonalDataComponents',
-	props: ['getData', 'isAdmin'],
+	props: {
+		getData: Object,
+		isAdmin: Boolean,
+		edit: Boolean,
+	},
 	data() {
 		return {
 			personal_data_tab: [
@@ -61,6 +70,18 @@ export default {
 					name: 'Date of Birth',
 					label: 'date_of_birth',
 					type: 'date',
+					value: '',
+				},
+				{
+					name: 'State of Origin',
+					label: 'state_of_origin',
+					type: 'text',
+					value: '',
+				},
+				{
+					name: 'Occupation',
+					label: 'occupation',
+					type: 'text',
 					value: '',
 				},
 				{
@@ -74,7 +95,7 @@ export default {
 							text: 'Please select an Option',
 						},
 						{
-							value: 'single',
+							value: 'Single',
 							text: 'Single',
 						},
 						{
@@ -82,7 +103,7 @@ export default {
 							text: 'Married',
 						},
 						{
-							value: 'divorced',
+							value: 'Divorced',
 							text: 'Divorced',
 						},
 					],
@@ -102,6 +123,13 @@ export default {
 			this.loadData();
 		}
 	},
+	filters: {
+		convertDate: function (value) {
+			const date = new Date(value);
+			const month = date.toLocaleDateString('en-GB', { month: 'long' });
+			return `${date.getDate()} ${month}, ${date.getFullYear()}`;
+		},
+	},
 	methods: {
 		emitValue() {
 			const data = this.personal_data_tab.reduce(
@@ -110,13 +138,12 @@ export default {
 			);
 			this.$emit('personalData', data);
 		},
-		async loadData() {
-			this.personal_data_tab = await this.personal_data_tab.map((obj) => {
-				Object.keys(this.getData).map((item) => {
-					if (obj.label === item) {
-						obj.value = this.getData[item];
-					}
-				});
+		loadData() {
+			this.personal_data_tab.map((item) => {
+				const asArray = Object.entries(this.getData);
+				const filtered = asArray.filter(([key]) => key === item['label']);
+				const justStrings = Object.fromEntries(filtered);
+				return (item['value'] = justStrings[item['label']]);
 			});
 		},
 	},

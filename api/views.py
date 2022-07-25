@@ -6,7 +6,6 @@ from rest_framework.generics import get_object_or_404
 from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
-from api import serializers
 
 from api.models import (
     CV,
@@ -17,6 +16,7 @@ from api.models import (
     EducationDocument,
     NinInfo,
     ProfessionalDocument,
+    UpdateNinInfo,
     User,
 )
 from api.serializers import (
@@ -28,6 +28,7 @@ from api.serializers import (
     EducationDocumentSerializers,
     NinInfoSerializers,
     ProfessionalDocumentSerializer,
+    UpdateNinInfoSerializers,
     UserSerializers,
 )
 
@@ -135,9 +136,15 @@ class NinInfoViewSet(viewsets.ModelViewSet):
     def retrieve(self, request, pk=None):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid:
-            nin_info = NinInfo.objects.get(citizen__user=request.user)
+            nin_info = NinInfo.objects.get(citizen__user=pk)
             serializer = self.get_serializer(nin_info)
             return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+
+class UpdateNinInfoViewSet(viewsets.ModelViewSet):
+    queryset = UpdateNinInfo.objects.all()
+    serializer_class = UpdateNinInfoSerializers
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class DocumentViewSet(viewsets.ModelViewSet):

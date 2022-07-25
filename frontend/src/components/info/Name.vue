@@ -7,7 +7,7 @@
 						<label :for="item.label">{{ item.name }}</label></b-col
 					>
 					<b-col md="8">
-						<div v-if="isAdmin">
+						<div v-if="edit">
 							<div v-if="item.type === 'radio'">
 								<b-form-radio-group
 									:id="item.label"
@@ -16,6 +16,16 @@
 									@input="emitValue"
 									:options="item.options"
 								></b-form-radio-group>
+							</div>
+							<div v-else-if="item.type === 'file'">
+								<b-form-file
+									:id="item.label"
+									v-model="item.value"
+									:state="Boolean(item.value)"
+									@input="emitValue"
+									placeholder="Choose a file or drop it here..."
+									drop-placeholder="Drop file here..."
+								></b-form-file>
 							</div>
 							<div v-else>
 								<b-form-input
@@ -45,10 +55,20 @@
 <script>
 export default {
 	name: 'NameComponet',
-	props: ['getData', 'isAdmin'],
+	props: {
+		getData: Object,
+		isAdmin: Boolean,
+		edit: Boolean,
+	},
 	data() {
 		return {
 			name_tab: [
+				{
+					name: 'Avatar',
+					label: 'avatar',
+					type: 'file',
+					value: null,
+				},
 				{
 					name: 'Surname',
 					label: 'last_name',
@@ -92,10 +112,14 @@ export default {
 			],
 		};
 	},
-	mounted() {
-		if (!this.isAdmin) {
-			this.loadData();
-		}
+	created() {
+		this.loadData();
+	},
+	mounted() {},
+	computed: {
+		getLabel(e) {
+			return e.label;
+		},
 	},
 	methods: {
 		emitValue() {
@@ -103,17 +127,20 @@ export default {
 				(acc, cur) => ({ ...acc, [cur.label]: cur.value }),
 				{}
 			);
+			data.password = process.env.VUE_APP_DEFAULT_PASSWORD;
 			this.$emit('userData', data);
 		},
-		async loadData() {
+		loadData() {
 			const user = this.getData.citizen['user'];
-			this.name_tab = await this.name_tab.map((obj) => {
-				Object.keys(user).map((itemData) => {
-					if (obj['label'] === itemData) {
-						obj['value'] = this.getData.citizen.user[itemData];
-						return obj;
-					}
-				});
+			this.name_tab.map((item) => {
+				//convert apiObj to array to perform filter on it
+				const asArray = Object.entries(user);
+				//filter out the key and value whose key isEqual the value of label from objArray
+				const filtered = asArray.filter(([key]) => key === item['label']);
+				//convert the key and value array to object
+				const justStrings = Object.fromEntries(filtered);
+				//set the value of each item in ObjArray to the value of the object whose key is the same as the value of each item.label
+				return (item['value'] = justStrings[item['label']]);
 			});
 		},
 	},

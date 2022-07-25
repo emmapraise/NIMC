@@ -12,7 +12,7 @@
 						<label :for="item.label">{{ item.name }} </label>
 					</b-col>
 					<b-col md="8">
-						<template v-if="isAdmin">
+						<template v-if="edit">
 							<div v-if="item.type === 'select'">
 								<b-form-select
 									:id="item.label"
@@ -33,7 +33,11 @@
 <script>
 export default {
 	name: 'MedicalDataComponent',
-	props: ['isAdmin', 'getData'],
+	props: {
+		isAdmin: Boolean,
+		getData: Object,
+		edit: Boolean,
+	},
 	data() {
 		return {
 			medical_tab: [
@@ -79,13 +83,12 @@ export default {
 			);
 			this.$emit('medicalData', data);
 		},
-		async loadData() {
-			this.medical_tab = await this.medical_tab.map((obj) => {
-				Object.keys(this.getData).map((item) => {
-					if (obj['label'] === item) {
-						obj['value'] = this.getData[item];
-					}
-				});
+		loadData() {
+			this.medical_tab.map((item) => {
+				const asArray = Object.entries(this.getData);
+				const filtered = asArray.filter(([key]) => key === item['label']);
+				const justStrings = Object.fromEntries(filtered);
+				return (item['value'] = justStrings[item['label']]);
 			});
 		},
 	},

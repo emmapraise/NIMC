@@ -2,36 +2,84 @@
 	<div class="">
 		<template v-if="isAdmin">
 			<b-form @submit.prevent="onSubmit">
-				<name @userData="userData" />
+				<name @userData="userData" :isAdmin="isAdmin" :edit="edit" />
 				<hr />
-				<personal-data @personalData="personalData" />
+				<personal-data
+					@personalData="personalData"
+					:isAdmin="isAdmin"
+					:edit="edit"
+				/>
 				<hr />
-				<medical-data @medicalData="medicalData" />
+				<medical-data
+					@medicalData="medicalData"
+					:isAdmin="isAdmin"
+					:edit="edit"
+				/>
 				<hr />
-				<kinship-data @kinshipData="kinshipData" />
+				<kinship-data
+					@kinshipData="kinshipData"
+					:isAdmin="isAdmin"
+					:edit="edit"
+				/>
 				<div class="float-right mt-2">
 					<b-button type="submit" variant="success">Submit</b-button>
 				</div>
 			</b-form>
 		</template>
+
 		<template v-else>
-			<div v-if="isLoading" class="d-flex justify-content-center mb-3">
-				<b-spinner
-					type="grow"
-					variant="info"
-					style="width: 3rem; height: 3rem"
-					label="loading"
-				/>
-			</div>
-			<div v-else>
-				<name :getData="data" :isAdmin="isAdmin" />
-				<hr />
-				<personal-data :getData="data" :isAdmin="isAdmin" />
-				<hr />
-				<medical-data :getData="data" :isAdmin="isAdmin" />
-				<hr />
-				<kinship-data :getData="data" :isAdmin="isAdmin" />
-			</div>
+			<b-alert
+				:show="dismissCountDown"
+				dismissible
+				variant="success"
+				@dismissed="dismissCountDown = 0"
+				@dismiss-count-down="countDownChanged"
+			>
+				<p>Update Request Successful</p>
+			</b-alert>
+			<b-form @submit.prevent="onUpdate">
+				<div v-if="isLoading" class="d-flex justify-content-center mb-3">
+					<b-spinner
+						type="grow"
+						variant="info"
+						style="width: 3rem; height: 3rem"
+						label="loading"
+					/>
+				</div>
+				<div v-else>
+					<name
+						@userData="userData"
+						:getData="data"
+						:isAdmin="isAdmin"
+						:edit="edit"
+					/>
+					<hr />
+					<personal-data
+						:getData="data"
+						:isAdmin="isAdmin"
+						:edit="edit"
+						@personalData="personalData"
+					/>
+					<hr />
+					<medical-data
+						:getData="data"
+						:isAdmin="isAdmin"
+						:edit="edit"
+						@medicalData="medicalData"
+					/>
+					<hr />
+					<kinship-data
+						:getData="data"
+						:isAdmin="isAdmin"
+						:edit="edit"
+						@kinshipData="kinshipData"
+					/>
+					<div class="float-right mt-2" v-show="edit">
+						<hr />
+						<b-button type="submit" variant="success">Update</b-button>
+					</div>
+				</div>
+			</b-form>
 		</template>
 	</div>
 </template>
@@ -42,7 +90,9 @@ import MedicalData from '../info/MedicalData.vue';
 import KinshipData from '../info/KinshipData.vue';
 export default {
 	name: 'RegisterView',
-	props: ['isAdmin'],
+	props: {
+		isAdmin: Boolean,
+	},
 	components: {
 		Name,
 		PersonalData,
@@ -51,42 +101,110 @@ export default {
 	},
 	data() {
 		return {
-			data: {},
+			dismissSecs: 5,
+			dismissCountDown: 0,
+			showDismissibleAlert: false,
+			data: {
+				citizen: {
+					user: {},
+				},
+			},
 			isLoading: true,
+			edit: true,
 		};
 	},
-	created() {
-		if (!this.isAdmin) {
-			this.getUserProfile();
-		}
+	created() {},
+	mounted() {
+		this.getEditMode();
 	},
-	mounted() {},
 	methods: {
+		countDownChanged(dismissCountDown) {
+			this.dismissCountDown = dismissCountDown;
+		},
+		showAlert() {
+			this.dismissCountDown = this.dismissSecs;
+		},
+		getEditMode() {
+			if (
+				this.$route.name === 'make_request' ||
+				this.$route.name === 'user_profile'
+			) {
+				this.getUserProfile();
+				this.edit = this.$route.name === 'user_profile' ? false : true;
+			}
+		},
 		async getUserProfile() {
 			const user = JSON.parse(localStorage.getItem('user'));
 			await this.axios
 				.get(`api/nininfo/${user.id}/`)
 				.then(({ data }) => {
 					this.data = data;
-
 					this.isLoading = false;
 				})
 				.catch(() => {});
 		},
 		userData(e) {
-			console.log(e);
+			this.data.citizen.user = e;
+			return e;
 		},
 		personalData(e) {
-			console.log(e);
+			this.data = Object.assign(this.data, e);
+			return e;
 		},
 		medicalData(e) {
-			console.log(e);
+			this.data = Object.assign(this.data, e);
+			return e;
 		},
 		kinshipData(e) {
-			console.log(e);
+			this.data = Object.assign(this.data, e);
+			return e;
 		},
-		onSubmit() {
-			console.log(this.data);
+		formatInput() {
+			const user = this.data.citizen.user;
+			const formData = new FormData();
+			for (var key in this.data) {
+				if (key == 'citizen') {
+					for (var item in user) {
+						formData.append(`citizen.user.${item}`, user[item]);
+					}
+				}
+				formData.append(key, this.data[key]);
+			}
+			return formData;
+		},
+		async onSubmit() {
+			await this.axios
+				.post(`api/nininfo/`, this.formatInput(), {
+					headers: {
+						'content-type': 'multipart/form-data',
+					},
+				})
+				.then(({ data }) => {
+					this.$router.push({
+						name: 'enrolment_success',
+						params: { user: data.citizen.user },
+					});
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		},
+		async onUpdate() {
+			this.data.citizen = this.data.citizen.id;
+			this.data.nin_info = this.data.id;
+			await this.axios
+				.post(`api/update-nininfo/`, this.data, {
+					headers: {
+						'content-type': 'application/json',
+					},
+				})
+				.then(() => {
+					this.showAlert();
+					setTimeout(this.$router.push({ name: 'user_profile' }), 10000);
+				})
+				.catch((err) => {
+					console.log(err);
+				});
 		},
 	},
 };
