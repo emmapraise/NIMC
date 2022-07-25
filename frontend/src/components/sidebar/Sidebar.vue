@@ -50,7 +50,7 @@ export default {
 					path: '/admin/upload',
 				},
 				{
-					name: 'Update Requests',
+					name: 'Requests',
 					label: 'requests',
 					path: '/admin/request',
 				},

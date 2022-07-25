@@ -111,11 +111,20 @@ class NinInfoSerializers(serializers.ModelSerializer):
 class UpdateNinInfoSerializers(serializers.ModelSerializer):
     """A serializer for all actions on Update Nin Info"""
 
-    # citizen = CitizenSerializers()
-
     class Meta:
         model = UpdateNinInfo
         exclude = ["create_at", "update_at"]
+
+
+class UpdateRequestSerializers(serializers.ModelSerializer):
+    """A serializer for update request on NIN info"""
+
+    citizen = CitizenSerializers(read_only=True)
+
+    class Meta:
+        model = UpdateNinInfo
+        fields = "__all__"
+        # depth = 3
 
 
 class DocumentSerializers(serializers.ModelSerializer):
