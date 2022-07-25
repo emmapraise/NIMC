@@ -38,9 +38,8 @@
 							</div>
 						</div>
 						<div v-else>
-							<div v-if="item.type === 'radio'">
-								<template v-if="item.value === 'F'"> Female </template>
-								<template v-else> Male </template>
+							<div v-if="item.label === 'gender'">
+								<template> {{ item.value | convertGender }} </template>
 							</div>
 							<div v-else>
 								{{ item.value }}
@@ -59,6 +58,11 @@ export default {
 		getData: Object,
 		isAdmin: Boolean,
 		edit: Boolean,
+	},
+	filters: {
+		convertGender: function (value) {
+			return value === 'F' ? 'Female' : 'Male';
+		},
 	},
 	data() {
 		return {

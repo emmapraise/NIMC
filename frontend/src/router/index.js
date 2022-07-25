@@ -81,7 +81,7 @@ const routes = [
     path: '/admin/requests',
     name: 'requests',
     meta: { title: 'NIMC - Approve Request' },
-    component: () => import('../views/Admin/DocumentView.vue')
+    component: () => import('../views/Admin/Request.vue')
   },
   {
     path: '/user/make-request',
