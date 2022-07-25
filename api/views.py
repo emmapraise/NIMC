@@ -6,6 +6,7 @@ from rest_framework.generics import get_object_or_404
 from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
+from NIMC.enums.admin import PENDING
 
 from api.models import (
     CV,
@@ -29,6 +30,7 @@ from api.serializers import (
     NinInfoSerializers,
     ProfessionalDocumentSerializer,
     UpdateNinInfoSerializers,
+    UpdateRequestSerializers,
     UserSerializers,
 )
 
@@ -107,6 +109,21 @@ class PatnerAccessView(APIView):
             return Response(data=ser.data, status=status.HTTP_200_OK)
 
 
+class UpdateRequestView(APIView):
+    """API View for Action on Update Request"""
+
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        update_requests = UpdateNinInfo.objects.filter(status=PENDING)
+        data = []
+        for update_request in update_requests:
+            if update_request:
+                ser = UpdateRequestSerializers(update_request)
+                data.append(ser.data)
+        return Response(data=data, status=status.HTTP_200_OK)
+
+
 class CitizenViewSet(viewsets.ModelViewSet):
     queryset = Citizen.objects.all()
     serializer_class = CitizenSerializers
@@ -139,6 +156,8 @@ class NinInfoViewSet(viewsets.ModelViewSet):
             nin_info = NinInfo.objects.get(citizen__user=pk)
             serializer = self.get_serializer(nin_info)
             return Response(data=serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class UpdateNinInfoViewSet(viewsets.ModelViewSet):
@@ -221,7 +240,6 @@ class CertificateDocumentViewSet(viewsets.ModelViewSet):
 
     def retrieve(self, request, pk=None):
         serializer = self.get_serializer(data=request.data)
-        print(request)
         if serializer.is_valid:
             certificate_instance = get_object_or_404(
                 CertificateDocument, certificate__nin_info__citizen__user=pk

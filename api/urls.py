@@ -21,4 +21,5 @@ urlpatterns = [
     path("login/refresh/", jwt_views.TokenRefreshView.as_view(), name="token_refresh"),
     path("logout/", views.LogoutView.as_view(), name="auth_logout"),
     path("patner-access/", views.PatnerAccessView.as_view(), name="patner_access"),
+    path("update-request/", views.UpdateRequestView.as_view(), name="update_request"),
 ]
