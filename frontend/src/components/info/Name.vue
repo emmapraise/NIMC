@@ -18,14 +18,15 @@
 								></b-form-radio-group>
 							</div>
 							<div v-else-if="item.type === 'file'">
-								<b-form-file
+								<uploadfile :file="item.value" />
+								<!-- <b-form-file
 									:id="item.label"
 									v-model="item.value"
 									:state="Boolean(item.value)"
 									@input="emitValue"
 									placeholder="Choose a file or drop it here..."
 									drop-placeholder="Drop file here..."
-								></b-form-file>
+								></b-form-file> -->
 							</div>
 							<div v-else>
 								<b-form-input
@@ -52,7 +53,9 @@
 	</div>
 </template>
 <script>
+import uploadfile from '../file/uploadfile.vue';
 export default {
+	components: { uploadfile },
 	name: 'NameComponet',
 	props: {
 		getData: Object,
