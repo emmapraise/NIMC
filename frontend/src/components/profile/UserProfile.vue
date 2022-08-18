@@ -76,7 +76,6 @@
 					/>
 					<div class="float-right mt-2" v-show="edit">
 						<hr />
-						<!-- <b-button variant="success" @click="handleOk"> Update </b-button> -->
 						<b-button type="submit" variant="success">Update</b-button>
 					</div>
 				</div>
