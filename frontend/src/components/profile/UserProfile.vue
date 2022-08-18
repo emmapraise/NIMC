@@ -76,9 +76,23 @@
 					/>
 					<div class="float-right mt-2" v-show="edit">
 						<hr />
+						<!-- <b-button variant="success" @click="handleOk"> Update </b-button> -->
 						<b-button type="submit" variant="success">Update</b-button>
 					</div>
 				</div>
+				<b-modal
+					id="modal-1"
+					@ok="handleOk"
+					ref="modal"
+					title="Upload Court Afidavit"
+				>
+					<b-form-file
+						v-model="document"
+						:state="Boolean(document)"
+						placeholder="Choose a file or drop it here..."
+						drop-placeholder="Drop file here..."
+					></b-form-file>
+				</b-modal>
 			</b-form>
 		</template>
 	</div>
@@ -104,6 +118,7 @@ export default {
 			dismissSecs: 5,
 			dismissCountDown: 0,
 			showDismissibleAlert: false,
+			document: null,
 			data: {
 				citizen: {
 					user: {},
@@ -120,6 +135,24 @@ export default {
 	methods: {
 		countDownChanged(dismissCountDown) {
 			this.dismissCountDown = dismissCountDown;
+		},
+		handleOk() {
+			const formData = new FormData();
+			formData.append('document', this.document);
+
+			this.axios
+				.patch(`api/update-nininfo/${this.data.id}/`, formData, {
+					headers: {
+						'content-type': 'multipart/form-data',
+					},
+				})
+				.then(() => {
+					this.showAlert();
+					setTimeout(this.$router.push({ name: 'user_profile' }), 10000);
+				})
+				.catch((err) => {
+					console.log(err);
+				});
 		},
 		showAlert() {
 			this.dismissCountDown = this.dismissSecs;
@@ -198,9 +231,9 @@ export default {
 						'content-type': 'application/json',
 					},
 				})
-				.then(() => {
-					this.showAlert();
-					setTimeout(this.$router.push({ name: 'user_profile' }), 10000);
+				.then(({ data }) => {
+					this.data = data;
+					this.$root.$emit('bv::show::modal', 'modal-1', '#btnShow');
 				})
 				.catch((err) => {
 					console.log(err);
