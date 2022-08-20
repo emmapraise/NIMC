@@ -137,6 +137,9 @@ class UpdateNinInfo(NinInfoCommon):
     """This is model saves all update on Nin Info"""
 
     nin_info = models.ForeignKey(NinInfo, on_delete=models.CASCADE)
+    document = models.FileField(
+        blank=True, null=True, upload_to="NIMC/static/documents"
+    )
     status = models.IntegerField(choices=approval_status(), default=admin.PENDING)
 
     def __str__(self):
