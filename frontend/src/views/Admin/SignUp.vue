@@ -69,6 +69,14 @@ export default {
 					icon: 'person-fill',
 				},
 				{
+					name: 'Middle Name',
+					label: 'middle_name',
+					type: 'text',
+					value: '',
+					placeholder: 'Enter Middle Name',
+					icon: 'person-fill',
+				},
+				{
 					name: 'Last Name',
 					label: 'last_name',
 					type: 'text',
@@ -150,6 +158,7 @@ export default {
 			this.data['type'] = data.type;
 			delete data.type;
 			this.data['user'] = data;
+			this.data.user.avatar = null;
 			this.axios
 				.post('api/admin/', this.data)
 				.then(() => {
